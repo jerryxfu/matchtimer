@@ -1,23 +1,16 @@
-//
-//  AlliancePickerView.swift
-//  iosApp
-//
-//  Created by Jerry Fu on 2026-04-07.
-//
-
-import SwiftUI
 import ComposeApp
+import SwiftUI
 
 struct AlliancePickerView: View {
     let selectedAlliance: Alliance?
     let onAllianceSelected: (Alliance) -> Void
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Which alliance scored lower in auto?")
                 .font(.system(size: 12))
                 .foregroundStyle(Color.secondary)
-            
+
             HStack(spacing: 8) {
                 allianceButton(.red, label: "Red alliance")
                 allianceButton(.blue, label: "Blue alliance")
@@ -31,11 +24,13 @@ struct AlliancePickerView: View {
                 .stroke(Color(.systemGray5), lineWidth: 0.5)
         )
     }
-    
-    private func allianceButton(_ alliance: Alliance, label: String) -> some View {
+
+    private func allianceButton(_ alliance: Alliance, label: String)
+        -> some View
+    {
         let isSelected = selectedAlliance == alliance
         let color: Color = alliance == .red ? .red : .blue
-        
+
         return Button(label) {
             onAllianceSelected(alliance)
         }

@@ -1,47 +1,30 @@
-import SwiftUI
 import ComposeApp
+import SwiftUI
 
 struct PhaseCardView: View {
     let phase: MatchPhase
     let isActive: Bool
     let isPast: Bool
     let phaseSecondsRemaining: Int32
-    let isLast: Bool
     var activeNamespace: Namespace.ID
 
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
-            timelineColumn
-            cardContent
-            durationLabel
-        }
-    }
-
-    private var timelineColumn: some View {
-        ZStack(alignment: .top) {
-            if !isLast {
-                Rectangle()
-                    .fill(Color(.systemGray5))
-                    .frame(width: 2)
-                    .padding(.top, 18)
-            }
-            if isPast && !isLast {
-                Rectangle()
-                    .fill(phaseColor)
-                    .frame(width: 2)
-                    .padding(.top, 18)
-                    .transition(.asymmetric(
-                        insertion: .push(from: .top),
-                        removal: .identity
-                    ))
-            }
             Circle()
                 .fill(isPast || isActive ? phaseColor : Color(.systemGray4))
-                .frame(width: 10, height: 10)
-                .padding(.top, 14)
+                .frame(
+                    width: TimelineLayout.dotSize,
+                    height: TimelineLayout.dotSize
+                )
+                .padding(.top, TimelineLayout.dotTopPadding)
                 .animation(.easeInOut(duration: 0.3), value: isActive)
+                .frame(width: TimelineLayout.dotColumnWidth)
+                .zIndex(1)
+
+            cardContent
+
+            durationLabel
         }
-        .frame(width: 20)
     }
 
     private var cardContent: some View {
@@ -49,11 +32,17 @@ struct PhaseCardView: View {
             if isActive {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(phaseColor.opacity(0.08))
-                    .matchedGeometryEffect(id: "activeBackground", in: activeNamespace)
+                    .matchedGeometryEffect(
+                        id: "activeBackground",
+                        in: activeNamespace
+                    )
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(phaseColor, lineWidth: 1.5)
-                            .matchedGeometryEffect(id: "activeBorder", in: activeNamespace)
+                            .matchedGeometryEffect(
+                                id: "activeBorder",
+                                in: activeNamespace
+                            )
                     )
             } else {
                 RoundedRectangle(cornerRadius: 12)
@@ -101,7 +90,7 @@ struct PhaseCardView: View {
             .frame(width: 32)
     }
 
-    private var phaseColor: Color {
+    var phaseColor: Color {
         switch phase {
         case is MatchPhase.Auto: return .green
         case is MatchPhase.AutoEndPause: return Color(.systemGray3)
@@ -117,7 +106,8 @@ struct PhaseCardView: View {
         case is MatchPhase.Auto: return "Autonomous"
         case is MatchPhase.AutoEndPause: return "Auto end pause"
         case is MatchPhase.Transition: return "Transition"
-        case let s as MatchPhase.AllianceShift: return "Alliance shift \(s.number)"
+        case let s as MatchPhase.AllianceShift:
+            return "Alliance shift \(s.number)"
         case is MatchPhase.Endgame: return "Endgame"
         case is MatchPhase.MatchEnded: return "Match over"
         default: return ""
@@ -145,28 +135,28 @@ struct PhaseCardView: View {
         default: return "—"
         }
     }
-    
-    struct HubBadgesView: View {
-        let activeAlliance: Alliance?
-        
-        var body: some View {
-            HStack(spacing: 6) {
-                badge(alliance: .red)
-                badge(alliance: .blue)
-            }
+}
+
+struct HubBadgesView: View {
+    let activeAlliance: Alliance?
+
+    var body: some View {
+        HStack(spacing: 6) {
+            badge(alliance: .red)
+            badge(alliance: .blue)
         }
-        
-        private func badge(alliance: Alliance) -> some View {
-            let isActive = activeAlliance == alliance
-            let color: Color = alliance == .red ? .red : .blue
-            
-            return Text(alliance == .red ? "Red" : "Blue")
-                .font(.system(size: 11, weight: .medium))
-                .padding(.horizontal, 8)
-                .padding(.vertical, 3)
-                .background(isActive ? color.opacity(0.12) : Color(.systemGray6))
-                .foregroundStyle(isActive ? color : Color.secondary)
-                .clipShape(RoundedRectangle(cornerRadius: 6))
-        }
+    }
+
+    private func badge(alliance: Alliance) -> some View {
+        let isActive = activeAlliance == alliance
+        let color: Color = alliance == .red ? .red : .blue
+
+        return Text(alliance == .red ? "Red" : "Blue")
+            .font(.system(size: 11, weight: .medium))
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
+            .background(isActive ? color.opacity(0.12) : Color(.systemGray6))
+            .foregroundStyle(isActive ? color : Color.secondary)
+            .clipShape(RoundedRectangle(cornerRadius: 6))
     }
 }
