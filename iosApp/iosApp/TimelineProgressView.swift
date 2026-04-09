@@ -1,3 +1,10 @@
+//
+//  TimelineProgressView.swift
+//  iosApp
+//
+//  Created by Jerry Fu on 2026-04-07.
+//
+
 import ComposeApp
 import SwiftUI
 

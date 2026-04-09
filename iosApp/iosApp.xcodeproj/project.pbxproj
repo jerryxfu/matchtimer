@@ -6,8 +6,41 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C4D69BEB2F874332001E4AF9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4D69BEA2F874332001E4AF9 /* WidgetKit.framework */; };
+		C4D69BED2F874332001E4AF9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4D69BEC2F874332001E4AF9 /* SwiftUI.framework */; };
+		C4D69BFC2F874333001E4AF9 /* MatchTimerExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C4D69BE82F874332001E4AF9 /* MatchTimerExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C4D69BFA2F874333001E4AF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83E576C900B20B70C301F487 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4D69BE72F874332001E4AF9;
+			remoteInfo = MatchTimerExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C4D69BFD2F874333001E4AF9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C4D69BFC2F874333001E4AF9 /* MatchTimerExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1102A2CF1BAC7C21477D90A4 /* matchtimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = matchtimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4D69BE82F874332001E4AF9 /* MatchTimerExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MatchTimerExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4D69BEA2F874332001E4AF9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		C4D69BEC2F874332001E4AF9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -18,6 +51,13 @@
 			);
 			target = ABE280FAB7D7A8D4B56FDDB1 /* iosApp */;
 		};
+		C4D69C012F874333001E4AF9 /* Exceptions for "MatchTimer" folder in "MatchTimerExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C4D69BE72F874332001E4AF9 /* MatchTimerExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -27,6 +67,14 @@
 				8B17E35585BD01D26753FB93 /* Exceptions for "iosApp" folder in "iosApp" target */,
 			);
 			path = iosApp;
+			sourceTree = "<group>";
+		};
+		C4D69BEE2F874332001E4AF9 /* MatchTimer */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C4D69C012F874333001E4AF9 /* Exceptions for "MatchTimer" folder in "MatchTimerExtension" target */,
+			);
+			path = MatchTimer;
 			sourceTree = "<group>";
 		};
 		E5C2E8595ABF6942542D2CE5 /* Configuration */ = {
@@ -44,6 +92,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C4D69BE52F874332001E4AF9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4D69BED2F874332001E4AF9 /* SwiftUI.framework in Frameworks */,
+				C4D69BEB2F874332001E4AF9 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -51,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				1102A2CF1BAC7C21477D90A4 /* matchtimer.app */,
+				C4D69BE82F874332001E4AF9 /* MatchTimerExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,8 +118,19 @@
 			children = (
 				E5C2E8595ABF6942542D2CE5 /* Configuration */,
 				A05F154E77A4D280FB24DEB2 /* iosApp */,
+				C4D69BEE2F874332001E4AF9 /* MatchTimer */,
+				C4D69BE92F874332001E4AF9 /* Frameworks */,
 				155CA74397DDD84162C6D2C0 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		C4D69BE92F874332001E4AF9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C4D69BEA2F874332001E4AF9 /* WidgetKit.framework */,
+				C4D69BEC2F874332001E4AF9 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -75,10 +144,12 @@
 				4A5808D715F1F4599F25E443 /* Sources */,
 				A81F974DF63439AFD4140419 /* Frameworks */,
 				71832376393754B3D447F5C5 /* Resources */,
+				C4D69BFD2F874333001E4AF9 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C4D69BFB2F874333001E4AF9 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A05F154E77A4D280FB24DEB2 /* iosApp */,
@@ -90,6 +161,28 @@
 			productReference = 1102A2CF1BAC7C21477D90A4 /* matchtimer.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C4D69BE72F874332001E4AF9 /* MatchTimerExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4D69C002F874333001E4AF9 /* Build configuration list for PBXNativeTarget "MatchTimerExtension" */;
+			buildPhases = (
+				C4D69BE42F874332001E4AF9 /* Sources */,
+				C4D69BE52F874332001E4AF9 /* Frameworks */,
+				C4D69BE62F874332001E4AF9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C4D69BEE2F874332001E4AF9 /* MatchTimer */,
+			);
+			name = MatchTimerExtension;
+			packageProductDependencies = (
+			);
+			productName = MatchTimerExtension;
+			productReference = C4D69BE82F874332001E4AF9 /* MatchTimerExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -97,11 +190,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 2640;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					ABE280FAB7D7A8D4B56FDDB1 = {
 						CreatedOnToolsVersion = 16.2;
+					};
+					C4D69BE72F874332001E4AF9 = {
+						CreatedOnToolsVersion = 26.4;
 					};
 				};
 			};
@@ -120,12 +216,20 @@
 			projectRoot = "";
 			targets = (
 				ABE280FAB7D7A8D4B56FDDB1 /* iosApp */,
+				C4D69BE72F874332001E4AF9 /* MatchTimerExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		71832376393754B3D447F5C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4D69BE62F874332001E4AF9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -164,7 +268,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C4D69BE42F874332001E4AF9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C4D69BFB2F874333001E4AF9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4D69BE72F874332001E4AF9 /* MatchTimerExtension */;
+			targetProxy = C4D69BFA2F874333001E4AF9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4065A0EC276D88FF0B7EA830 /* Debug */ = {
@@ -241,7 +360,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = "${TEAM_ID}";
+				DEVELOPMENT_TEAM = HWB4Y653YR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iosApp/Info.plist;
@@ -269,7 +388,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = "${TEAM_ID}";
+				DEVELOPMENT_TEAM = HWB4Y653YR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iosApp/Info.plist;
@@ -346,6 +465,72 @@
 			};
 			name = Release;
 		};
+		C4D69BFE2F874333001E4AF9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HWB4Y653YR;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MatchTimer/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MatchTimer;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.jerryxf.matchtimer.matchtimer.MatchTimer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C4D69BFF2F874333001E4AF9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HWB4Y653YR;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MatchTimer/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MatchTimer;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.jerryxf.matchtimer.matchtimer.MatchTimer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -354,6 +539,15 @@
 			buildConfigurations = (
 				4065A0EC276D88FF0B7EA830 /* Debug */,
 				A3EC2AD50FF8FE1126A77874 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4D69C002F874333001E4AF9 /* Build configuration list for PBXNativeTarget "MatchTimerExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4D69BFE2F874333001E4AF9 /* Debug */,
+				C4D69BFF2F874333001E4AF9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
