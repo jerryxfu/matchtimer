@@ -124,7 +124,7 @@ struct PhaseListView: View {
 
                 // Filled progress
                 Rectangle()
-                    .fill(Color.blue)
+                    .fill(Color.green)
                     .frame(width: TimelineLayout.trackWidth, height: fillHeight)
                     .animation(
                         .linear(duration: 1.0),

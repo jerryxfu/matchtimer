@@ -54,14 +54,18 @@ struct PhaseCardView: View {
             }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(isActive ? phaseColor : Color.primary)
-                    .animation(.easeInOut(duration: 0.3), value: isActive)
+                if !title.isEmpty {
+                    Text(title)
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundStyle(isActive ? phaseColor : Color.primary)
+                        .animation(.easeInOut(duration: 0.3), value: isActive)
+                }
 
-                Text(subtitle)
-                    .font(.system(size: 12))
-                    .foregroundStyle(Color.secondary)
+                if !subtitle.isEmpty {
+                    Text(subtitle)
+                        .font(.system(size: 12))
+                        .foregroundStyle(Color.secondary)
+                }
 
                 if isActive && phaseSecondsRemaining > 0 {
                     Text("\(phaseSecondsRemaining)s left")
@@ -93,9 +97,9 @@ struct PhaseCardView: View {
     var phaseColor: Color {
         switch phase {
         case is MatchPhase.Auto: return .green
-        case is MatchPhase.AutoEndPause: return Color(.systemGray3)
-        case is MatchPhase.Transition: return Color(.systemGray3)
-        case is MatchPhase.AllianceShift: return .blue
+        case is MatchPhase.AutoEndPause: return .green
+        case is MatchPhase.Transition: return .green
+        case is MatchPhase.AllianceShift: return .green
         case is MatchPhase.Endgame: return .orange
         default: return Color(.systemGray4)
         }
@@ -104,7 +108,6 @@ struct PhaseCardView: View {
     private var title: String {
         switch phase {
         case is MatchPhase.Auto: return "Autonomous"
-        case is MatchPhase.AutoEndPause: return "Auto end pause"
         case is MatchPhase.Transition: return "Transition"
         case let s as MatchPhase.AllianceShift:
             return "Alliance shift \(s.number)"
@@ -117,10 +120,9 @@ struct PhaseCardView: View {
     private var subtitle: String {
         switch phase {
         case is MatchPhase.Auto: return "Both hubs active"
-        case is MatchPhase.AutoEndPause: return "Piece counting delay"
+        case is MatchPhase.AutoEndPause: return "Pause"
         case is MatchPhase.Transition: return "Both hubs active"
-        case is MatchPhase.AllianceShift: return "Hub flip · teleop"
-        case is MatchPhase.Endgame: return "Both hubs active · climb"
+        case is MatchPhase.Endgame: return "Both hubs active"
         default: return ""
         }
     }
