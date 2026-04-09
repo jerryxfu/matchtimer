@@ -1,6 +1,7 @@
 package net.jerryxf.matchtimer
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -11,7 +12,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 class MainActivity : ComponentActivity() {
     companion object {
+        @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
+            private set
+
+        @SuppressLint("StaticFieldLeak")
+        lateinit var instance: MainActivity
             private set
     }
 
@@ -19,6 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         context = applicationContext
+        instance = this
 
         val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
