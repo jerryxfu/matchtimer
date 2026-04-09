@@ -5,6 +5,66 @@ struct ContentView: View {
     @StateObject private var viewModel = MatchTimerViewModel()
 
     var body: some View {
+        if #available(iOS 26.0, *) {
+            tabViewModern
+        } else {
+            tabViewLegacy
+        }
+    }
+
+    @available(iOS 26.0, *)
+    private var tabViewModern: some View {
+        TabView {
+            Tab("Match", systemImage: "timer") {
+                MatchView(viewModel: viewModel)
+            }
+
+            Tab("Schedule", systemImage: "calendar") {
+                PlaceholderView(title: "Schedule", icon: "calendar")
+            }
+
+            Tab("Stats", systemImage: "chart.bar") {
+                PlaceholderView(title: "Stats", icon: "chart.bar")
+            }
+
+            Tab("Settings", systemImage: "gear") {
+                PlaceholderView(title: "Settings", icon: "gear")
+            }
+        }
+        .tabBarMinimizeBehavior(.onScrollDown)
+    }
+
+    private var tabViewLegacy: some View {
+        TabView {
+            MatchView(viewModel: viewModel)
+                .tabItem {
+                    Label("Match", systemImage: "timer")
+                }
+
+            PlaceholderView(title: "Schedule", icon: "calendar")
+                .tabItem {
+                    Label("Schedule", systemImage: "calendar")
+                }
+
+            PlaceholderView(title: "Stats", icon: "chart.bar")
+                .tabItem {
+                    Label("Stats", systemImage: "chart.bar")
+                }
+
+            PlaceholderView(title: "Settings", icon: "gear")
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
+                }
+        }
+    }
+}
+
+// MARK: - Match tab
+
+private struct MatchView: View {
+    @ObservedObject var viewModel: MatchTimerViewModel
+
+    var body: some View {
         ZStack(alignment: .top) {
             ScrollView {
                 VStack(spacing: 0) {
@@ -25,5 +85,27 @@ struct ContentView: View {
             .background(.ultraThinMaterial)
         }
         .ignoresSafeArea(edges: .top)
+    }
+}
+
+// MARK: - Placeholder
+
+private struct PlaceholderView: View {
+    let title: String
+    let icon: String
+
+    var body: some View {
+        VStack(spacing: 16) {
+            Image(systemName: icon)
+                .font(.system(size: 48))
+                .foregroundStyle(.tertiary)
+            Text(title)
+                .font(.title2)
+                .fontWeight(.semibold)
+            Text("Coming soon")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
