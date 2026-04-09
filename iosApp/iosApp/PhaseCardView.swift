@@ -71,7 +71,7 @@ struct PhaseCardView: View {
                     Text("\(phaseSecondsRemaining)s left")
                         .font(.system(size: 13, weight: .medium))
                         .foregroundStyle(phaseColor)
-                        .transition(.opacity.combined(with: .scale(scale: 0.9)))
+                        .contentTransition(.numericText(countsDown: true))
                 }
 
                 if let shift = phase as? MatchPhase.AllianceShift {

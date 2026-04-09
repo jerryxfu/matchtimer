@@ -51,6 +51,13 @@
 			);
 			target = ABE280FAB7D7A8D4B56FDDB1 /* iosApp */;
 		};
+		C40CA7192F8778BA00382C25 /* Exceptions for "iosApp" folder in "MatchTimerExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MatchActivityAttributes.swift,
+			);
+			target = C4D69BE72F874332001E4AF9 /* MatchTimerExtension */;
+		};
 		C4D69C012F874333001E4AF9 /* Exceptions for "MatchTimer" folder in "MatchTimerExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -65,6 +72,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				8B17E35585BD01D26753FB93 /* Exceptions for "iosApp" folder in "iosApp" target */,
+				C40CA7192F8778BA00382C25 /* Exceptions for "iosApp" folder in "MatchTimerExtension" target */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";

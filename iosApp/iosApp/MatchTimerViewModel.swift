@@ -18,8 +18,7 @@ class MatchTimerViewModel: ObservableObject {
 
     private var collectionTask: Task<Void, Never>?
     private var currentActivity: Activity<MatchActivityAttributes>?
-    private var backgroundTask: Task<Void, Never>?
-    private var matchStartDate: Date?
+    private var backgroundTaskID: UIBackgroundTaskIdentifier = .invalid
     private var cancellables = Set<AnyCancellable>()
 
     init() {
@@ -37,11 +36,12 @@ class MatchTimerViewModel: ObservableObject {
     }
 
     func start() {
+        print("Activities enabled: \(ActivityAuthorizationInfo().areActivitiesEnabled)")
+        print("Existing activities: \(Activity<MatchActivityAttributes>.activities.count)")
         let isEnded = matchState.phase is MatchPhase.MatchEnded
         if isEnded { reset() }
         guard collectionTask == nil else { return }
 
-        matchStartDate = Date()
         startLiveActivity()
 
         collectionTask = Task {
@@ -51,6 +51,7 @@ class MatchTimerViewModel: ObservableObject {
 
                 if state.phase is MatchPhase.MatchEnded {
                     endLiveActivity()
+                    endBackgroundTask()
                 }
             }
         }
@@ -61,9 +62,7 @@ class MatchTimerViewModel: ObservableObject {
         timer.stop()
         collectionTask?.cancel()
         collectionTask = nil
-        backgroundTask?.cancel()
-        backgroundTask = nil
-        matchStartDate = nil
+        endBackgroundTask()
         endLiveActivity()
     }
 
@@ -71,10 +70,8 @@ class MatchTimerViewModel: ObservableObject {
         timer.reset()
         collectionTask?.cancel()
         collectionTask = nil
-        backgroundTask?.cancel()
-        backgroundTask = nil
-        matchStartDate = nil
         lowestAutoAlliance = nil
+        endBackgroundTask()
         endLiveActivity()
     }
 
@@ -88,131 +85,28 @@ class MatchTimerViewModel: ObservableObject {
     // MARK: - Background / Foreground
 
     private func onBackground() {
-        guard let startDate = matchStartDate,
+        // Only request background time if a match is running
+        guard collectionTask != nil,
             !(matchState.phase is MatchPhase.MatchEnded)
         else { return }
 
-        backgroundTask = Task {
-            let elapsed = Date().timeIntervalSince(startDate)
-            let transitions = Self.phaseTransitions(
-                lowestAlliance: lowestAutoAlliance
-            )
-
-            for transition in transitions {
-                let fireAt = transition.startTime - elapsed
-                if fireAt <= 0 { continue }
-
-                try? await Task.sleep(for: .seconds(fireAt))
-                if Task.isCancelled { return }
-
-                guard let activity = currentActivity else { return }
-                let state = MatchActivityAttributes.ContentState(
-                    phaseName: transition.name,
-                    phaseSubtitle: transition.subtitle,
-                    phaseSecondsRemaining: transition.duration,
-                    phaseDuration: transition.duration,
-                    totalSecondsRemaining: 160 - Int(transition.startTime),
-                    activeAllianceName: transition.activeAlliance,
-                    isMatchEnded: false
-                )
-                await activity.update(.init(state: state, staleDate: nil))
-            }
-
-            let matchEndIn = 160.0 - elapsed
-            if matchEndIn > 0 {
-                try? await Task.sleep(for: .seconds(matchEndIn))
-                if Task.isCancelled { return }
-                endLiveActivity()
-            }
+        // Request up to ~3 minutes of background execution
+        // A full match is 2:40, so this covers it
+        backgroundTaskID = UIApplication.shared.beginBackgroundTask {
+            // Expiration handler — OS is about to kill us
+            self.endBackgroundTask()
         }
     }
 
     private func onForeground() {
-        backgroundTask?.cancel()
-        backgroundTask = nil
+        endBackgroundTask()
     }
 
-    // MARK: - Phase schedule
-
-    private struct PhaseTransition {
-        let name: String
-        let subtitle: String
-        let duration: Int
-        let startTime: Double
-        let activeAlliance: String?
-    }
-
-    private static func phaseTransitions(
-        lowestAlliance: Alliance?
-    ) -> [PhaseTransition] {
-        var transitions: [PhaseTransition] = []
-        var t: Double = 0
-
-        transitions.append(
-            PhaseTransition(
-                name: "Autonomous",
-                subtitle: "Both hubs active",
-                duration: 20,
-                startTime: t,
-                activeAlliance: nil
-            )
-        )
-        t += 20
-
-        transitions.append(
-            PhaseTransition(
-                name: "Auto end pause",
-                subtitle: "Piece counting delay",
-                duration: 3,
-                startTime: t,
-                activeAlliance: nil
-            )
-        )
-        t += 3
-
-        transitions.append(
-            PhaseTransition(
-                name: "Transition",
-                subtitle: "Both hubs active",
-                duration: 10,
-                startTime: t,
-                activeAlliance: nil
-            )
-        )
-        t += 10
-
-        for i in 1...4 {
-            let alliance: String?
-            if let lowest = lowestAlliance {
-                let lowestName = lowest == .red ? "Red" : "Blue"
-                let highestName = lowest == .red ? "Blue" : "Red"
-                alliance = i % 2 == 1 ? lowestName : highestName
-            } else {
-                alliance = nil
-            }
-            transitions.append(
-                PhaseTransition(
-                    name: "Alliance shift \(i)",
-                    subtitle: "Hub flip · teleop",
-                    duration: 25,
-                    startTime: t,
-                    activeAlliance: alliance
-                )
-            )
-            t += 25
+    private func endBackgroundTask() {
+        if backgroundTaskID != .invalid {
+            UIApplication.shared.endBackgroundTask(backgroundTaskID)
+            backgroundTaskID = .invalid
         }
-
-        transitions.append(
-            PhaseTransition(
-                name: "Endgame",
-                subtitle: "Both hubs active · climb",
-                duration: 30,
-                startTime: t,
-                activeAlliance: nil
-            )
-        )
-
-        return transitions
     }
 
     // MARK: - Live Activity
@@ -223,7 +117,6 @@ class MatchTimerViewModel: ObservableObject {
         let attributes = MatchActivityAttributes()
         let initialState = MatchActivityAttributes.ContentState(
             phaseName: "Autonomous",
-            phaseSubtitle: "Both hubs active",
             phaseSecondsRemaining: 20,
             phaseDuration: 20,
             totalSecondsRemaining: 160,
@@ -247,7 +140,6 @@ class MatchTimerViewModel: ObservableObject {
 
         let contentState = MatchActivityAttributes.ContentState(
             phaseName: phaseName(for: state.phase),
-            phaseSubtitle: phaseSubtitle(for: state.phase),
             phaseSecondsRemaining: Int(state.phaseSecondsRemaining),
             phaseDuration: phaseDuration(for: state.phase),
             totalSecondsRemaining: Int(state.totalSecondsRemaining),
@@ -265,7 +157,6 @@ class MatchTimerViewModel: ObservableObject {
 
         let finalState = MatchActivityAttributes.ContentState(
             phaseName: "Match over",
-            phaseSubtitle: "",
             phaseSecondsRemaining: 0,
             phaseDuration: 0,
             totalSecondsRemaining: 0,
@@ -293,17 +184,6 @@ class MatchTimerViewModel: ObservableObject {
             return "Alliance shift \(s.number)"
         case is MatchPhase.Endgame: return "Endgame"
         case is MatchPhase.MatchEnded: return "Match over"
-        default: return ""
-        }
-    }
-
-    private func phaseSubtitle(for phase: MatchPhase) -> String {
-        switch phase {
-//        case is MatchPhase.Auto: return "Both hubs active"
-//        case is MatchPhase.AutoEndPause: return "Piece counting delay"
-//        case is MatchPhase.Transition: return "Both hubs active"
-//        case is MatchPhase.AllianceShift: return "Hub flip · teleop"
-//        case is MatchPhase.Endgame: return "Both hubs active · climb"
         default: return ""
         }
     }

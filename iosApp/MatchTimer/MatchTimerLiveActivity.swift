@@ -20,9 +20,6 @@ struct MatchTimerLiveActivity: Widget {
                         Text(context.state.phaseName)
                             .font(.caption)
                             .fontWeight(.semibold)
-                        Text(context.state.phaseSubtitle)
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
                         if let alliance = context.state.activeAllianceName {
                             Text(alliance)
                                 .font(.caption2)
@@ -48,6 +45,7 @@ struct MatchTimerLiveActivity: Widget {
                         Text("\(context.state.phaseSecondsRemaining)s left")
                             .font(.caption2)
                             .foregroundStyle(.secondary)
+                            .contentTransition(.numericText(countsDown: true))
                     }
                 }
 
@@ -148,9 +146,6 @@ private struct LockScreenMatchView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(state.phaseName)
                         .font(.headline)
-                    Text(state.phaseSubtitle)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
                     if let alliance = state.activeAllianceName {
                         Text("\(alliance) hub active")
                             .font(.caption)
@@ -167,9 +162,11 @@ private struct LockScreenMatchView: View {
                         .font(.system(.title, design: .monospaced))
                         .fontWeight(.bold)
                         .monospacedDigit()
+                        .contentTransition(.numericText(countsDown: true))
                     Text("\(state.phaseSecondsRemaining)s left")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .contentTransition(.numericText(countsDown: true))
                 }
             }
 

@@ -11,7 +11,6 @@ import Foundation
 struct MatchActivityAttributes: ActivityAttributes {
     struct ContentState: Codable, Hashable {
         var phaseName: String
-        var phaseSubtitle: String
         var phaseSecondsRemaining: Int
         var phaseDuration: Int
         var totalSecondsRemaining: Int
