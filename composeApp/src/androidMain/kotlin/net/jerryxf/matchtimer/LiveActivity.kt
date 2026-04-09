@@ -19,6 +19,7 @@ class LiveActivity {
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setRequestPromotedOngoing(true)
             .setOngoing(true)
+            .setShowWhen(false)
             .setProgress(MatchState.MATCH_DURATION, 0, false)
         update()
     }
@@ -34,6 +35,7 @@ class LiveActivity {
 
     fun setProgress(state: MatchState) {
         notif.setProgress(MatchState.MATCH_DURATION, state.totalElapsed, false)
+        notif.setShortCriticalText(state.timeString())
         update()
     }
 

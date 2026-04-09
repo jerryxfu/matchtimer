@@ -8,10 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CoroutineScope
+import androidx.compose.runtime.collectAsState
 
 @Composable
 fun TopHeader(timer: MatchTimer, coroutineScope: CoroutineScope, activity: LiveActivity) {
-    Text(timer.matchState.value.timeString(), fontSize = 50.sp)
+    Text(timer.matchState.collectAsState().value.timeString(), fontSize = 50.sp)
     Row(Modifier.fillMaxWidth(), Arrangement.SpaceEvenly) {
         Spacer(Modifier.width(10.dp))
         Button({
@@ -24,7 +25,7 @@ fun TopHeader(timer: MatchTimer, coroutineScope: CoroutineScope, activity: LiveA
     }
 }
 
-private fun MatchState.timeString(): String {
+fun MatchState.timeString(): String {
     val m = this.totalSecondsRemaining / 60
     val s = this.totalSecondsRemaining % 60
     return String.format("%d:%02d", m, s)
