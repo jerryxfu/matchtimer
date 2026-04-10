@@ -13,8 +13,8 @@ data class Event(
 data class Match(
     val label: String,
     val status: String,
-    val redTeams: List<String>,
-    val blueTeams: List<String>,
+    val redTeams: List<String?>,
+    val blueTeams: List<String?>,
     val times: MatchTimes
 )
 

@@ -5,7 +5,6 @@
 //  Created by Jerry Fu on 2026-04-10.
 //
 
-
 import ComposeApp
 import SwiftUI
 
@@ -17,20 +16,43 @@ struct MatchCardView: View {
 
     // MARK: - Match state
 
+    // MARK: - Teams (nil -> "N/A")
+
+    private var redTeams: [String] {
+        var result: [String] = []
+        for team in match.redTeams {
+            result.append((team as? String) ?? "N/A")
+        }
+        return result
+    }
+
+    private var blueTeams: [String] {
+        var result: [String] = []
+        for team in match.blueTeams {
+            result.append((team as? String) ?? "N/A")
+        }
+        return result
+    }
+
+    // MARK: - Match state
+
     private var hasHighlightedTeam: Bool {
-        match.redTeams.contains { highlightedTeams[$0] != nil }
-            || match.blueTeams.contains { highlightedTeams[$0] != nil }
+        redTeams.contains { highlightedTeams[$0] != nil }
+            || blueTeams.contains { highlightedTeams[$0] != nil }
     }
 
     private var isDone: Bool {
-        match.status.lowercased() == "on field"
-            && currentOnFieldStart != nil
-            && match.times.estimatedStartTime < currentOnFieldStart!
+        MatchStatusHelper.isDone(
+            match,
+            currentOnFieldStart: currentOnFieldStart
+        )
     }
 
     private var isCurrentlyPlaying: Bool {
-        match.status.lowercased() == "on field"
-            && match.times.estimatedStartTime == currentOnFieldStart
+        MatchStatusHelper.isCurrentlyPlaying(
+            match,
+            currentOnFieldStart: currentOnFieldStart
+        )
     }
 
     private var isActive: Bool {
@@ -57,7 +79,7 @@ struct MatchCardView: View {
     }
 
     private var highlightBorderColor: Color {
-        for team in match.redTeams + match.blueTeams {
+        for team in redTeams + blueTeams {
             if let color = highlightedTeams[team] {
                 return color
             }
@@ -112,18 +134,23 @@ struct MatchCardView: View {
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(.secondary)
                 Spacer()
-                Text(TimeFormatting.relativeTime(match.times.estimatedStartTime))
-                    .font(.system(size: 11))
-                    .foregroundStyle(.tertiary)
+                Text(
+                    TimeFormatting.relativeTime(match.times.estimatedStartTime)
+                )
+                .font(.system(size: 11))
+                .foregroundStyle(.tertiary)
             }
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 6) {
                     HStack(spacing: 3) {
-                        ForEach(match.redTeams, id: \.self) { team in
+                        ForEach(redTeams, id: \.self) { team in
                             TeamPill(
-                                team: team, color: .red, compact: true,
-                                highlight: highlightedTeams[team])
+                                team: team,
+                                color: .red,
+                                compact: true,
+                                highlight: highlightedTeams[team]
+                            )
                         }
                     }
 
@@ -132,10 +159,13 @@ struct MatchCardView: View {
                         .foregroundStyle(.tertiary)
 
                     HStack(spacing: 3) {
-                        ForEach(match.blueTeams, id: \.self) { team in
+                        ForEach(blueTeams, id: \.self) { team in
                             TeamPill(
-                                team: team, color: .blue, compact: true,
-                                highlight: highlightedTeams[team])
+                                team: team,
+                                color: .blue,
+                                compact: true,
+                                highlight: highlightedTeams[team]
+                            )
                         }
                     }
                 }
@@ -165,8 +195,8 @@ struct MatchCardView: View {
             }
 
             HStack(spacing: 8) {
-                teamRow(label: "RED", teams: match.redTeams, color: .red)
-                teamRow(label: "BLUE", teams: match.blueTeams, color: .blue)
+                teamRow(label: "RED", teams: redTeams, color: .red)
+                teamRow(label: "BLUE", teams: blueTeams, color: .blue)
             }
 
             TimingCarouselView(times: match.times)
@@ -189,8 +219,11 @@ struct MatchCardView: View {
                     .foregroundStyle(color.opacity(0.7))
                 ForEach(teams, id: \.self) { team in
                     TeamPill(
-                        team: team, color: color, compact: false,
-                        highlight: highlightedTeams[team])
+                        team: team,
+                        color: color,
+                        compact: false,
+                        highlight: highlightedTeams[team]
+                    )
                 }
             }
         }

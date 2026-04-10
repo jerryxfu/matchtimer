@@ -39,7 +39,7 @@ struct ScheduleView: View {
     private func refreshLoop() async {
         while !Task.isCancelled {
             do {
-                event = try await EventKt.getEventData(eventKey: "demo1815")
+                event = try await EventKt.getEventData(eventKey: "2026nvlv")
                 error = nil
             } catch {
                 self.error = error.localizedDescription
