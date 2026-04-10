@@ -35,6 +35,7 @@ class MatchTimer(var lowestAutoAlliance: Alliance? = null) {
     private var job: Job? = null
 
     fun start(scope: CoroutineScope, onUpdate: (MatchState) -> Unit = {}) {
+        if (job?.isActive == true) return
         var totalElapsed = 0
         job = scope.launch {
             for ((phase, duration) in phases) {

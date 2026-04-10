@@ -20,19 +20,25 @@ struct FloatingHeaderView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
 
             HStack(spacing: 12) {
-                Button("Start", action: onStart)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .background(Color.green)
-                    .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                if #available(iOS 26.0, *) {
+                    Button("Start", action: onStart)
+                        .buttonSizing(.flexible)
+                        .font(.title2)
+                        .tint(.green)
+                        .buttonStyle(.glass)
+                } else {
+                    Button("Start", action: onStart)
+                }
 
-                Button("Stop", action: onStop)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                if #available(iOS 26.0, *) {
+                    Button("Stop", action: onStop)
+                        .buttonSizing(.flexible)
+                        .font(.title2)
+                        .tint(.red)
+                        .buttonStyle(.glass)
+                } else {
+                    Button("Start", action: onStart)
+                }
             }
         }
         .padding(.horizontal, 16)

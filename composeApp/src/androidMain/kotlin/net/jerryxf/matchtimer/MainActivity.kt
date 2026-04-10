@@ -34,8 +34,7 @@ class MainActivity : ComponentActivity() {
                 println("no notifs for you")
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
 
         setContent { App() }
     }
