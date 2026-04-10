@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer.backend
+package net.jerryxf.matchtimer.shared
 
 import kotlinx.serialization.Serializable
 
@@ -13,8 +13,8 @@ data class Event(
 data class Match(
     val label: String,
     val status: String,
-    val redTeams: List<String>,
-    val blueTeams: List<String>,
+    val redTeams: List<String?>,
+    val blueTeams: List<String?>,
     val times: MatchTimes
 )
 
