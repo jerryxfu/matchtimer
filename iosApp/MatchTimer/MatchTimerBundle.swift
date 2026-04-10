@@ -12,5 +12,6 @@ import WidgetKit
 struct MatchTimerBundle: WidgetBundle {
     var body: some Widget {
         MatchTimerLiveActivity()
+        ScheduleLiveActivity()
     }
 }

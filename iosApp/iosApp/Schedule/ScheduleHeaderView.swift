@@ -9,7 +9,7 @@ import ComposeApp
 import SwiftUI
 
 struct ScheduleHeaderView: View {
-    let event: Event?
+    let event: SharedEvent?
     @ObservedObject private var network = NetworkMonitor.shared
     @State private var blinkOn = true
 
@@ -51,7 +51,7 @@ struct ScheduleHeaderView: View {
                     .font(.system(size: 14))
                 } else {
                     Text(
-                        "\(event.matches.count) matches · updated \(formatEpoch(event.dataAsOfTime))"
+                        "\(event.matches.count) matches · updated \(TimeFormatting.formatDateTime(event.dataAsOfTime))"
                     )
                     .font(.system(size: 14))
                     .foregroundStyle(.secondary)
@@ -70,12 +70,7 @@ struct ScheduleHeaderView: View {
         .padding(.bottom, 12)
     }
 
-    /// Returns the match closest to being played, by status priority.
-    /// Priority: On field (current) > On deck > Now queuing > Queuing soon.
-    /// "On field" matches that are old are treated as done.
-    private func latestMatch(in event: Event) -> Match? {
-        // The current "On field" is the most recent one (highest start time)
-        // among those still marked "On field"
+    private func latestMatch(in event: SharedEvent) -> SharedMatch? {
         let onFieldMatches = event.matches.filter {
             $0.status.lowercased() == "on field"
         }
@@ -85,7 +80,6 @@ struct ScheduleHeaderView: View {
             return currentOnField
         }
 
-        // Otherwise, walk priority order
         let priority = ["on deck", "now queuing", "queuing soon"]
         for status in priority {
             if let match = event.matches.first(where: {
@@ -106,13 +100,5 @@ struct ScheduleHeaderView: View {
         case "queuing soon": return .purple
         default: return .secondary
         }
-    }
-
-    private func formatEpoch(_ epoch: Int64) -> String {
-        let date = Date(timeIntervalSince1970: Double(epoch) / 1000.0)
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        return formatter.string(from: date)
     }
 }

@@ -1,6 +1,12 @@
-package net.jerryxf.matchtimer.backend
+package net.jerryxf.matchtimer.shared
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+
+val jsonConfig = Json {
+    ignoreUnknownKeys = true
+    explicitNulls = false
+}
 
 @Serializable
 data class Event(
@@ -13,15 +19,15 @@ data class Event(
 data class Match(
     val label: String,
     val status: String,
-    val redTeams: List<String>,
-    val blueTeams: List<String>,
+    val redTeams: List<String?>,
+    val blueTeams: List<String?>,
     val times: MatchTimes
 )
 
 @Serializable
 data class MatchTimes(
-    val estimatedQueueTime: Long,
-    val estimatedOnDeckTime: Long,
+    val estimatedQueueTime: Long?,
+    val estimatedOnDeckTime: Long?,
     val estimatedOnFieldTime: Long,
     val estimatedStartTime: Long
 )
