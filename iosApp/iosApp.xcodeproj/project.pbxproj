@@ -54,7 +54,7 @@
 		C40CA7192F8778BA00382C25 /* Exceptions for "iosApp" folder in "MatchTimerExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				MatchActivityAttributes.swift,
+				Match/MatchActivityAttributes.swift,
 			);
 			target = C4D69BE72F874332001E4AF9 /* MatchTimerExtension */;
 		};

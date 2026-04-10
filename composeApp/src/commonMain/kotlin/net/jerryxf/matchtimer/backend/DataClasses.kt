@@ -1,25 +1,11 @@
 package net.jerryxf.matchtimer.backend
 
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlin.time.Instant
-
-
-object EpochSecondsInstantSerializer : KSerializer<Instant> {
-    override val descriptor = PrimitiveSerialDescriptor("Instant", PrimitiveKind.LONG)
-    override fun serialize(encoder: Encoder, value: Instant) = encoder.encodeLong(value.epochSeconds)
-    override fun deserialize(decoder: Decoder) = Instant.fromEpochSeconds(decoder.decodeLong())
-}
 
 @Serializable
 data class Event(
     val eventKey: String,
-    @Serializable(with = EpochSecondsInstantSerializer::class)
-    val dataAsOfTime: Instant,
+    val dataAsOfTime: Long,
     val matches: List<Match>
 )
 
@@ -34,12 +20,8 @@ data class Match(
 
 @Serializable
 data class MatchTimes(
-    @Serializable(with = EpochSecondsInstantSerializer::class)
-    val estimatedQueueTime: Instant,
-    @Serializable(with = EpochSecondsInstantSerializer::class)
-    val estimatedOnDeckTime: Instant,
-    @Serializable(with = EpochSecondsInstantSerializer::class)
-    val estimatedOnFieldTime: Instant,
-    @Serializable(with = EpochSecondsInstantSerializer::class)
-    val estimatedStartTime: Instant
+    val estimatedQueueTime: Long,
+    val estimatedOnDeckTime: Long,
+    val estimatedOnFieldTime: Long,
+    val estimatedStartTime: Long
 )

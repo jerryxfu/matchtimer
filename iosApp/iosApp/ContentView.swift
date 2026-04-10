@@ -15,16 +15,16 @@ struct ContentView: View {
     @available(iOS 26.0, *)
     private var tabViewModern: some View {
         TabView {
+            Tab("Schedule", systemImage: "calendar") {
+                ScheduleView()
+            }
+
             Tab("Match", systemImage: "timer") {
                 MatchView(viewModel: viewModel)
             }
 
-            Tab("Schedule", systemImage: "calendar") {
-                PlaceholderView(title: "Schedule", icon: "calendar")
-            }
-
-            Tab("Stats", systemImage: "chart.bar") {
-                PlaceholderView(title: "Stats", icon: "chart.bar")
+            Tab("Pit", systemImage: "hammer") {
+                PlaceholderView(title: "Pit", icon: "hammer")
             }
 
             Tab("Settings", systemImage: "gear") {
@@ -41,7 +41,7 @@ struct ContentView: View {
                     Label("Match", systemImage: "timer")
                 }
 
-            PlaceholderView(title: "Schedule", icon: "calendar")
+            ScheduleView()
                 .tabItem {
                     Label("Schedule", systemImage: "calendar")
                 }
