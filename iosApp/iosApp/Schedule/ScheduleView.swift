@@ -14,6 +14,32 @@ struct ScheduleView: View {
     @State private var highlightedTeams: [String: Color] = [:]
 
     var body: some View {
+        Group {
+            if #available(iOS 17.0, *) {
+                scheduleContent
+                    .onChange(of: highlightedTeams) { _, _ in
+                        // Update Live Activity when highlights change mid-session
+                        if let event {
+                            Task {
+                                await ScheduleLiveActivityManager.shared
+                                    .startOrUpdate(
+                                        event: event,
+                                        highlightedTeams: highlightedTeams
+                                    )
+                            }
+                        }
+                    }
+            } else {
+                // iOS 16 fallback: skip Live Activities
+                scheduleContent
+            }
+        }
+        .task {
+            await refreshLoop()
+        }
+    }
+
+    private var scheduleContent: some View {
         ZStack(alignment: .top) {
             ScrollView {
                 VStack(spacing: 0) {
@@ -31,20 +57,6 @@ struct ScheduleView: View {
                 .background(.ultraThinMaterial)
         }
         .ignoresSafeArea(edges: .top)
-        .task {
-            await refreshLoop()
-        }
-        .onChange(of: highlightedTeams) { _, _ in
-            // Update Live Activity when highlights change mid-session
-            if let event {
-                Task {
-                    await ScheduleLiveActivityManager.shared.startOrUpdate(
-                        event: event,
-                        highlightedTeams: highlightedTeams
-                    )
-                }
-            }
-        }
     }
 
     private func refreshLoop() async {
@@ -56,7 +68,7 @@ struct ScheduleView: View {
                 event = newEvent
                 error = nil
 
-                // Auto-start or update the Live Activity (never creates dupes)
+                // Auto-start or update the Live Activity (no dupes)
                 if let newEvent {
                     await ScheduleLiveActivityManager.shared.startOrUpdate(
                         event: newEvent,
