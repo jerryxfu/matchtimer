@@ -39,7 +39,7 @@ final class ScheduleLiveActivityManager {
             highlightedTeams: highlightedTeams
         )
         guard let state else {
-            // No latest match — end any running activity
+            // No latest match, end any running activity
             await end()
             return
         }

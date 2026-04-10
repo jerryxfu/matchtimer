@@ -179,7 +179,7 @@ struct MatchCardView: View {
     // MARK: - Full view
 
     private var fullView: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(match.label)
                     .font(.system(size: 15, weight: .semibold))
@@ -194,7 +194,7 @@ struct MatchCardView: View {
                 )
             }
 
-            HStack(spacing: 8) {
+            HStack(spacing: 6) {
                 teamRow(label: "RED", teams: redTeams, color: .red)
                 teamRow(label: "BLUE", teams: blueTeams, color: .blue)
             }
@@ -204,7 +204,7 @@ struct MatchCardView: View {
                 .background(Color(.systemGray6))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         }
-        .padding(12)
+        .padding(10)
     }
 
     // MARK: - Team row

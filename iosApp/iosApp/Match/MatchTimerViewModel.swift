@@ -36,8 +36,12 @@ class MatchTimerViewModel: ObservableObject {
     }
 
     func start() {
-        print("Activities enabled: \(ActivityAuthorizationInfo().areActivitiesEnabled)")
-        print("Existing activities: \(Activity<MatchActivityAttributes>.activities.count)")
+        print(
+            "Activities enabled: \(ActivityAuthorizationInfo().areActivitiesEnabled)"
+        )
+        print(
+            "Existing activities: \(Activity<MatchActivityAttributes>.activities.count)"
+        )
         let isEnded = matchState.phase is MatchPhase.MatchEnded
         if isEnded { reset() }
         guard collectionTask == nil else { return }
@@ -113,6 +117,12 @@ class MatchTimerViewModel: ObservableObject {
 
     private func startLiveActivity() {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
+
+        // Adopt an existing activity if one is already running
+        if let existing = Activity<MatchActivityAttributes>.activities.first {
+            currentActivity = existing
+            return
+        }
 
         let attributes = MatchActivityAttributes()
         let initialState = MatchActivityAttributes.ContentState(

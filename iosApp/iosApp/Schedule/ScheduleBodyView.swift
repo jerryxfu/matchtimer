@@ -39,7 +39,7 @@ struct ScheduleBodyView: View {
 
             LazyVStack(spacing: 8) {
                 HighlightTeamsBar(highlightedTeams: $highlightedTeams)
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 14)
                     .padding(.bottom, 4)
 
                 // Past matches dropdown with the last completed always visible
@@ -48,7 +48,7 @@ struct ScheduleBodyView: View {
                         doneMatches: allDoneMatches,
                         currentOnFieldStart: currentOnFieldStart
                     )
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 14)
                 }
 
                 ForEach(Array(upcomingMatches.enumerated()), id: \.offset) {
@@ -59,7 +59,7 @@ struct ScheduleBodyView: View {
                         highlightedTeams: highlightedTeams,
                         currentOnFieldStart: currentOnFieldStart
                     )
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 14)
                 }
             }
             .padding(.bottom, 32)
