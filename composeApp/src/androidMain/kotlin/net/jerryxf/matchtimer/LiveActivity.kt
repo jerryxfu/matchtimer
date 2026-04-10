@@ -11,6 +11,15 @@ import androidx.core.app.NotificationManagerCompat
 
 class LiveActivity {
     private lateinit var notif: NotificationCompat.Builder
+    private val notifStyle = NotificationCompat.ProgressStyle()
+        .addProgressSegment(NotificationCompat.ProgressStyle.Segment(20))
+        .addProgressSegment(NotificationCompat.ProgressStyle.Segment(3))
+        .addProgressSegment(NotificationCompat.ProgressStyle.Segment(10))
+        .addProgressSegment(NotificationCompat.ProgressStyle.Segment(25))
+        .addProgressSegment(NotificationCompat.ProgressStyle.Segment(25))
+        .addProgressSegment(NotificationCompat.ProgressStyle.Segment(25))
+        .addProgressSegment(NotificationCompat.ProgressStyle.Segment(25))
+        .addProgressSegment(NotificationCompat.ProgressStyle.Segment(30))
     private val notifId = ++notifCount
 
     fun start() {
@@ -20,7 +29,8 @@ class LiveActivity {
             .setRequestPromotedOngoing(true)
             .setOngoing(true)
             .setShowWhen(false)
-            .setProgress(MatchState.MATCH_DURATION, 0, false)
+            .setStyle(notifStyle.setProgress(0))
+
         update()
     }
 
@@ -34,7 +44,7 @@ class LiveActivity {
     }
 
     fun setProgress(state: MatchState) {
-        notif.setProgress(MatchState.MATCH_DURATION, state.totalElapsed, false)
+        notif.setStyle(notifStyle.setProgress((state.totalElapsed * 100) / MatchState.MATCH_DURATION))
         notif.setShortCriticalText(state.timeString())
         update()
     }
