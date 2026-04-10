@@ -36,35 +36,25 @@ struct ContentView: View {
 
     private var tabViewLegacy: some View {
         TabView {
-            PlaceholderView(title: "Schedule", icon: "calendar")
-                .tabItem {
-                    Label("Schedule", systemImage: "calendar")
-                }
-
             MatchView(viewModel: viewModel)
                 .tabItem {
                     Label("Match", systemImage: "timer")
                 }
-            PlaceholderView(title: "Pit", icon: "hammer")
+
+            ScheduleView()
                 .tabItem {
-                    Label("Pit", systemImage: "hammer")
+                    Label("Schedule", systemImage: "calendar")
+                }
+
+            PlaceholderView(title: "Stats", icon: "chart.bar")
+                .tabItem {
+                    Label("Stats", systemImage: "chart.bar")
                 }
 
             PlaceholderView(title: "Settings", icon: "gear")
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }
-        }
-    }
-}
-
-// MARK: Schedule tab
-
-private struct ScheduleView: View {
-    var body: some View {
-        VStack {
-            ScheduleHeaderView()
-            ScheduleBodyView()
         }
     }
 }
