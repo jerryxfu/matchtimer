@@ -9,20 +9,26 @@ import ComposeApp
 import SwiftUI
 
 struct TimingCarouselView: View {
-    let times: MatchTimes
+    let times: SharedMatchTimes
 
     @State private var selection: Int = 0
     @State private var hasInitialized = false
 
     private struct TimingEntry {
         let label: String
-        let epoch: Int64
+        let epoch: Int64?
     }
 
     private var entries: [TimingEntry] {
         [
-            TimingEntry(label: "Queue", epoch: times.estimatedQueueTime),
-            TimingEntry(label: "On Deck", epoch: times.estimatedOnDeckTime),
+            TimingEntry(
+                label: "Queue",
+                epoch: times.estimatedQueueTime?.int64Value
+            ),
+            TimingEntry(
+                label: "On Deck",
+                epoch: times.estimatedOnDeckTime?.int64Value
+            ),
             TimingEntry(label: "On Field", epoch: times.estimatedOnFieldTime),
             TimingEntry(label: "Start", epoch: times.estimatedStartTime),
         ]
@@ -31,7 +37,8 @@ struct TimingCarouselView: View {
     /// Index of the next upcoming timing (or last one if all have passed)
     private var nextUpcomingIndex: Int {
         let now = Date().timeIntervalSince1970 * 1000
-        if let idx = entries.firstIndex(where: { Double($0.epoch) > now }) {
+        if let idx = entries.firstIndex(where: { Double($0.epoch ?? 0) > now })
+        {
             return idx
         }
         return entries.count - 1
@@ -59,11 +66,20 @@ struct TimingCarouselView: View {
                         Text("\(entry.label):")
                             .font(.system(size: 14))
 
-                        Text(TimeFormatting.relativeTime(entry.epoch))
-                            .font(.system(size: 14))
+                        Text(
+                            entry.epoch != nil
+                                ? TimeFormatting.relativeTime(entry.epoch!)
+                                : "N/A"
+                        )
+                        .font(.system(size: 14))
 
-                        Text("(" + TimeFormatting.formatTime(entry.epoch) + ")")
-                            .font(.system(size: 14))
+                        Text(
+                            "("
+                                + (entry.epoch != nil
+                                    ? TimeFormatting.formatTime(entry.epoch!)
+                                    : "N/A") + ")"
+                        )
+                        .font(.system(size: 14))
 
                         Spacer()
                     }

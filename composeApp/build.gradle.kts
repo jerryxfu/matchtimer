@@ -23,6 +23,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            freeCompilerArgs += listOf("-Xbinary=bundleId=net.jerryxf.matchtimer")
         }
     }
 
@@ -46,6 +47,7 @@ kotlin {
             implementation(libs.ktor.client.contentNegotiation)
             implementation(libs.ktor.serialization.json)
             implementation(libs.kotlinx.serialization.json)
+            implementation(projects.shared)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.ios)

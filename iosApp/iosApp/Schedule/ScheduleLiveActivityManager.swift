@@ -20,7 +20,8 @@ final class ScheduleLiveActivityManager {
     private init() {
         // On init, adopt any existing activity so we don't create duplicates
         // after an app relaunch
-        if let existing = Activity<ScheduleActivityAttributes>.activities.first {
+        if let existing = Activity<ScheduleActivityAttributes>.activities.first
+        {
             currentActivity = existing
         }
     }
@@ -28,7 +29,7 @@ final class ScheduleLiveActivityManager {
     /// Start or update the schedule Live Activity.
     /// If one is already running, just update it.
     func startOrUpdate(
-        event: Event,
+        event: SharedEvent,
         highlightedTeams: [String: Color]
     ) async {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
@@ -71,7 +72,7 @@ final class ScheduleLiveActivityManager {
     // MARK: - Content state builder
 
     private func buildContentState(
-        event: Event,
+        event: SharedEvent,
         highlightedTeams: [String: Color]
     ) -> ScheduleActivityAttributes.ContentState? {
         guard let latest = latestMatch(in: event) else { return nil }
@@ -95,7 +96,7 @@ final class ScheduleLiveActivityManager {
         )
     }
 
-    private func latestMatch(in event: Event) -> Match? {
+    private func latestMatch(in event: SharedEvent) -> SharedMatch? {
         let currentOnFieldStart = MatchStatusHelper.currentOnFieldStart(
             in: event.matches
         )
@@ -122,7 +123,7 @@ final class ScheduleLiveActivityManager {
         return nil
     }
 
-    private func statusText(for match: Match) -> String {
+    private func statusText(for match: SharedMatch) -> String {
         let currentOnFieldStart = MatchStatusHelper.currentOnFieldStart(
             in: [match])
         if MatchStatusHelper.isCurrentlyPlaying(
@@ -135,7 +136,7 @@ final class ScheduleLiveActivityManager {
     }
 
     private func buildHighlightedSummary(
-        event: Event,
+        event: SharedEvent,
         highlightedTeams: [String: Color]
     ) -> [HighlightedTeamInfo] {
         guard !highlightedTeams.isEmpty else { return [] }

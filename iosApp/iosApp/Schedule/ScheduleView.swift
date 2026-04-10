@@ -9,7 +9,7 @@ import ComposeApp
 import SwiftUI
 
 struct ScheduleView: View {
-    @State private var event: Event?
+    @State private var event: SharedEvent?
     @State private var error: String?
     @State private var highlightedTeams: [String: Color] = [:]
 
@@ -50,7 +50,7 @@ struct ScheduleView: View {
     private func refreshLoop() async {
         while !Task.isCancelled {
             do {
-                let newEvent = try await EventKt.getEventData(
+                let newEvent = try await BackendKt.getEventData(
                     eventKey: "2026nvlv"
                 )
                 event = newEvent
