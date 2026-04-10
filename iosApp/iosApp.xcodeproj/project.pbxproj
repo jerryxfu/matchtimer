@@ -55,6 +55,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Match/MatchActivityAttributes.swift,
+				Schedule/ScheduleActivityAttributes.swift,
 			);
 			target = C4D69BE72F874332001E4AF9 /* MatchTimerExtension */;
 		};

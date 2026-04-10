@@ -34,13 +34,35 @@ struct ScheduleView: View {
         .task {
             await refreshLoop()
         }
+        .onChange(of: highlightedTeams) { _, _ in
+            // Update Live Activity when highlights change mid-session
+            if let event {
+                Task {
+                    await ScheduleLiveActivityManager.shared.startOrUpdate(
+                        event: event,
+                        highlightedTeams: highlightedTeams
+                    )
+                }
+            }
+        }
     }
 
     private func refreshLoop() async {
         while !Task.isCancelled {
             do {
-                event = try await EventKt.getEventData(eventKey: "2026nvlv")
+                let newEvent = try await EventKt.getEventData(
+                    eventKey: "2026nvlv"
+                )
+                event = newEvent
                 error = nil
+
+                // Auto-start or update the Live Activity (never creates dupes)
+                if let newEvent {
+                    await ScheduleLiveActivityManager.shared.startOrUpdate(
+                        event: newEvent,
+                        highlightedTeams: highlightedTeams
+                    )
+                }
             } catch {
                 self.error = error.localizedDescription
             }
