@@ -9,23 +9,110 @@ import ComposeApp
 import SwiftUI
 
 struct ScheduleHeaderView: View {
+    let event: Event?
+    @ObservedObject private var network = NetworkMonitor.shared
+    @State private var blinkOn = true
 
     var body: some View {
-        VStack(spacing: 12) {
-            Text("Hello")
-                .font(.title)
+        VStack(spacing: 4) {
+            if let event {
+                Text(event.eventKey)
+                    .font(.system(size: 24, weight: .bold))
 
-            Text("World")
-                .font(.caption)
+                if let latest = latestMatch(in: event) {
+                    HStack(spacing: 6) {
+                        Text(latest.label)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.primary)
+                        Text("·")
+                            .foregroundStyle(.secondary)
+                        HStack(spacing: 4) {
+                            Text(latest.status)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(statusColor(latest.status))
+                            if network.isConnected {
+                                Circle()
+                                    .fill(statusColor(latest.status))
+                                    .frame(width: 6, height: 6)
+                                    .opacity(blinkOn ? 1.0 : 0.25)
+                                    .onAppear {
+                                        withAnimation(
+                                            .easeInOut(duration: 0.8)
+                                                .repeatForever(
+                                                    autoreverses: true
+                                                )
+                                        ) {
+                                            blinkOn = false
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                    .font(.system(size: 14))
+                } else {
+                    Text(
+                        "\(event.matches.count) matches · updated \(formatEpoch(event.dataAsOfTime))"
+                    )
+                    .font(.system(size: 14))
+                    .foregroundStyle(.secondary)
+                }
+            } else {
+                Text("Schedule")
+                    .font(.system(size: 24, weight: .bold))
+                Text("Loading...")
+                    .font(.system(size: 14))
+                    .foregroundStyle(.secondary)
+            }
         }
+        .frame(maxWidth: .infinity)
         .padding(.horizontal, 16)
         .padding(.top, 60)
-        .padding(.bottom, 16)
+        .padding(.bottom, 12)
     }
 
-    private func timeString(from seconds: Int32) -> String {
-        let m = seconds / 60
-        let s = seconds % 60
-        return String(format: "%d:%02d", m, s)
+    /// Returns the match closest to being played, by status priority.
+    /// Priority: On field (current) > On deck > Now queuing > Queuing soon.
+    /// "On field" matches that are old are treated as done.
+    private func latestMatch(in event: Event) -> Match? {
+        // The current "On field" is the most recent one (highest start time)
+        // among those still marked "On field"
+        let onFieldMatches = event.matches.filter {
+            $0.status.lowercased() == "on field"
+        }
+        if let currentOnField = onFieldMatches.max(by: {
+            $0.times.estimatedStartTime < $1.times.estimatedStartTime
+        }) {
+            return currentOnField
+        }
+
+        // Otherwise, walk priority order
+        let priority = ["on deck", "now queuing", "queuing soon"]
+        for status in priority {
+            if let match = event.matches.first(where: {
+                $0.status.lowercased() == status
+            }) {
+                return match
+            }
+        }
+
+        return nil
+    }
+
+    private func statusColor(_ status: String) -> Color {
+        switch status.lowercased() {
+        case "on field": return .green
+        case "on deck": return .blue
+        case "now queuing": return .orange
+        case "queuing soon": return .purple
+        default: return .secondary
+        }
+    }
+
+    private func formatEpoch(_ epoch: Int64) -> String {
+        let date = Date(timeIntervalSince1970: Double(epoch) / 1000.0)
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
     }
 }
