@@ -17,6 +17,10 @@ import io.ktor.server.routing.routing
 import kotlinx.serialization.json.Json
 import net.jerryxf.matchtimer.shared.Event
 
+val jsonConfig = Json {
+    ignoreUnknownKeys = true
+}
+
 fun main() {
     embeddedServer(CIO, 6867, "0.0.0.0", module = Application::module).start(true)
 }
@@ -46,8 +50,3 @@ val client = HttpClient {
         json(jsonConfig)
     }
 }
-
-val jsonConfig = Json {
-    ignoreUnknownKeys = true
-}
-
