@@ -78,6 +78,17 @@ struct MatchCardView: View {
         }
     }
 
+    /// True if the match is more than 30 minutes away from its queuing time.
+    /// If queue time is unknown, fall back to the start time.
+    private var isFarFromQueuing: Bool {
+        let queueTimeMs =
+            match.times.estimatedQueueTime?.int64Value
+            ?? match.times.estimatedStartTime
+        let nowMs = Int64(Date().timeIntervalSince1970 * 1000)
+        let threshold: Int64 = 10 * 60 * 1000
+        return (queueTimeMs - nowMs) > threshold
+    }
+
     private var highlightBorderColor: Color {
         for team in redTeams + blueTeams {
             if let color = highlightedTeams[team] {
@@ -186,12 +197,14 @@ struct MatchCardView: View {
 
                 Spacer()
 
-                LiveStatusBadge(
-                    text: statusInfo.text,
-                    color: statusInfo.color,
-                    icon: statusInfo.icon,
-                    isLive: network.isConnected && !isDone
-                )
+                if !isFarFromQueuing {
+                    LiveStatusBadge(
+                        text: statusInfo.text,
+                        color: statusInfo.color,
+                        icon: statusInfo.icon,
+                        isLive: network.isConnected && !isDone
+                    )
+                }
             }
 
             HStack(spacing: 6) {

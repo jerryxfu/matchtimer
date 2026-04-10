@@ -18,10 +18,10 @@ struct HighlightTeamsBar: View {
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text("Highlighted Teams")
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(.system(size: 10, weight: .semibold))
                     .foregroundStyle(.secondary)
                     .textCase(.uppercase)
 
@@ -33,7 +33,7 @@ struct HighlightTeamsBar: View {
                     Image(systemName: showingEntry ? "xmark" : "plus")
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(.secondary)
-                        .frame(width: 22, height: 22)
+                        .frame(width: 18, height: 18)
                         .background(Color(.systemGray6))
                         .clipShape(Circle())
                 }
@@ -49,7 +49,7 @@ struct HighlightTeamsBar: View {
                     .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
-        .padding(10)
+        .padding(8)
         .background(Color(.systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(
@@ -70,22 +70,22 @@ struct HighlightTeamsBar: View {
                     HStack(spacing: 4) {
                         Circle()
                             .fill(teamColor)
-                            .frame(width: 8, height: 8)
+                            .frame(width: 9, height: 9)
                         Text(team)
-                            .font(.system(size: 12, weight: .medium))
+                            .font(.system(size: 11, weight: .medium))
                         Button {
                             withAnimation {
                                 _ = highlightedTeams.removeValue(forKey: team)
                             }
                         } label: {
                             Image(systemName: "xmark")
-                                .font(.system(size: 8, weight: .bold))
+                                .font(.system(size: 9, weight: .bold))
                                 .foregroundStyle(.secondary)
                         }
                         .buttonStyle(.plain)
                     }
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 5)
+                    .padding(.horizontal, 7)
+                    .padding(.vertical, 3)
                     .background(teamColor.opacity(0.15))
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
@@ -94,9 +94,9 @@ struct HighlightTeamsBar: View {
     }
 
     private var entryRow: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 6) {
             TextField("Team #", text: $newTeamNumber)
-                .font(.system(size: 13))
+                .font(.system(size: 12))
                 .keyboardType(.numberPad)
                 .textFieldStyle(.roundedBorder)
                 .frame(width: 80)
@@ -104,7 +104,7 @@ struct HighlightTeamsBar: View {
             ForEach(highlightColors, id: \.self) { color in
                 Circle()
                     .fill(color)
-                    .frame(width: 20, height: 20)
+                    .frame(width: 18, height: 18)
                     .overlay(
                         Circle()
                             .stroke(
@@ -122,6 +122,7 @@ struct HighlightTeamsBar: View {
                 guard !trimmed.isEmpty else { return }
                 withAnimation {
                     highlightedTeams[trimmed] = selectedColor
+                    showingEntry = false
                 }
                 newTeamNumber = ""
             }
@@ -129,6 +130,7 @@ struct HighlightTeamsBar: View {
             .disabled(
                 newTeamNumber.trimmingCharacters(in: .whitespaces).isEmpty
             )
+            .padding(.trailing, 4)
         }
     }
 }

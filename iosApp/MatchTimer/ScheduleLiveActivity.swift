@@ -135,13 +135,14 @@ struct ScheduleLiveActivity: Widget {
     {
         HStack(spacing: 3) {
             ForEach(teams, id: \.team) { info in
+                let presentation = highlightedStatusPresentation(info)
                 HStack(spacing: 2) {
                     Circle()
                         .fill(colorFromHex(info.colorHex) ?? .yellow)
                         .frame(width: 4, height: 4)
-                    Text("\(info.team) · \(info.status)")
+                    Text("\(info.team) · \(presentation.text)")
                         .font(.system(size: 9))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(presentation.color)
                         .lineLimit(1)
                         .minimumScaleFactor(0.85)
                 }
@@ -161,6 +162,53 @@ struct ScheduleLiveActivity: Widget {
         // Clamp to now so past scheduled times render as 0:00 instead of counting up.
         let end = max(start, now)
         return now...end
+    }
+
+    private func statusWithEta(_ info: HighlightedTeamInfo) -> String {
+        guard let epoch = info.statusEtaEpoch else { return info.status }
+        let relative = relativeTime(epoch: epoch)
+        return relative == "now"
+            ? "\(info.status) now" : "\(info.status) \(relative)"
+    }
+
+    private func highlightedStatusPresentation(_ info: HighlightedTeamInfo)
+        -> (text: String, color: Color)
+    {
+        guard
+            info.status.lowercased() == "queuing soon",
+            let epoch = info.statusEtaEpoch
+        else {
+            return (statusWithEta(info), statusColor(info.status))
+        }
+
+        let seconds = Date(timeIntervalSince1970: Double(epoch) / 1000.0)
+            .timeIntervalSinceNow
+        if seconds > 10 * 60 {
+            let relative = relativeTime(epoch: epoch)
+            return ("queuing \(relative)", .gray)
+        }
+
+        return (statusWithEta(info), statusColor(info.status))
+    }
+
+    private func relativeTime(epoch: Int64) -> String {
+        let seconds = Int(
+            Date(timeIntervalSince1970: Double(epoch) / 1000.0)
+                .timeIntervalSinceNow
+        )
+        if abs(seconds) < 60 { return "now" }
+
+        let totalMinutes = abs(seconds) / 60
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+        let prefix = seconds > 0 ? "in " : ""
+        let suffix = seconds > 0 ? "" : " ago"
+
+        if hours > 0 {
+            let body = minutes > 0 ? "\(hours)h \(minutes)m" : "\(hours)h"
+            return "\(prefix)\(body)\(suffix)"
+        }
+        return "\(prefix)\(minutes)m\(suffix)"
     }
 
     private func formatTime(epoch: Int64) -> String {
@@ -241,6 +289,7 @@ private struct ScheduleLockScreenView: View {
                         .font(.system(size: 9, weight: .bold))
                         .foregroundStyle(.tertiary)
                     ForEach(state.highlightedTeamsSummary, id: \.team) { info in
+                        let presentation = highlightedStatusPresentation(info)
                         HStack(spacing: 5) {
                             Circle()
                                 .fill(colorFromHex(info.colorHex) ?? .yellow)
@@ -255,9 +304,9 @@ private struct ScheduleLockScreenView: View {
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.85)
                             Spacer()
-                            Text(info.status)
+                            Text(presentation.text)
                                 .font(.system(size: 10, weight: .medium))
-                                .foregroundStyle(statusColor(info.status))
+                                .foregroundStyle(presentation.color)
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.85)
                         }
@@ -314,5 +363,52 @@ private struct ScheduleLockScreenView: View {
         case "queuing soon": return .purple
         default: return .gray
         }
+    }
+
+    private func statusWithEta(_ info: HighlightedTeamInfo) -> String {
+        guard let epoch = info.statusEtaEpoch else { return info.status }
+        let relative = relativeTime(epoch: epoch)
+        return relative == "now"
+            ? "\(info.status) now" : "\(info.status) \(relative)"
+    }
+
+    private func highlightedStatusPresentation(_ info: HighlightedTeamInfo)
+        -> (text: String, color: Color)
+    {
+        guard
+            info.status.lowercased() == "queuing soon",
+            let epoch = info.statusEtaEpoch
+        else {
+            return (statusWithEta(info), statusColor(info.status))
+        }
+
+        let seconds = Date(timeIntervalSince1970: Double(epoch) / 1000.0)
+            .timeIntervalSinceNow
+        if seconds > 10 * 60 {
+            let relative = relativeTime(epoch: epoch)
+            return ("Queuing \(relative)", .gray)
+        }
+
+        return (statusWithEta(info), statusColor(info.status))
+    }
+
+    private func relativeTime(epoch: Int64) -> String {
+        let seconds = Int(
+            Date(timeIntervalSince1970: Double(epoch) / 1000.0)
+                .timeIntervalSinceNow
+        )
+        if abs(seconds) < 60 { return "now" }
+
+        let totalMinutes = abs(seconds) / 60
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+        let prefix = seconds > 0 ? "in " : ""
+        let suffix = seconds > 0 ? "" : " ago"
+
+        if hours > 0 {
+            let body = minutes > 0 ? "\(hours)h \(minutes)m" : "\(hours)h"
+            return "\(prefix)\(body)\(suffix)"
+        }
+        return "\(prefix)\(minutes)m\(suffix)"
     }
 }
