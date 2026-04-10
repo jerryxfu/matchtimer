@@ -15,16 +15,16 @@ struct ContentView: View {
     @available(iOS 26.0, *)
     private var tabViewModern: some View {
         TabView {
+            Tab("Schedule", systemImage: "calendar") {
+                ScheduleView()
+            }
+
             Tab("Match", systemImage: "timer") {
                 MatchView(viewModel: viewModel)
             }
 
-            Tab("Schedule", systemImage: "calendar") {
-                PlaceholderView(title: "Schedule", icon: "calendar")
-            }
-
-            Tab("Stats", systemImage: "chart.bar") {
-                PlaceholderView(title: "Stats", icon: "chart.bar")
+            Tab("Pit", systemImage: "hammer") {
+                PlaceholderView(title: "Pit", icon: "hammer")
             }
 
             Tab("Settings", systemImage: "gear") {
@@ -36,25 +36,35 @@ struct ContentView: View {
 
     private var tabViewLegacy: some View {
         TabView {
-            MatchView(viewModel: viewModel)
-                .tabItem {
-                    Label("Match", systemImage: "timer")
-                }
-
             PlaceholderView(title: "Schedule", icon: "calendar")
                 .tabItem {
                     Label("Schedule", systemImage: "calendar")
                 }
 
-            PlaceholderView(title: "Stats", icon: "chart.bar")
+            MatchView(viewModel: viewModel)
                 .tabItem {
-                    Label("Stats", systemImage: "chart.bar")
+                    Label("Match", systemImage: "timer")
+                }
+            PlaceholderView(title: "Pit", icon: "hammer")
+                .tabItem {
+                    Label("Pit", systemImage: "hammer")
                 }
 
             PlaceholderView(title: "Settings", icon: "gear")
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }
+        }
+    }
+}
+
+// MARK: Schedule tab
+
+private struct ScheduleView: View {
+    var body: some View {
+        VStack {
+            ScheduleHeaderView()
+            ScheduleBodyView()
         }
     }
 }
