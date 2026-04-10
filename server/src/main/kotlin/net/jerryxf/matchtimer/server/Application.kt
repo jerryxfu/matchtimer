@@ -1,8 +1,9 @@
 package net.jerryxf.matchtimer.server
 
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ClientContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
@@ -14,10 +15,9 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation as ServerContentNegotiation
 import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.response.respond
+import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
-import kotlinx.serialization.json.Json
-import net.jerryxf.matchtimer.shared.Event
 import net.jerryxf.matchtimer.shared.jsonConfig
 import java.io.File
 
@@ -50,7 +50,11 @@ fun Application.module() {
             val resp = client.get("https://frc.nexus/api/v1/event/$event") {
                 headers.append("Nexus-Api-Key", apiKey)
             }
-            call.respond(resp.body<Event>())
+            if (resp.status != HttpStatusCode.OK) {
+                call.respond(HttpStatusCode.FailedDependency)
+                return@get
+            }
+            call.respondText(resp.bodyAsText(), ContentType.Application.Json, HttpStatusCode.OK)
         }
     }
 }
