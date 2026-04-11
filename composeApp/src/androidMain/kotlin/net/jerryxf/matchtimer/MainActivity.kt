@@ -15,4 +15,9 @@ class MainActivity : ComponentActivity() {
         setContent {
         }
     }
+
+    override fun onDestroy() {
+        client.close()
+        super.onDestroy()
+    }
 }

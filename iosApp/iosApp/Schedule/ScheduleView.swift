@@ -99,7 +99,7 @@ struct ScheduleView: View {
             } catch {
                 self.error = error.localizedDescription
             }
-            try? await Task.sleep(for: .seconds(30))
+            try? await Task.sleep(for: .seconds(15))
         }
     }
 }
