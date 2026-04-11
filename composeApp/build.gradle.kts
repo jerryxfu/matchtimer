@@ -32,6 +32,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.navigation.compose)
             implementation(libs.ktor.client.android)
             implementation(libs.compose.materialIcons.core)
             implementation(libs.compose.materialIcons.extended)

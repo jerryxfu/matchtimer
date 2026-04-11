@@ -15,16 +15,23 @@ fun CalendarIcon(modifier: Modifier = Modifier) = Icon(
 )
 
 @Composable
-fun TimerIcon(modifier: Modifier = Modifier) = Icon(
-    Icons.Rounded.Timer,
-    "timer_icon",
+fun HammerIcon(modifier: Modifier = Modifier) = Icon(
+    Icons.Rounded.Build,
+    "hammer_icon",
     modifier
 )
 
 @Composable
-fun HammerIcon(modifier: Modifier = Modifier) = Icon(
-    Icons.Rounded.Build,
-    "hammer_icon",
+fun AnalyticsIcon(modifier: Modifier = Modifier) = Icon(
+    Icons.Rounded.Analytics,
+    "analytics_icon",
+    modifier
+)
+
+@Composable
+fun TimerIcon(modifier: Modifier = Modifier) = Icon(
+    Icons.Rounded.Timer,
+    "timer_icon",
     modifier
 )
 

@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer.views
+package net.jerryxf.matchtimer.views.schedule
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
