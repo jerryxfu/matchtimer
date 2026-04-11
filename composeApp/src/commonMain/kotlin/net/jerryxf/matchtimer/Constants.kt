@@ -1,9 +1,9 @@
 package net.jerryxf.matchtimer
 
 import androidx.compose.ui.graphics.Color
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.client.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 import net.jerryxf.matchtimer.shared.jsonConfig
 
 val client = HttpClient {
