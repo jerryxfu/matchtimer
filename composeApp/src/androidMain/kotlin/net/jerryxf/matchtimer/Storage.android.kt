@@ -1,26 +1,26 @@
 package net.jerryxf.matchtimer
 
-import java.nio.file.Path
+import java.io.File
 
 private val dir = MainActivity.filesDir.absolutePath
 
-actual fun save(name: String, data: ByteArray) = Path.of(dir, name).toFile().writeBytes(data)
-actual fun save(name: String, data: String) = Path.of(dir, name).toFile().writeText(data)
+actual fun save(name: String, data: ByteArray) = File(dir, name).writeBytes(data)
+actual fun save(name: String, data: String) = File(dir, name).writeText(data)
 
 actual fun loadBytes(name: String): ByteArray? = try {
-    Path.of(dir, name).toFile().readBytes()
+    File(dir, name).readBytes()
 } catch (e: Exception) {
     e.printStackTrace()
     null
 }
 
 actual fun loadString(name: String): String? = try {
-    Path.of(dir, name).toFile().readText()
+    File(dir, name).readText()
 } catch (e: Exception) {
     e.printStackTrace()
     null
 }
 
-actual fun exists(name: String) = Path.of(dir, name).toFile().exists()
+actual fun exists(name: String) = File(dir, name).exists()
 
-actual fun delete(name: String) = Path.of(dir, name).toFile().delete()
+actual fun delete(name: String) = File(dir, name).delete()
