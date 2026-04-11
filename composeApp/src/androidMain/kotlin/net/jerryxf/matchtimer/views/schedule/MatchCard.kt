@@ -67,10 +67,10 @@ fun MatchCard(match: Match) {
 @Composable
 private fun getStatusBackgroundColor(status: String): Triple<String, Color, @Composable (Modifier) -> Unit>? {
     return when (status.lowercase()) {
-        onField.first.first -> Triple(onField.first.second, onField.second) { FlagIcon(it) }
-        onDeck.first.first -> Triple(onDeck.first.second, onDeck.second) { ClockIcon(it) }
-        nowQueue.first.first -> Triple(nowQueue.first.second, nowQueue.second) { HumanIcon(it) }
-        queueSoon.first.first -> Triple(queueSoon.first.second, queueSoon.second) { HourglassIcon(it) }
+        onField.first.first -> Triple(onField.first.second, onField.second, ::FlagIcon)
+        onDeck.first.first -> Triple(onDeck.first.second, onDeck.second, ::ClockIcon)
+        nowQueue.first.first -> Triple(nowQueue.first.second, nowQueue.second, ::HumanIcon)
+        queueSoon.first.first -> Triple(queueSoon.first.second, queueSoon.second, ::HourglassIcon)
         else -> null
     }
 }

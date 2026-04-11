@@ -49,11 +49,11 @@ enum class Destination(
     val label: String,
     val icon: @Composable () -> Unit
 ) {
-    SCHEDULE("schedule", "Schedule", { CalendarIcon() }),
-    PIT("pit", "Pit", { HammerIcon() }),
-    SCOUT("scout", "Scout", { AnalyticsIcon() }),
-    MATCH("match", "Match", { TimerIcon() }),
-    SETTINGS("settings", "Settings", { SettingsIcon() });
+    SCHEDULE("schedule", "Schedule", ::CalendarIcon),
+    PIT("pit", "Pit", ::HammerIcon),
+    SCOUT("scout", "Scout", ::AnalyticsIcon),
+    MATCH("match", "Match", ::TimerIcon),
+    SETTINGS("settings", "Settings", ::SettingsIcon);
 
     companion object {
         val default = SCHEDULE

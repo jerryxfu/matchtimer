@@ -11,7 +11,7 @@ import net.jerryxf.matchtimer.views.schedule.ScheduleView
 
 @Composable
 fun AppNavHost(nav: NavHostController, startDestination: Destination, modifier: Modifier = Modifier) {
-    NavHost(nav, startDestination = startDestination.route) {
+    NavHost(nav, startDestination.route, modifier) {
         Destination.entries.forEach { destination ->
             composable(destination.route) {
                 when (destination) {
