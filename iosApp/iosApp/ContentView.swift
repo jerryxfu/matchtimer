@@ -24,7 +24,7 @@ struct ContentView: View {
             }
 
             Tab("Scout", systemImage: "info.circle.text.page") {
-                PlaceholderView(title: "Scout", icon: "info.circle.text.page")
+                ScoutTabView()
             }
 
             Tab("Match", systemImage: "timer") {
@@ -54,7 +54,7 @@ struct ContentView: View {
                     Label("Pit", systemImage: "hammer")
                 }
 
-            PlaceholderView(title: "Scout", icon: "info.circle.text.page")
+            ScoutTabView()
                 .tabItem {
                     Label("Stats", systemImage: "info.circle.text.page")
                 }
