@@ -181,7 +181,11 @@ final class ScheduleLiveActivityManager {
         return result.sorted { $0.team < $1.team }
     }
 
-    private func teamList(_ teams: [Any]) -> [String] {
+    private func teamList(_ teams: [Any]?) -> [String] {
+        guard let teams else {
+            // Null alliance list should render as one fallback bar/pill.
+            return ["N/A"]
+        }
         var result: [String] = []
         for team in teams {
             result.append((team as? String) ?? "N/A")

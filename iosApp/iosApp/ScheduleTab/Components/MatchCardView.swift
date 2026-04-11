@@ -19,16 +19,22 @@ struct MatchCardView: View {
     // MARK: - Teams (nil -> "N/A")
 
     private var redTeams: [String] {
+        guard let teams = match.redTeams else {
+            return ["N/A"]
+        }
         var result: [String] = []
-        for team in match.redTeams {
+        for team in teams {
             result.append((team as? String) ?? "N/A")
         }
         return result
     }
 
     private var blueTeams: [String] {
+        guard let teams = match.blueTeams else {
+            return ["N/A"]
+        }
         var result: [String] = []
-        for team in match.blueTeams {
+        for team in teams {
             result.append((team as? String) ?? "N/A")
         }
         return result
