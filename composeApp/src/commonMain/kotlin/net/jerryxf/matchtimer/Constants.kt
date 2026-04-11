@@ -1,5 +1,6 @@
 package net.jerryxf.matchtimer
 
+import androidx.compose.ui.graphics.Color
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
@@ -10,3 +11,8 @@ val client = HttpClient {
         json(jsonConfig)
     }
 }
+
+val onField = "on field" to "Done" to Color.Gray
+val onDeck = "on deck" to "On deck" to Color.Blue
+val nowQueue = "now queuing" to "Now queuing" to Color.Yellow
+val queueSoon = "queuing soon" to "Queuing soon" to Color.Magenta

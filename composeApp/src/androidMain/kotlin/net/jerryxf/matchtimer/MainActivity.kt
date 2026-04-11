@@ -57,59 +57,6 @@ class MainActivity : ComponentActivity() {
             App()
         }
     }
-
-    @Preview
-    @Composable
-    private fun App() {
-        val dark = isSystemInDarkTheme()
-        var timer by remember { mutableStateOf(MatchTimer(null)) }
-        val coroutineScope = rememberCoroutineScope()
-
-        MaterialTheme {
-            Surface(
-                Modifier.fillMaxSize(),
-                color = if (dark) Color(30, 31, 34) else Color.White,
-                contentColor = if (dark) Color.White else Color.Black
-            ) {
-                Column(
-                    Modifier.fillMaxSize(),
-                    Arrangement.Top,
-                    Alignment.CenterHorizontally
-                ) {
-                    Spacer(Modifier.height(50.dp))
-
-                    Text(timer.matchState.collectAsState().value.timeString(), fontSize = 50.sp)
-                    Row(Modifier.fillMaxWidth(), Arrangement.SpaceEvenly) {
-                        Spacer(Modifier.width(10.dp))
-                        Button({
-                            timer.start(coroutineScope) { setActivityProgress(it, applicationContext) }
-                            startLiveActivity(applicationContext)
-                        }, Modifier.weight(.5f), colors = ButtonDefaults.buttonColors(containerColor = Color.Green)) {
-                            Text("Start")
-                        }
-                        Spacer(Modifier.width(10.dp))
-                        Button({ timer.stop() }, Modifier.weight(.5f),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Red)) {
-                            Text("Stop")
-                        }
-                        Spacer(Modifier.width(10.dp))
-                    }
-
-                    Column(Modifier.scrollable(rememberScrollState(), Orientation.Vertical)) {
-                        Text("Auto")
-                        Text("Pause")
-                        Text("Transition")
-                        Text("Shift 1")
-                        Text("Shift 2")
-                        Text("Shift 3")
-                        Text("Shift 4")
-                        Text("Endgame")
-                        Text("Match over")
-                    }
-                }
-            }
-        }
-    }
 }
 
 fun MatchState.timeString(): String {
