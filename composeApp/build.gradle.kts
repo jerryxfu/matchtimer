@@ -49,6 +49,7 @@ kotlin {
             implementation(libs.ktor.client.encoding)
             implementation(libs.ktor.serialization.json)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.serialization.proto)
             implementation(projects.shared)
         }
         iosMain.dependencies {
