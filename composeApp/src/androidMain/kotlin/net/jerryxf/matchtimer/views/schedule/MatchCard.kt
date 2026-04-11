@@ -47,15 +47,21 @@ fun MatchCard(match: Match) {
             }
             Spacer(Modifier.height(10.dp))
             Row(Modifier.fillMaxWidth(), Arrangement.SpaceEvenly) {
-                for (team in match.redTeams.filterNotNull()) {
-                    Box(Modifier.border(1.dp, Color.Red, RoundedCornerShape(5.dp))) {
-                        Text(team, Modifier.padding(4.dp, 2.dp, 4.dp, 2.dp))
+                val red = match.redTeams
+                val blue = match.blueTeams
+                if (red != null && blue != null) {
+                    for (team in red.filterNotNull()) {
+                        Box(Modifier.border(1.dp, Color.Red, RoundedCornerShape(5.dp))) {
+                            Text(team, Modifier.padding(4.dp, 2.dp, 4.dp, 2.dp))
+                        }
                     }
-                }
-                for (team in match.blueTeams.filterNotNull()) {
-                    Box(Modifier.border(1.dp, Color.Blue, RoundedCornerShape(5.dp))) {
-                        Text(team, Modifier.padding(4.dp, 2.dp, 4.dp, 2.dp))
+                    for (team in blue.filterNotNull()) {
+                        Box(Modifier.border(1.dp, Color.Blue, RoundedCornerShape(5.dp))) {
+                            Text(team, Modifier.padding(4.dp, 2.dp, 4.dp, 2.dp))
+                        }
                     }
+                } else {
+                    Text("non")
                 }
             }
             Spacer(Modifier.height(15.dp))
