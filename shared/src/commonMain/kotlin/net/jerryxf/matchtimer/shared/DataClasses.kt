@@ -31,3 +31,9 @@ data class MatchTimes(
     val estimatedOnFieldTime: Long,
     val estimatedStartTime: Long
 )
+
+@Serializable
+data class MatchScore(
+    val blue: UShort,
+    val red: UShort
+)

@@ -11,52 +11,73 @@ import SwiftUI
 struct ScheduleView: View {
     @State private var event: SharedEvent?
     @State private var error: String?
-    @State private var highlightedTeams: [String: Color] = [:]
+    @State private var highlightedTeams: [String: Color] = [
+        "3990": .yellow,
+        "9406": .purple,
+    ]
 
     var body: some View {
-        Group {
-            if #available(iOS 17.0, *) {
-                scheduleContent
-                    .onChange(of: highlightedTeams) { _, _ in
-                        // Update Live Activity when highlights change mid-session
-                        if let event {
-                            Task {
-                                await ScheduleLiveActivityManager.shared
-                                    .startOrUpdate(
-                                        event: event,
-                                        highlightedTeams: highlightedTeams
-                                    )
-                            }
-                        }
+        if #available(iOS 17.0, *) {
+            ZStack(alignment: .top) {
+                ScrollView {
+                    VStack(spacing: 0) {
+                        Color.clear.frame(height: 135)
+
+                        ScheduleBodyView(
+                            event: event,
+                            error: error,
+                            highlightedTeams: $highlightedTeams
+                        )
                     }
-            } else {
-                // iOS 16 fallback: skip Live Activities
-                scheduleContent
+                }
+
+                ScheduleHeaderView(event: event)
+                    .background(.ultraThinMaterial)
             }
-        }
-        .task {
-            await refreshLoop()
+            .ignoresSafeArea(edges: .top)
+            .task {
+                await refreshLoop()
+            }
+            .onChange(of: highlightedTeams) { _, _ in
+                updateLiveActivityForHighlights()
+            }
+        } else {
+            ZStack(alignment: .top) {
+                ScrollView {
+                    VStack(spacing: 0) {
+                        Color.clear.frame(height: 120)
+
+                        ScheduleBodyView(
+                            event: event,
+                            error: error,
+                            highlightedTeams: $highlightedTeams
+                        )
+                    }
+                }
+
+                ScheduleHeaderView(event: event)
+                    .background(.ultraThinMaterial)
+            }
+            .ignoresSafeArea(edges: .top)
+            .task {
+                await refreshLoop()
+            }
+            .onChange(of: highlightedTeams) { _ in
+                updateLiveActivityForHighlights()
+            }
         }
     }
 
-    private var scheduleContent: some View {
-        ZStack(alignment: .top) {
-            ScrollView {
-                VStack(spacing: 0) {
-                    Color.clear.frame(height: 140)
-
-                    ScheduleBodyView(
-                        event: event,
-                        error: error,
-                        highlightedTeams: $highlightedTeams
-                    )
-                }
+    private func updateLiveActivityForHighlights() {
+        // Keep the Live Activity in sync when highlighted teams change.
+        if let event {
+            Task {
+                await ScheduleLiveActivityManager.shared.startOrUpdate(
+                    event: event,
+                    highlightedTeams: highlightedTeams
+                )
             }
-
-            ScheduleHeaderView(event: event)
-                .background(.ultraThinMaterial)
         }
-        .ignoresSafeArea(edges: .top)
     }
 
     private func refreshLoop() async {
@@ -68,7 +89,7 @@ struct ScheduleView: View {
                 event = newEvent
                 error = nil
 
-                // Auto-start or update the Live Activity (no dupes)
+                // Auto-start or update the Live Activity (never creates dupes)
                 if let newEvent {
                     await ScheduleLiveActivityManager.shared.startOrUpdate(
                         event: newEvent,
@@ -78,7 +99,7 @@ struct ScheduleView: View {
             } catch {
                 self.error = error.localizedDescription
             }
-            try? await Task.sleep(for: .seconds(30))
+            try? await Task.sleep(for: .seconds(15))
         }
     }
 }

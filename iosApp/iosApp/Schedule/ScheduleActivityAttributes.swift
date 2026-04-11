@@ -32,5 +32,6 @@ struct HighlightedTeamInfo: Codable, Hashable {
     var team: String
     var matchLabel: String  // e.g. "Qual 15"
     var status: String  // e.g. "On deck"
+    var statusEtaEpoch: Int64?  // ms, optional for backward compatibility
     var colorHex: String  // encoded color
 }

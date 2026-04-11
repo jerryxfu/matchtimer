@@ -39,7 +39,7 @@ final class ScheduleLiveActivityManager {
             highlightedTeams: highlightedTeams
         )
         guard let state else {
-            // No latest match — end any running activity
+            // No latest match, end any running activity
             await end()
             return
         }
@@ -172,6 +172,7 @@ final class ScheduleLiveActivityManager {
                     team: team,
                     matchLabel: match.label,
                     status: status,
+                    statusEtaEpoch: statusEtaEpoch(for: match, status: status),
                     colorHex: hexString(from: color)
                 )
             )
@@ -186,6 +187,24 @@ final class ScheduleLiveActivityManager {
             result.append((team as? String) ?? "N/A")
         }
         return result
+    }
+
+    private func statusEtaEpoch(for match: SharedMatch, status: String)
+        -> Int64?
+    {
+        switch status.lowercased() {
+        case "queuing soon", "now queuing":
+            return match.times.estimatedQueueTime?.int64Value
+                ?? match.times.estimatedOnDeckTime?.int64Value
+                ?? match.times.estimatedOnFieldTime
+        case "on deck":
+            return match.times.estimatedOnDeckTime?.int64Value
+                ?? match.times.estimatedOnFieldTime
+        case "on field":
+            return match.times.estimatedOnFieldTime
+        default:
+            return match.times.estimatedStartTime
+        }
     }
 
     private func hexString(from color: Color) -> String {

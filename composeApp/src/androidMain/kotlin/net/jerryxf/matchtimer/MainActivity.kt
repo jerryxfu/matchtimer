@@ -27,6 +27,11 @@ class MainActivity : ComponentActivity() {
             App()
         }
     }
+
+    override fun onDestroy() {
+        client.close()
+        super.onDestroy()
+    }
 }
 
 fun MatchState.timeString(): String {

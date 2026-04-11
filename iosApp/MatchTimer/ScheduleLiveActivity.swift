@@ -69,7 +69,7 @@ struct ScheduleLiveActivity: Widget {
                 }
 
                 DynamicIslandExpandedRegion(.bottom) {
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: 2) {
                         // Teams line
                         HStack(spacing: 6) {
                             teamsLine(
@@ -92,7 +92,7 @@ struct ScheduleLiveActivity: Widget {
                             )
                         }
                     }
-                    .padding(.top, 4)
+                    .padding(.top, 2)
                 }
                 // MARK: - Compact view
             } compactLeading: {
@@ -133,18 +133,21 @@ struct ScheduleLiveActivity: Widget {
     private func highlightedTeamsRow(_ teams: [HighlightedTeamInfo])
         -> some View
     {
-        HStack(spacing: 4) {
+        HStack(spacing: 3) {
             ForEach(teams, id: \.team) { info in
-                HStack(spacing: 3) {
+                let presentation = highlightedStatusPresentation(info)
+                HStack(spacing: 2) {
                     Circle()
                         .fill(colorFromHex(info.colorHex) ?? .yellow)
-                        .frame(width: 5, height: 5)
-                    Text("\(info.team) · \(info.status)")
-                        .font(.system(size: 10))
-                        .foregroundStyle(.secondary)
+                        .frame(width: 4, height: 4)
+                    Text("\(info.team) · \(presentation.text)")
+                        .font(.system(size: 9))
+                        .foregroundStyle(presentation.color)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.85)
                 }
-                .padding(.horizontal, 5)
-                .padding(.vertical, 2)
+                .padding(.horizontal, 4)
+                .padding(.vertical, 1)
                 .background(
                     (colorFromHex(info.colorHex) ?? .yellow).opacity(0.15)
                 )
@@ -159,6 +162,53 @@ struct ScheduleLiveActivity: Widget {
         // Clamp to now so past scheduled times render as 0:00 instead of counting up.
         let end = max(start, now)
         return now...end
+    }
+
+    private func statusWithEta(_ info: HighlightedTeamInfo) -> String {
+        guard let epoch = info.statusEtaEpoch else { return info.status }
+        let relative = relativeTime(epoch: epoch)
+        return relative == "now"
+            ? "\(info.status) now" : "\(info.status) \(relative)"
+    }
+
+    private func highlightedStatusPresentation(_ info: HighlightedTeamInfo)
+        -> (text: String, color: Color)
+    {
+        guard
+            info.status.lowercased() == "queuing soon",
+            let epoch = info.statusEtaEpoch
+        else {
+            return (statusWithEta(info), statusColor(info.status))
+        }
+
+        let seconds = Date(timeIntervalSince1970: Double(epoch) / 1000.0)
+            .timeIntervalSinceNow
+        if seconds > 10 * 60 {
+            let relative = relativeTime(epoch: epoch)
+            return ("queuing \(relative)", .gray)
+        }
+
+        return (statusWithEta(info), statusColor(info.status))
+    }
+
+    private func relativeTime(epoch: Int64) -> String {
+        let seconds = Int(
+            Date(timeIntervalSince1970: Double(epoch) / 1000.0)
+                .timeIntervalSinceNow
+        )
+        if abs(seconds) < 60 { return "now" }
+
+        let totalMinutes = abs(seconds) / 60
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+        let prefix = seconds > 0 ? "in " : ""
+        let suffix = seconds > 0 ? "" : " ago"
+
+        if hours > 0 {
+            let body = minutes > 0 ? "\(hours)h \(minutes)m" : "\(hours)h"
+            return "\(prefix)\(body)\(suffix)"
+        }
+        return "\(prefix)\(minutes)m\(suffix)"
     }
 
     private func formatTime(epoch: Int64) -> String {
@@ -195,10 +245,10 @@ private struct ScheduleLockScreenView: View {
     let state: ScheduleActivityAttributes.ContentState
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 8) {
             // Header: match label + status + time
             HStack {
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: 1) {
                     Text(state.matchLabel)
                         .font(.headline)
                     Text(state.matchStatus)
@@ -208,7 +258,7 @@ private struct ScheduleLockScreenView: View {
 
                 Spacer()
 
-                VStack(alignment: .trailing, spacing: 2) {
+                VStack(alignment: .trailing, spacing: 1) {
                     Text(
                         timerInterval: countdownRange(
                             epoch: state.startTimeEpoch
@@ -226,7 +276,7 @@ private struct ScheduleLockScreenView: View {
             }
 
             // Teams
-            HStack(spacing: 8) {
+            HStack(spacing: 6) {
                 teamsBox(state.redTeams, color: .red, label: "RED")
                 teamsBox(state.blueTeams, color: .blue, label: "BLUE")
             }
@@ -234,36 +284,44 @@ private struct ScheduleLockScreenView: View {
             // Highlighted teams
             if !state.highlightedTeamsSummary.isEmpty {
                 Divider()
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 3) {
                     Text("YOUR TEAMS")
                         .font(.system(size: 9, weight: .bold))
                         .foregroundStyle(.tertiary)
                     ForEach(state.highlightedTeamsSummary, id: \.team) { info in
-                        HStack(spacing: 6) {
+                        let presentation = highlightedStatusPresentation(info)
+                        HStack(spacing: 5) {
                             Circle()
                                 .fill(colorFromHex(info.colorHex) ?? .yellow)
-                                .frame(width: 6, height: 6)
+                                .frame(width: 5, height: 5)
                             Text(info.team)
-                                .font(.system(size: 12, weight: .semibold))
+                                .font(.system(size: 11, weight: .semibold))
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.85)
                             Text("· \(info.matchLabel)")
-                                .font(.system(size: 12))
+                                .font(.system(size: 11))
                                 .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.85)
                             Spacer()
-                            Text(info.status)
-                                .font(.system(size: 11, weight: .medium))
-                                .foregroundStyle(statusColor(info.status))
+                            Text(presentation.text)
+                                .font(.system(size: 10, weight: .medium))
+                                .foregroundStyle(presentation.color)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.85)
                         }
                     }
                 }
             }
         }
-        .padding(16)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
     }
 
     private func teamsBox(_ teams: [String], color: Color, label: String)
         -> some View
     {
-        VStack(alignment: .leading, spacing: 3) {
+        VStack(alignment: .leading, spacing: 2) {
             Text(label)
                 .font(.system(size: 9, weight: .bold))
                 .foregroundStyle(color.opacity(0.7))
@@ -271,11 +329,13 @@ private struct ScheduleLockScreenView: View {
                 ForEach(teams, id: \.self) { team in
                     Text(team)
                         .font(.system(size: 12, weight: .medium))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.85)
                 }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(6)
+        .padding(5)
         .background(color.opacity(0.06))
         .clipShape(RoundedRectangle(cornerRadius: 6))
     }
@@ -303,5 +363,52 @@ private struct ScheduleLockScreenView: View {
         case "queuing soon": return .purple
         default: return .gray
         }
+    }
+
+    private func statusWithEta(_ info: HighlightedTeamInfo) -> String {
+        guard let epoch = info.statusEtaEpoch else { return info.status }
+        let relative = relativeTime(epoch: epoch)
+        return relative == "now"
+            ? "\(info.status) now" : "\(info.status) \(relative)"
+    }
+
+    private func highlightedStatusPresentation(_ info: HighlightedTeamInfo)
+        -> (text: String, color: Color)
+    {
+        guard
+            info.status.lowercased() == "queuing soon",
+            let epoch = info.statusEtaEpoch
+        else {
+            return (statusWithEta(info), statusColor(info.status))
+        }
+
+        let seconds = Date(timeIntervalSince1970: Double(epoch) / 1000.0)
+            .timeIntervalSinceNow
+        if seconds > 10 * 60 {
+            let relative = relativeTime(epoch: epoch)
+            return ("Queuing \(relative)", .gray)
+        }
+
+        return (statusWithEta(info), statusColor(info.status))
+    }
+
+    private func relativeTime(epoch: Int64) -> String {
+        let seconds = Int(
+            Date(timeIntervalSince1970: Double(epoch) / 1000.0)
+                .timeIntervalSinceNow
+        )
+        if abs(seconds) < 60 { return "now" }
+
+        let totalMinutes = abs(seconds) / 60
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+        let prefix = seconds > 0 ? "in " : ""
+        let suffix = seconds > 0 ? "" : " ago"
+
+        if hours > 0 {
+            let body = minutes > 0 ? "\(hours)h \(minutes)m" : "\(hours)h"
+            return "\(prefix)\(body)\(suffix)"
+        }
+        return "\(prefix)\(minutes)m\(suffix)"
     }
 }

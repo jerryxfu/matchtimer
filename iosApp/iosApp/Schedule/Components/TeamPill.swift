@@ -30,14 +30,14 @@ struct TeamPill: View {
             .padding(.horizontal, hPad)
             .padding(.vertical, vPad)
             .background(
-                (highlight ?? color).opacity(highlight != nil ? 0.25 : 0.05)
+                (highlight ?? color).opacity(highlight != nil ? 0.25 : 0.08)
             )
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .overlay(
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(
                         (highlight ?? color).opacity(
-                            highlight != nil ? 0.6 : 0.15
+                            highlight != nil ? 0.6 : 0.20
                         ),
                         lineWidth: highlight != nil ? 1.5 : 0.5
                     )

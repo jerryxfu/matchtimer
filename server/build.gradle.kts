@@ -22,8 +22,13 @@ dependencies {
     implementation(libs.ktor.server.cio)
     implementation(libs.ktor.server.contentNegotiation)
     implementation(libs.ktor.server.cors)
+    implementation(libs.ktor.server.compression.core)
+    implementation(libs.ktor.server.compression.zstd)
+    implementation(libs.ktor.server.caching)
+    implementation(libs.ktor.server.forwarded)
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.contentNegotiation)
+    implementation(libs.ktor.client.encoding)
     implementation(libs.ktor.serialization.json)
 }
