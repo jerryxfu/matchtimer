@@ -59,7 +59,7 @@ class MatchTimerViewModel: ObservableObject {
                 }
             }
         }
-        timer.start(scope: CoroutineHelperKt.createMainScope())
+        timer.start(scope: UtilsKt.createMainScope())
     }
 
     func stop() {
