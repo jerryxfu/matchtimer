@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer
+package net.jerryxf.technexus
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

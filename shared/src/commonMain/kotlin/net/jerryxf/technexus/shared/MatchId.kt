@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer.shared
+package net.jerryxf.technexus.shared
 
 class MatchId {
     private constructor(type: MatchType, number: UShort) {

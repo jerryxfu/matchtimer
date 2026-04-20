@@ -27,9 +27,13 @@ struct ContentView: View {
                 ScoutTabView()
             }
 
-            Tab("Match", systemImage: "timer") {
-                MatchView(viewModel: viewModel)
+            Tab("Stats", systemImage: "chart.bar") {
+                PlaceholderView(title: "Stats", icon: "chart.bar")
             }
+
+            //            Tab("MatchTimer", systemImage: "timer") {
+            //                MatchView(viewModel: viewModel)
+            //            }
 
             Tab("Settings", systemImage: "gear") {
                 PlaceholderView(title: "Settings", icon: "gear")
@@ -44,10 +48,6 @@ struct ContentView: View {
                 .tabItem {
                     Label("Schedule", systemImage: "calendar.badge")
                 }
-            MatchView(viewModel: viewModel)
-                .tabItem {
-                    Label("Match", systemImage: "timer")
-                }
 
             PlaceholderView(title: "Pit", icon: "hammer")
                 .tabItem {
@@ -56,8 +56,18 @@ struct ContentView: View {
 
             ScoutTabView()
                 .tabItem {
-                    Label("Stats", systemImage: "info.circle.text.page")
+                    Label("Scout", systemImage: "info.circle.text.page")
                 }
+
+            PlaceholderView(title: "Stats", icon: "chart.bar")
+                .tabItem {
+                    Label("Stats", systemImage: "chart.bar")
+                }
+
+            //            MatchView(viewModel: viewModel)
+            //                .tabItem {
+            //                    Label("MatchTimer", systemImage: "timer")
+            //                }
 
             PlaceholderView(title: "Settings", icon: "gear")
                 .tabItem {

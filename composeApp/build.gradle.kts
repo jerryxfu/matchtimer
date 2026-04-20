@@ -24,7 +24,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
-            freeCompilerArgs += listOf("-Xbinary=bundleId=net.jerryxf.matchtimer")
+            freeCompilerArgs += listOf("-Xbinary=bundleId=net.jerryxf.technexus")
         }
     }
 
@@ -58,11 +58,11 @@ kotlin {
 }
 
 android {
-    namespace = "net.jerryxf.matchtimer"
+    namespace = "net.jerryxf.technexus"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "net.jerryxf.matchtimer"
+        applicationId = "net.jerryxf.technexus"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1

@@ -1,9 +1,9 @@
-package net.jerryxf.matchtimer
+package net.jerryxf.technexus
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import net.jerryxf.matchtimer.shared.Event
-import net.jerryxf.matchtimer.shared.Match
+import net.jerryxf.technexus.shared.Event
+import net.jerryxf.technexus.shared.Match
 
 fun createMainScope(): CoroutineScope = MainScope()
 

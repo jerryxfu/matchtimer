@@ -1,10 +1,3 @@
-//
-//  ScheduleView.swift
-//  iosApp
-//
-//  Created by Jerry Fu on 2026-04-09.
-//
-
 import ComposeApp
 import SwiftUI
 
@@ -84,7 +77,7 @@ struct ScheduleView: View {
         while !Task.isCancelled {
             do {
                 let newEvent = try await BackendKt.getEventData(
-                    eventKey: "2026nvlv"
+                    eventKey: "demo1815"
                 )
                 event = newEvent
                 error = nil

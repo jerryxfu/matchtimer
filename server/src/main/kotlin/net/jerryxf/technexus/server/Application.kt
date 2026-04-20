@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer.server
+package net.jerryxf.technexus.server
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -32,9 +32,9 @@ import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
-import net.jerryxf.matchtimer.shared.MatchId
-import net.jerryxf.matchtimer.shared.MatchScore
-import net.jerryxf.matchtimer.shared.jsonConfig
+import net.jerryxf.technexus.shared.MatchId
+import net.jerryxf.technexus.shared.MatchScore
+import net.jerryxf.technexus.shared.jsonConfig
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths

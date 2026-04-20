@@ -1,10 +1,3 @@
-//
-//  NetworkMonitor.swift
-//  iosApp
-//
-//  Created by Jerry Fu on 2026-04-09.
-//
-
 import Combine
 import Network
 import SwiftUI

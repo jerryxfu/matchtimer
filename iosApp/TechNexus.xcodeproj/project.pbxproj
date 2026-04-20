@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		C4D69BEB2F874332001E4AF9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4D69BEA2F874332001E4AF9 /* WidgetKit.framework */; };
 		C4D69BED2F874332001E4AF9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4D69BEC2F874332001E4AF9 /* SwiftUI.framework */; };
-		C4D69BFC2F874333001E4AF9 /* MatchTimerExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C4D69BE82F874332001E4AF9 /* MatchTimerExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C4D69BFC2F874333001E4AF9 /* TechNexusExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C4D69BE82F874332001E4AF9 /* TechNexusExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -18,7 +18,7 @@
 			containerPortal = 83E576C900B20B70C301F487 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C4D69BE72F874332001E4AF9;
-			remoteInfo = MatchTimerExtension;
+			remoteInfo = TechNexusExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -29,7 +29,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C4D69BFC2F874333001E4AF9 /* MatchTimerExtension.appex in Embed Foundation Extensions */,
+				C4D69BFC2F874333001E4AF9 /* TechNexusExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,34 +37,34 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1102A2CF1BAC7C21477D90A4 /* matchtimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = matchtimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C4D69BE82F874332001E4AF9 /* MatchTimerExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MatchTimerExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1102A2CF1BAC7C21477D90A4 /* technexus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = technexus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4D69BE82F874332001E4AF9 /* TechNexusExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TechNexusExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4D69BEA2F874332001E4AF9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		C4D69BEC2F874332001E4AF9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		8B17E35585BD01D26753FB93 /* Exceptions for "iosApp" folder in "iosApp" target */ = {
+		8B17E35585BD01D26753FB93 /* Exceptions for "iosApp" folder in "TechNexus" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = ABE280FAB7D7A8D4B56FDDB1 /* iosApp */;
+			target = ABE280FAB7D7A8D4B56FDDB1 /* TechNexus */;
 		};
-		C44ECA8E2F8AA5E500C32AF6 /* Exceptions for "iosApp" folder in "MatchTimerExtension" target */ = {
+		C44ECA8E2F8AA5E500C32AF6 /* Exceptions for "iosApp" folder in "TechNexusExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				MatchTab/MatchActivityAttributes.swift,
 				ScheduleTab/ScheduleActivityAttributes.swift,
 			);
-			target = C4D69BE72F874332001E4AF9 /* MatchTimerExtension */;
+			target = C4D69BE72F874332001E4AF9 /* TechNexusExtension */;
 		};
-		C4D69C012F874333001E4AF9 /* Exceptions for "MatchTimer" folder in "MatchTimerExtension" target */ = {
+		C4D69C012F874333001E4AF9 /* Exceptions for "TechNexusExtension" folder in "TechNexusExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = C4D69BE72F874332001E4AF9 /* MatchTimerExtension */;
+			target = C4D69BE72F874332001E4AF9 /* TechNexusExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -72,18 +72,18 @@
 		A05F154E77A4D280FB24DEB2 /* iosApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				8B17E35585BD01D26753FB93 /* Exceptions for "iosApp" folder in "iosApp" target */,
-				C44ECA8E2F8AA5E500C32AF6 /* Exceptions for "iosApp" folder in "MatchTimerExtension" target */,
+				8B17E35585BD01D26753FB93 /* Exceptions for "iosApp" folder in "TechNexus" target */,
+				C44ECA8E2F8AA5E500C32AF6 /* Exceptions for "iosApp" folder in "TechNexusExtension" target */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
 		};
-		C4D69BEE2F874332001E4AF9 /* MatchTimer */ = {
+		C4D69BEE2F874332001E4AF9 /* TechNexusExtension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C4D69C012F874333001E4AF9 /* Exceptions for "MatchTimer" folder in "MatchTimerExtension" target */,
+				C4D69C012F874333001E4AF9 /* Exceptions for "TechNexusExtension" folder in "TechNexusExtension" target */,
 			);
-			path = MatchTimer;
+			path = TechNexusExtension;
 			sourceTree = "<group>";
 		};
 		E5C2E8595ABF6942542D2CE5 /* Configuration */ = {
@@ -116,8 +116,8 @@
 		155CA74397DDD84162C6D2C0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1102A2CF1BAC7C21477D90A4 /* matchtimer.app */,
-				C4D69BE82F874332001E4AF9 /* MatchTimerExtension.appex */,
+				1102A2CF1BAC7C21477D90A4 /* technexus.app */,
+				C4D69BE82F874332001E4AF9 /* TechNexusExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -127,7 +127,7 @@
 			children = (
 				E5C2E8595ABF6942542D2CE5 /* Configuration */,
 				A05F154E77A4D280FB24DEB2 /* iosApp */,
-				C4D69BEE2F874332001E4AF9 /* MatchTimer */,
+				C4D69BEE2F874332001E4AF9 /* TechNexusExtension */,
 				C4D69BE92F874332001E4AF9 /* Frameworks */,
 				155CA74397DDD84162C6D2C0 /* Products */,
 			);
@@ -145,9 +145,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ABE280FAB7D7A8D4B56FDDB1 /* iosApp */ = {
+		ABE280FAB7D7A8D4B56FDDB1 /* TechNexus */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E97D1E0E2326CB3642872497 /* Build configuration list for PBXNativeTarget "iosApp" */;
+			buildConfigurationList = E97D1E0E2326CB3642872497 /* Build configuration list for PBXNativeTarget "TechNexus" */;
 			buildPhases = (
 				2E19CABE4C911E9C6D05ED1E /* Compile Kotlin Framework */,
 				4A5808D715F1F4599F25E443 /* Sources */,
@@ -163,16 +163,16 @@
 			fileSystemSynchronizedGroups = (
 				A05F154E77A4D280FB24DEB2 /* iosApp */,
 			);
-			name = iosApp;
+			name = TechNexus;
 			packageProductDependencies = (
 			);
-			productName = iosApp;
-			productReference = 1102A2CF1BAC7C21477D90A4 /* matchtimer.app */;
+			productName = TechNexus;
+			productReference = 1102A2CF1BAC7C21477D90A4 /* technexus.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C4D69BE72F874332001E4AF9 /* MatchTimerExtension */ = {
+		C4D69BE72F874332001E4AF9 /* TechNexusExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C4D69C002F874333001E4AF9 /* Build configuration list for PBXNativeTarget "MatchTimerExtension" */;
+			buildConfigurationList = C4D69C002F874333001E4AF9 /* Build configuration list for PBXNativeTarget "TechNexusExtension" */;
 			buildPhases = (
 				C4D69BE42F874332001E4AF9 /* Sources */,
 				C4D69BE52F874332001E4AF9 /* Frameworks */,
@@ -183,13 +183,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				C4D69BEE2F874332001E4AF9 /* MatchTimer */,
+				C4D69BEE2F874332001E4AF9 /* TechNexusExtension */,
 			);
-			name = MatchTimerExtension;
+			name = TechNexusExtension;
 			packageProductDependencies = (
 			);
-			productName = MatchTimerExtension;
-			productReference = C4D69BE82F874332001E4AF9 /* MatchTimerExtension.appex */;
+			productName = TechNexusExtension;
+			productReference = C4D69BE82F874332001E4AF9 /* TechNexusExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -200,7 +200,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2640;
-				LastUpgradeCheck = 1620;
+				LastUpgradeCheck = 2640;
 				TargetAttributes = {
 					ABE280FAB7D7A8D4B56FDDB1 = {
 						CreatedOnToolsVersion = 16.2;
@@ -210,7 +210,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AE1F1A0A8F33E25FE8D02045 /* Build configuration list for PBXProject "iosApp" */;
+			buildConfigurationList = AE1F1A0A8F33E25FE8D02045 /* Build configuration list for PBXProject "TechNexus" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -224,8 +224,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ABE280FAB7D7A8D4B56FDDB1 /* iosApp */,
-				C4D69BE72F874332001E4AF9 /* MatchTimerExtension */,
+				ABE280FAB7D7A8D4B56FDDB1 /* TechNexus */,
+				C4D69BE72F874332001E4AF9 /* TechNexusExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -289,7 +289,7 @@
 /* Begin PBXTargetDependency section */
 		C4D69BFB2F874333001E4AF9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C4D69BE72F874332001E4AF9 /* MatchTimerExtension */;
+			target = C4D69BE72F874332001E4AF9 /* TechNexusExtension */;
 			targetProxy = C4D69BFA2F874333001E4AF9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -332,6 +332,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = HWB4Y653YR;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -355,6 +356,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -363,13 +365,11 @@
 		78E123D0B53E3829AFD7368C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = HWB4Y653YR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iosApp/Info.plist;
@@ -384,6 +384,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = net.jerryxf.technexus;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -393,16 +394,16 @@
 		9BE2BF872015C5C158596CB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = HWB4Y653YR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = iosApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TechNexus;
+				INFOPLIST_KEY_CFBundleName = TechNexus;
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -414,6 +415,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = net.jerryxf.technexus;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -457,6 +459,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = HWB4Y653YR;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -473,6 +476,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -486,11 +490,10 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HWB4Y653YR;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MatchTimer/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MatchTimer;
+				INFOPLIST_FILE = TechNexusExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TechNexusExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -499,7 +502,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = net.jerryxf.matchtimer.matchtimer.MatchTimer;
+				PRODUCT_BUNDLE_IDENTIFIER = net.jerryxf.technexus.extension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -519,11 +522,10 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HWB4Y653YR;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MatchTimer/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MatchTimer;
+				INFOPLIST_FILE = TechNexusExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TechNexusExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -532,7 +534,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = net.jerryxf.matchtimer.matchtimer.MatchTimer;
+				PRODUCT_BUNDLE_IDENTIFIER = net.jerryxf.technexus.extension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -547,7 +549,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AE1F1A0A8F33E25FE8D02045 /* Build configuration list for PBXProject "iosApp" */ = {
+		AE1F1A0A8F33E25FE8D02045 /* Build configuration list for PBXProject "TechNexus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4065A0EC276D88FF0B7EA830 /* Debug */,
@@ -556,7 +558,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C4D69C002F874333001E4AF9 /* Build configuration list for PBXNativeTarget "MatchTimerExtension" */ = {
+		C4D69C002F874333001E4AF9 /* Build configuration list for PBXNativeTarget "TechNexusExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C4D69BFE2F874333001E4AF9 /* Debug */,
@@ -565,7 +567,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E97D1E0E2326CB3642872497 /* Build configuration list for PBXNativeTarget "iosApp" */ = {
+		E97D1E0E2326CB3642872497 /* Build configuration list for PBXNativeTarget "TechNexus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9BE2BF872015C5C158596CB1 /* Debug */,

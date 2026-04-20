@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer.server
+package net.jerryxf.technexus.server
 
 import kotlinx.serialization.Serializable
 

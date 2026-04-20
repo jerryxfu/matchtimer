@@ -1,4 +1,4 @@
-# Matchtimer
+# TechNexus
 
 Auto 20s
 Transition shift 10s

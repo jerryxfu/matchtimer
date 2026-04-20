@@ -1,15 +1,8 @@
-//
-//  MatchLiveActivityWidget.swift
-//  MatchTimer
-//
-//  Created by Jerry Fu on 2026-04-08.
-//
-
 import ActivityKit
 import SwiftUI
 import WidgetKit
 
-struct MatchTimerLiveActivity: Widget {
+struct TechNexusLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: MatchActivityAttributes.self) { context in
             LockScreenMatchView(state: context.state)
