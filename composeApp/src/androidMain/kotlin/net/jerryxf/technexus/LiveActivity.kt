@@ -1,7 +1,6 @@
 package net.jerryxf.technexus
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -11,8 +10,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
-@SuppressLint("StaticFieldLeak")
-private lateinit var notif: NotificationCompat.Builder
 private const val CHANNEL_ID = "LiveActivity"
 private val notifStyle = NotificationCompat.ProgressStyle()
     .addProgressSegment(NotificationCompat.ProgressStyle.Segment(20))
@@ -49,12 +46,12 @@ private fun MainActivity.update(context: Context) = with(NotificationManagerComp
         )
         return@with
     }
-    notify(1, notif.build())
+    notify(1, notif?.build() ?: return@with)
 }
 
 fun MainActivity.setActivityProgress(state: MatchState, context: Context) {
-    notif.setStyle(notifStyle.setProgress((state.totalElapsed * 100) / MatchState.MATCH_DURATION))
-    notif.setShortCriticalText(state.timeString())
+    notif?.setStyle(notifStyle.setProgress((state.totalElapsed * 100) / MatchState.MATCH_DURATION))
+    notif?.setShortCriticalText(state.timeString())
     update(context)
 }
 
