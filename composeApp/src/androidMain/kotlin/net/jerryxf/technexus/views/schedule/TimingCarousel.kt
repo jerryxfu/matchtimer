@@ -51,7 +51,9 @@ fun TimingCarouselView(times: MatchTimes) {
     )
 
     Row(
-        Modifier.background(Color.LightGray, roundCorners).padding(5.dp),
+        Modifier
+            .background(Color.LightGray, roundCorners)
+            .padding(5.dp),
         Arrangement.spacedBy(8.dp),
         Alignment.CenterVertically
     ) {
@@ -76,7 +78,11 @@ fun TimingCarouselView(times: MatchTimes) {
             )
         }
 
-        HorizontalPager(pagerState, Modifier.weight(1f).height(24.dp)) { index ->
+        HorizontalPager(
+            pagerState, Modifier
+                .weight(1f)
+                .height(24.dp)
+        ) { index ->
             val entry = entries[index]
             Row(
                 Modifier,

@@ -21,9 +21,11 @@ fun MatchCard(match: Match) {
             .padding(10.dp)
             .border(1.dp, Color.Black, roundCorners)
     ) {
-        Column(Modifier
-            .padding(10.dp)
-            .fillMaxWidth()) {
+        Column(
+            Modifier
+                .padding(10.dp)
+                .fillMaxWidth()
+        ) {
             Row {
                 Text(match.label)
                 Spacer(Modifier.weight(1f))
