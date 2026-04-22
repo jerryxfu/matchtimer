@@ -65,7 +65,7 @@ fun TimingCarouselView(times: MatchTimes) {
                 if (pagerState.currentPage > 0)
                     MaterialTheme.colorScheme.onSurfaceVariant
                 else
-                    MaterialTheme.colorScheme.onSurface.copy(0.3f)
+                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
             )
             Icon(
                 Icons.Default.ChevronRight,
@@ -74,7 +74,7 @@ fun TimingCarouselView(times: MatchTimes) {
                 if (pagerState.currentPage < entries.size - 1)
                     MaterialTheme.colorScheme.onSurfaceVariant
                 else
-                    MaterialTheme.colorScheme.onSurface.copy(0.3f),
+                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
             )
         }
 
