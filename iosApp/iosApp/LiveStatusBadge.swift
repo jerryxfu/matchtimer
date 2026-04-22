@@ -1,10 +1,3 @@
-//
-//  LiveStatusBadge.swift
-//  iosApp
-//
-//  Created by Jerry Fu on 2026-04-09.
-//
-
 import SwiftUI
 
 struct LiveStatusBadge: View {

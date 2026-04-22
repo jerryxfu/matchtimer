@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -24,25 +23,26 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
-            freeCompilerArgs += listOf("-Xbinary=bundleId=net.jerryxf.matchtimer")
+            freeCompilerArgs += listOf("-Xbinary=bundleId=net.jerryxf.technexus")
         }
     }
 
     sourceSets {
         androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.ktor.client.android)
-        }
-        commonMain.dependencies {
+            implementation(libs.androidx.preferences)
+            implementation(libs.androidx.navigation.compose)
+            implementation(libs.compose.materialIcons.core)
+            implementation(libs.compose.materialIcons.extended)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
-            implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.ktor.client.android)
+        }
+        commonMain.dependencies {
+            implementation(libs.compose.ui)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.contentNegotiation)
@@ -59,11 +59,11 @@ kotlin {
 }
 
 android {
-    namespace = "net.jerryxf.matchtimer"
+    namespace = "net.jerryxf.technexus"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "net.jerryxf.matchtimer"
+        applicationId = "net.jerryxf.technexus"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1

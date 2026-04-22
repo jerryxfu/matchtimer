@@ -5,11 +5,11 @@ plugins {
     application
 }
 
-group = "net.jerryxf.matchtimer.server"
+group = "net.jerryxf.technexus.server"
 version = "1.0.0"
 
 application {
-    mainClass.set("net.jerryxf.matchtimer.server.ApplicationKt")
+    mainClass.set("net.jerryxf.technexus.server.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
