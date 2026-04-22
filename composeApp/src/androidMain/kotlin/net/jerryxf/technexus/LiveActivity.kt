@@ -41,7 +41,14 @@ private fun MainActivity.update(context: Context) = with(NotificationManagerComp
             context,
             Manifest.permission.POST_NOTIFICATIONS
         ) != PackageManager.PERMISSION_GRANTED
-    ) ActivityCompat.requestPermissions(this@update, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0)
+    ) {
+        ActivityCompat.requestPermissions(
+            this@update,
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+            0
+        )
+        return@with
+    }
     notify(1, notif.build())
 }
 
