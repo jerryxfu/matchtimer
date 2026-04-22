@@ -21,30 +21,40 @@ fun getPlayoffAlliance(match: Match, event: Event): String? {
         }
 
         return when (matchNum) {
-            1  -> if (isRed) "A1" else "A8"
-            2  -> if (isRed) "A4" else "A5"
-            3  -> if (isRed) "A2" else "A7"
-            4  -> if (isRed) "A3" else "A6"
-            5  -> if (isRed) resolveFromTeams(matchByNumber(1), won = false, event)
+            1 -> if (isRed) "A1" else "A8"
+            2 -> if (isRed) "A4" else "A5"
+            3 -> if (isRed) "A2" else "A7"
+            4 -> if (isRed) "A3" else "A6"
+            5 -> if (isRed) resolveFromTeams(matchByNumber(1), won = false, event)
             else resolveFromTeams(matchByNumber(2), won = false, event)
-            6  -> if (isRed) resolveFromTeams(matchByNumber(3), won = false, event)
+
+            6 -> if (isRed) resolveFromTeams(matchByNumber(3), won = false, event)
             else resolveFromTeams(matchByNumber(4), won = false, event)
-            7  -> if (isRed) resolveFromTeams(matchByNumber(1), won = true, event)
+
+            7 -> if (isRed) resolveFromTeams(matchByNumber(1), won = true, event)
             else resolveFromTeams(matchByNumber(2), won = true, event)
-            8  -> if (isRed) resolveFromTeams(matchByNumber(3), won = true, event)
+
+            8 -> if (isRed) resolveFromTeams(matchByNumber(3), won = true, event)
             else resolveFromTeams(matchByNumber(4), won = true, event)
-            9  -> if (isRed) resolveFromTeams(matchByNumber(7), won = false, event)
+
+            9 -> if (isRed) resolveFromTeams(matchByNumber(7), won = false, event)
             else resolveFromTeams(matchByNumber(6), won = true, event)
+
             10 -> if (isRed) resolveFromTeams(matchByNumber(8), won = false, event)
             else resolveFromTeams(matchByNumber(5), won = true, event)
+
             11 -> if (isRed) resolveFromTeams(matchByNumber(7), won = true, event)
             else resolveFromTeams(matchByNumber(8), won = true, event)
+
             12 -> if (isRed) resolveFromTeams(matchByNumber(10), won = true, event)
             else resolveFromTeams(matchByNumber(9), won = true, event)
+
             13 -> if (isRed) resolveFromTeams(matchByNumber(11), won = false, event)
             else resolveFromTeams(matchByNumber(12), won = true, event)
+
             14 -> if (isRed) resolveFromTeams(matchByNumber(11), won = true, event)
             else resolveFromTeams(matchByNumber(13), won = true, event)
+
             else -> null
         }
     }
@@ -53,6 +63,7 @@ fun getPlayoffAlliance(match: Match, event: Event): String? {
         match.label.startsWith("Final") -> 14
         match.label.startsWith("Playoff") ->
             match.label.removePrefix("Playoff").trim().toIntOrNull() ?: return null
+
         else -> return null
     }
 
