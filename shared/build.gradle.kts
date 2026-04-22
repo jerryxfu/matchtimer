@@ -33,7 +33,7 @@ kotlin {
 }
 
 android {
-    namespace = "net.jerryxf.matchtimer.shared"
+    namespace = "net.jerryxf.technexus.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

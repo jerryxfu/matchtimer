@@ -1,10 +1,3 @@
-//
-//  MatchActivityAttributes.swift
-//  iosApp
-//
-//  Created by Jerry Fu on 2026-04-08.
-//
-
 import ActivityKit
 import Foundation
 

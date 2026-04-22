@@ -1,10 +1,3 @@
-//
-//  TimingCarouselView.swift
-//  iosApp
-//
-//  Created by Jerry Fu on 2026-04-10.
-//
-
 import ComposeApp
 import SwiftUI
 

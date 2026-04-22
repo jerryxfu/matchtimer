@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer
+package net.jerryxf.technexus
 
 sealed class MatchPhase {
     object Auto : MatchPhase()

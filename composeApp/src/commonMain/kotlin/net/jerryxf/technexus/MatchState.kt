@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer
+package net.jerryxf.technexus
 
 data class MatchState(
     val phase: MatchPhase = MatchPhase.Auto,

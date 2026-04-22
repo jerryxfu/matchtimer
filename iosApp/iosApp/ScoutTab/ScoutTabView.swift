@@ -1,10 +1,3 @@
-//
-//  ScoutTabView.swift
-//  iosApp
-//
-//  Created by Jerry Fu on 2026-04-11.
-//
-
 import SwiftUI
 
 struct ScoutTabView: View {

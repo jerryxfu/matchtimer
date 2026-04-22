@@ -1,4 +1,4 @@
-rootProject.name = "matchtimer"
+rootProject.name = "technexus"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
