@@ -55,7 +55,7 @@ class MatchTimerViewModel: ObservableObject {
         timer
             .start(
                 scope: UtilsKt.createMainScope(),
-                onUpdate: { matchState in }
+                onUpdate: { _ in }
             )
     }
 
