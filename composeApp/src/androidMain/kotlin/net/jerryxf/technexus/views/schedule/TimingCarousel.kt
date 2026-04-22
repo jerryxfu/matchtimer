@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer.views.schedule
+package net.jerryxf.technexus.views.schedule
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,10 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import net.jerryxf.matchtimer.formatTime
-import net.jerryxf.matchtimer.relativeTime
-import net.jerryxf.matchtimer.roundCorners
-import net.jerryxf.matchtimer.shared.MatchTimes
+import net.jerryxf.technexus.formatTime
+import net.jerryxf.technexus.relativeTime
+import net.jerryxf.technexus.roundCorners
+import net.jerryxf.technexus.shared.MatchTimes
 
 private data class TimingEntry(
     val label: String,

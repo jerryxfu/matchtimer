@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer.views.schedule
+package net.jerryxf.technexus.views.schedule
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -10,8 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import net.jerryxf.matchtimer.*
-import net.jerryxf.matchtimer.shared.Match
+import net.jerryxf.technexus.*
+import net.jerryxf.technexus.shared.Match
 
 @Composable
 fun MatchCard(match: Match) {

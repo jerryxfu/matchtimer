@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer
+package net.jerryxf.technexus
 
 import java.text.DateFormat
 import java.util.*

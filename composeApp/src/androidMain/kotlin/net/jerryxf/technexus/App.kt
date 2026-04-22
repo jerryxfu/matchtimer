@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer
+package net.jerryxf.technexus
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import net.jerryxf.matchtimer.views.AppNavHost
+import net.jerryxf.technexus.views.AppNavHost
 
 @Preview
 @Composable

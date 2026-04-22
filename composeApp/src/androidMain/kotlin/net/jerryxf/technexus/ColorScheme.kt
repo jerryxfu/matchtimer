@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer
+package net.jerryxf.technexus
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

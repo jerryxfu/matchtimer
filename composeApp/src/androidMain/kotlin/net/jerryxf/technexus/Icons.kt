@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer
+package net.jerryxf.technexus
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.DirectionsWalk

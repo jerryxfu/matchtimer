@@ -2,9 +2,6 @@ package net.jerryxf.technexus
 
 import io.ktor.client.call.*
 import io.ktor.client.request.*
-import net.jerryxf.matchtimer.shared.Event
-import net.jerryxf.matchtimer.shared.MatchId
-import net.jerryxf.matchtimer.shared.MatchScore
 import net.jerryxf.technexus.shared.Event
 import net.jerryxf.technexus.shared.MatchId
 import net.jerryxf.technexus.shared.MatchScore

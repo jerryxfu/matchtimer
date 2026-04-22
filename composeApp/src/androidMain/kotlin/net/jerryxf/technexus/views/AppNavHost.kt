@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer.views
+package net.jerryxf.technexus.views
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -6,8 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import net.jerryxf.matchtimer.Destination
-import net.jerryxf.matchtimer.views.schedule.ScheduleView
+import net.jerryxf.technexus.Destination
+import net.jerryxf.technexus.views.schedule.ScheduleView
 
 @Composable
 fun AppNavHost(nav: NavHostController, startDestination: Destination, modifier: Modifier = Modifier) {

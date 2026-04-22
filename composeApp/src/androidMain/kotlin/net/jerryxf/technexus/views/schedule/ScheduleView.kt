@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer.views.schedule
+package net.jerryxf.technexus.views.schedule
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,9 +10,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
-import net.jerryxf.matchtimer.EVENT_ID
-import net.jerryxf.matchtimer.getEventData
-import net.jerryxf.matchtimer.shared.Event
+import net.jerryxf.technexus.EVENT_ID
+import net.jerryxf.technexus.getEventData
+import net.jerryxf.technexus.shared.Event
 
 @Preview
 @Composable

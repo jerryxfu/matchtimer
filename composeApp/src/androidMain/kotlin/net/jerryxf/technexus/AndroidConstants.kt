@@ -1,4 +1,4 @@
-package net.jerryxf.matchtimer
+package net.jerryxf.technexus
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
