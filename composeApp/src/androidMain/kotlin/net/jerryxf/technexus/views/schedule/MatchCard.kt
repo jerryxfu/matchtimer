@@ -44,7 +44,7 @@ fun MatchCard(match: Match) {
                         }
                     }
                 } else {
-                    Text("no status")
+                    Text("Unknown status")
                 }
             }
             Spacer(Modifier.height(10.dp))
@@ -63,7 +63,7 @@ fun MatchCard(match: Match) {
                         }
                     }
                 } else {
-                    Text("non")
+                    Text("Teams TBD")
                 }
             }
             Spacer(Modifier.height(15.dp))
