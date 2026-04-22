@@ -14,10 +14,8 @@ import net.jerryxf.technexus.shared.Event
 @Composable
 fun ScheduleView() {
     var event: Event? by rememberSaveable { mutableStateOf(null) }
-    LaunchedEffect(event) {
-        val ev = getEventData(EVENT_ID)
-        if (event == null) event = ev
-        if (event != null && ev != null) event = ev
+    LaunchedEffect(EVENT_ID) {
+        event = getEventData(EVENT_ID)
     }
 
     if (event != null) {
