@@ -22,9 +22,11 @@ val client = HttpClient {
     install(HttpCache)
 }
 
-val onField = "on field" to "Done" to Color.Gray
-val onDeck = "on deck" to "On deck" to Color.Blue
-val nowQueue = "now queuing" to "Now queuing" to Color.Yellow
-val queueSoon = "queuing soon" to "Queuing soon" to Color.Magenta
+data class StatusConfig(val statusKey: String, val label: String, val color: Color)
+
+val onField = StatusConfig("on field", "Done", Color.Gray)
+val onDeck = StatusConfig("on deck", "On deck", Color.Blue)
+val nowQueue = StatusConfig("now queuing", "Now queuing", Color.Yellow)
+val queueSoon = StatusConfig("queuing soon", "Queuing soon", Color.Magenta)
 val refreshInterval = 15.seconds
 const val EVENT_ID = "2026nvlv" // TODO : setting
