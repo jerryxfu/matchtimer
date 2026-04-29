@@ -1,13 +1,12 @@
 import SwiftUI
 
-struct ScoutTabView: View {
+struct RobotCheatSheetView: View {
     private let robot: RobotCheatSheet
     private let defaultRowUnits: [MetricField: UnitSystem]
     @State private var globalUnitSystem: UnitSystem?
     @State private var rowUnitOverrides: [MetricField: UnitSystem] = [:]
 
-    init() {
-        let robot = RobotCheatSheet.defaultRobot
+    init(robot: RobotCheatSheet = .defaultRobot) {
         self.robot = robot
         self.defaultRowUnits = Self.makeDefaultRowUnits(from: robot)
         _globalUnitSystem = State(initialValue: nil)
@@ -51,9 +50,7 @@ struct ScoutTabView: View {
                         ForEach(
                             Array(robot.capabilities.enumerated()),
                             id: \.element.id
-                        ) {
-                            index,
-                            capability in
+                        ) { index, capability in
                             CapabilityRow(
                                 capability: capability,
                                 showsDivider: index < robot.capabilities.count
@@ -65,9 +62,11 @@ struct ScoutTabView: View {
                 .padding(16)
             }
             .background(Color(.systemGroupedBackground))
-            .navigationTitle("Scout")
+            .navigationTitle("Robot Info")
         }
     }
+
+    // MARK: - Unit logic
 
     private func toggleRowUnit(_ field: MetricField) {
         let next = effectiveUnitSystem(for: field).toggled
@@ -86,7 +85,6 @@ struct ScoutTabView: View {
 
     private func applyGlobalUnitSystem(_ system: UnitSystem) {
         globalUnitSystem = system
-        // Global buttons are explicit set-all actions, so clear row overrides.
         rowUnitOverrides.removeAll()
     }
 
@@ -94,17 +92,14 @@ struct ScoutTabView: View {
         from robot: RobotCheatSheet
     ) -> [MetricField: UnitSystem] {
         var defaults: [MetricField: UnitSystem] = [:]
-
         for row in robot.coreSpecRows {
             if case .unit(let unitRow) = row {
                 defaults[unitRow.field] = unitSystem(for: unitRow.value)
             }
         }
-
         for row in robot.dimensionRows {
             defaults[row.field] = unitSystem(for: row.value)
         }
-
         return defaults
     }
 
@@ -122,20 +117,21 @@ struct ScoutTabView: View {
     }
 
     private static func isImperialMass(_ symbol: String) -> Bool {
-        let normalized = symbol.lowercased()
-        return normalized == "lb" || normalized == "lbs" || normalized == "oz"
+        let s = symbol.lowercased()
+        return s == "lb" || s == "lbs" || s == "oz"
     }
 
     private static func isImperialLength(_ symbol: String) -> Bool {
-        let normalized = symbol.lowercased()
-        return normalized == "in" || normalized == "ft" || normalized == "yd"
-            || normalized == "mi"
+        let s = symbol.lowercased()
+        return s == "in" || s == "ft" || s == "yd" || s == "mi"
     }
 
     private static func isImperialSpeed(_ symbol: String) -> Bool {
-        let normalized = symbol.lowercased()
-        return normalized.contains("ft/s") || normalized == "mph"
+        let s = symbol.lowercased()
+        return s.contains("ft/s") || s == "mph"
     }
+
+    // MARK: - Row builders
 
     @ViewBuilder
     private func coreSpecRow(
@@ -168,17 +164,16 @@ struct ScoutTabView: View {
         )
     }
 
+    // MARK: - Formatting
+
     private func formattedValue(
         _ value: RobotCheatSheet.UnitValue,
         for field: MetricField
     ) -> (value: String, unit: String) {
         switch value {
-        case .mass(let mass):
-            return formattedMass(mass, for: field)
-        case .length(let length):
-            return formattedLength(length, for: field)
-        case .speed(let speed):
-            return formattedSpeed(speed, for: field)
+        case .mass(let mass): return formattedMass(mass, for: field)
+        case .length(let length): return formattedLength(length, for: field)
+        case .speed(let speed): return formattedSpeed(speed, for: field)
         }
     }
 
@@ -233,206 +228,19 @@ struct ScoutTabView: View {
     }
 }
 
-private enum UnitSystem: String, CaseIterable, Identifiable {
-    case imperial
-    case metric
-
-    var id: String { rawValue }
-
-    var title: String {
-        switch self {
-        case .imperial: return "Imperial"
-        case .metric: return "Metric"
-        }
-    }
-
-    var toggled: UnitSystem {
-        self == .imperial ? .metric : .imperial
-    }
-}
-
-private enum MetricField: String, Hashable {
-    case weight
-    case topSpeed
-    case length
-    case width
-    case height
-    case framePerimeter
-}
-
-private struct RobotCheatSheet {
-    enum UnitValue {
-        case mass(Measurement<UnitMass>)
-        case length(Measurement<UnitLength>)
-        case speed(Measurement<UnitSpeed>)
-    }
-
-    struct UnitSpecRow: Identifiable {
-        let id: String
-        let label: String
-        let field: MetricField
-        let value: UnitValue
-    }
-
-    struct TextSpecRow: Identifiable {
-        let id: String
-        let label: String
-        let value: String
-    }
-
-    enum CoreSpecRow: Identifiable {
-        case unit(UnitSpecRow)
-        case text(TextSpecRow)
-
-        var id: String {
-            switch self {
-            case .unit(let row): return row.id
-            case .text(let row): return row.id
-            }
-        }
-    }
-
-    struct Dimensions {
-        let length: Measurement<UnitLength>
-        let width: Measurement<UnitLength>
-        let height: Measurement<UnitLength>
-        let framePerimeter: Measurement<UnitLength>
-    }
-
-    struct Capability: Identifiable {
-        let id = UUID()
-        let name: String
-        let details: String
-    }
-
-    let teamNumber: String
-    let robotName: String
-    let weight: Measurement<UnitMass>
-    let drivebase: String
-    let topSpeed: Measurement<UnitSpeed>
-    let dimensions: Dimensions
-    let capabilities: [Capability]
-
-    var coreSpecRows: [CoreSpecRow] {
-        [
-            .unit(
-                UnitSpecRow(
-                    id: MetricField.weight.rawValue,
-                    label: "Weight",
-                    field: .weight,
-                    value: .mass(weight)
-                )
-            ),
-            .text(
-                TextSpecRow(
-                    id: "drivebase",
-                    label: "Drivebase",
-                    value: drivebase
-                )
-            ),
-            .unit(
-                UnitSpecRow(
-                    id: MetricField.topSpeed.rawValue,
-                    label: "Top Speed",
-                    field: .topSpeed,
-                    value: .speed(topSpeed)
-                )
-            ),
-        ]
-    }
-
-    var dimensionRows: [UnitSpecRow] {
-        [
-            UnitSpecRow(
-                id: MetricField.length.rawValue,
-                label: "Length",
-                field: .length,
-                value: .length(dimensions.length)
-            ),
-            UnitSpecRow(
-                id: MetricField.width.rawValue,
-                label: "Width",
-                field: .width,
-                value: .length(dimensions.width)
-            ),
-            UnitSpecRow(
-                id: MetricField.height.rawValue,
-                label: "Height",
-                field: .height,
-                value: .length(dimensions.height)
-            ),
-            UnitSpecRow(
-                id: MetricField.framePerimeter.rawValue,
-                label: "Frame Perimeter",
-                field: .framePerimeter,
-                value: .length(dimensions.framePerimeter)
-            ),
-        ]
-    }
-
-    static let defaultRobot = RobotCheatSheet(
-        teamNumber: "FRC 3990",
-        robotName: "Atlas",
-        weight: Measurement(value: 114.5, unit: .pounds),
-        drivebase: "Swerve Mk5n R2",
-        topSpeed: Measurement(value: 5.0, unit: .metersPerSecond),
-        dimensions: Dimensions(
-            length: Measurement(value: 27.5, unit: .inches),
-            width: Measurement(value: 27.5, unit: .inches),
-            height: Measurement(value: 21.75, unit: .inches),
-            framePerimeter: Measurement(value: (27.5 * 4), unit: .inches)
-        ),
-        capabilities: [
-            // low CG, climber is a circular hoo
-            Capability(
-                name: "Movement",
-                details:
-                    "TRENCH and BUMP (angled frame)"
-            ),
-            Capability(
-                name: "Autonomous",
-                details: "Pathplanner, Double swipe TRENCH -> BUMP"
-            ),
-            Capability(
-                name: "Climb",
-                details: "YES, L1 TELEOP"
-            ),
-            Capability(
-                name: "Shooter",
-                details: "6 bps, Shoot on the move, TURRET and HOOD"
-            ),
-            Capability(
-                name: "Spindexer",
-                details: "Omniwheel cone"
-            ),
-            Capability(
-                name: "Intake",
-                details: "60 ball capacity, over the bumper"
-            ),
-            Capability(
-                name: "Vision",
-                details: "2x LL 3G, one LL 4"
-            ),
-            Capability(
-                name: "Programming",
-                details: "Java"
-            ),
-        ]
-    )
-}
+// MARK: - Subviews
 
 private struct HeaderCard: View {
     let robot: RobotCheatSheet
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 4) {
             Text(robot.teamNumber)
                 .font(.title2.bold())
             Text(robot.robotName)
-                .font(.subheadline)
+                .font(.headline)
                 .foregroundStyle(.secondary)
-
-            Text("Quick reference for pit and stands conversations.")
+            Text("Quick reference for scouts")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
@@ -449,8 +257,7 @@ private struct CheatSheetSection<Content: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(title)
-                .font(.headline)
+            SectionTitle(title: title)
             VStack(spacing: 0) {
                 content
             }
@@ -473,27 +280,23 @@ private struct UnitToggleRow: View {
     }
 
     private func unitButton(_ system: UnitSystem) -> some View {
-        return Group {
+        Group {
             if #available(iOS 26.0, *) {
-                Button(system.title) {
-                    onApplyToAll(system)
-                }
-                .buttonSizing(.flexible)
-                .font(.system(size: 13, weight: .semibold))
-                .tint(.gray)
-                .buttonStyle(.glass)
+                Button(system.title) { onApplyToAll(system) }
+                    .buttonSizing(.flexible)
+                    .font(.system(size: 13, weight: .semibold))
+                    .tint(.gray)
+                    .buttonStyle(.glass)
             } else {
-                Button(system.title) {
-                    onApplyToAll(system)
-                }
-                .font(.system(size: 13, weight: .medium))
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
-                .background(Color(.tertiarySystemFill))
-                .foregroundStyle(Color.secondary)
-                .clipShape(
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                )
+                Button(system.title) { onApplyToAll(system) }
+                    .font(.system(size: 13, weight: .medium))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                    .background(Color(.tertiarySystemFill))
+                    .foregroundStyle(Color.secondary)
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    )
             }
         }
     }
@@ -507,19 +310,16 @@ private struct TextMetricRow: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(label)
-                    .foregroundStyle(.secondary)
+                Text(label).foregroundStyle(.secondary)
                 Spacer()
-                Text(value)
-                    .multilineTextAlignment(.trailing)
+                Text(value).multilineTextAlignment(.trailing)
             }
             .font(.subheadline)
             .padding(.horizontal, 14)
             .padding(.vertical, 11)
 
             if showsDivider {
-                Divider()
-                    .padding(.leading, 14)
+                Divider().padding(.leading, 14)
             }
         }
     }
@@ -535,17 +335,14 @@ private struct UnitMetricRow: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(label)
-                    .foregroundStyle(.secondary)
+                Text(label).foregroundStyle(.secondary)
                 Spacer()
                 HStack(spacing: 6) {
-                    Text(value)
-                        .fontWeight(.semibold)
+                    Text(value).fontWeight(.semibold)
                     Group {
                         if #available(iOS 26.0, *) {
                             Button(action: onUnitTap) {
-                                Text(unit)
-                                    .font(.footnote)
+                                Text(unit).font(.footnote)
                             }
                             .tint(.secondary)
                             .buttonStyle(.glass)
@@ -571,8 +368,7 @@ private struct UnitMetricRow: View {
             .padding(.vertical, 11)
 
             if showsDivider {
-                Divider()
-                    .padding(.leading, 14)
+                Divider().padding(.leading, 14)
             }
         }
     }
@@ -596,21 +392,12 @@ private struct CapabilityRow: View {
             .padding(.vertical, 11)
 
             if showsDivider {
-                Divider()
-                    .padding(.leading, 14)
+                Divider().padding(.leading, 14)
             }
         }
     }
 }
 
-extension UnitSpeed {
-    // UnitSpeed does not include feet/second by default, so define it once for the scout sheet.
-    fileprivate static let frcFeetPerSecond = UnitSpeed(
-        symbol: "ft/s",
-        converter: UnitConverterLinear(coefficient: 0.3048)
-    )
-}
-
 #Preview {
-    ScoutTabView()
+    RobotCheatSheetView()
 }

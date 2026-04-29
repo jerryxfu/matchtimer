@@ -20,11 +20,7 @@ struct ContentView: View {
             }
 
             Tab("Pit", systemImage: "hammer") {
-                PlaceholderView(title: "Pit", icon: "hammer")
-            }
-
-            Tab("Scout", systemImage: "info.circle.text.page") {
-                ScoutTabView()
+                PitTabView()
             }
 
             Tab("Stats", systemImage: "chart.bar") {
@@ -49,14 +45,9 @@ struct ContentView: View {
                     Label("Schedule", systemImage: "calendar.badge")
                 }
 
-            PlaceholderView(title: "Pit", icon: "hammer")
+            PitTabView()
                 .tabItem {
                     Label("Pit", systemImage: "hammer")
-                }
-
-            ScoutTabView()
-                .tabItem {
-                    Label("Scout", systemImage: "info.circle.text.page")
                 }
 
             PlaceholderView(title: "Stats", icon: "chart.bar")
