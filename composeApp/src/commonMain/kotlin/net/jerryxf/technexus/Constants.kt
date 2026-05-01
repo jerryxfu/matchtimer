@@ -29,4 +29,4 @@ val onDeck = StatusConfig("on deck", "On deck", Color.Blue)
 val nowQueue = StatusConfig("now queuing", "Now queuing", Color.Yellow)
 val queueSoon = StatusConfig("queuing soon", "Queuing soon", Color.Magenta)
 val refreshInterval = 15.seconds
-const val EVENT_ID = "demo1815" // TODO : setting
+const val EVENT_ID = "2026daly" // TODO : setting

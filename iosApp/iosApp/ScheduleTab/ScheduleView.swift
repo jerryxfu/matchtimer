@@ -77,7 +77,7 @@ struct ScheduleView: View {
         while !Task.isCancelled {
             do {
                 let newEvent = try await BackendKt.getEventData(
-                    eventKey: "demo1815"
+                    eventKey: "2026daly"
                 )
                 event = newEvent
                 error = nil

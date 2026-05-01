@@ -23,7 +23,7 @@ struct ContentView: View {
                 PitTabView()
             }
 
-            Tab("Stats", systemImage: "chart.bar") {
+            Tab("TechBotics", systemImage: "chart.bar") {
                 PlaceholderView(title: "Stats", icon: "chart.bar")
             }
 
@@ -50,7 +50,7 @@ struct ContentView: View {
                     Label("Pit", systemImage: "hammer")
                 }
 
-            PlaceholderView(title: "Stats", icon: "chart.bar")
+            PlaceholderView(title: "TechBotics", icon: "chart.bar")
                 .tabItem {
                     Label("Stats", systemImage: "chart.bar")
                 }

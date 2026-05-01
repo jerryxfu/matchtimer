@@ -325,6 +325,7 @@ private struct TextMetricRow: View {
     }
 }
 
+// match TextUnitRow's styling please
 private struct UnitMetricRow: View {
     let label: String
     let value: String
@@ -384,7 +385,7 @@ private struct CapabilityRow: View {
                 Text(capability.name)
                     .font(.subheadline.weight(.semibold))
                 Text(capability.details)
-                    .font(.footnote)
+                    .font(.callout)
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
