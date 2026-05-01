@@ -2,7 +2,7 @@ import ComposeApp
 import SwiftUI
 
 struct ScheduleView: View {
-    @State private var event: SharedEvent?
+    @State private var event: Event?
     @State private var error: String?
     @State private var highlightedTeams: [String: Color] = [
         "3990": .yellow,

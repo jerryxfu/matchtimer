@@ -22,7 +22,7 @@ final class ScheduleLiveActivityManager {
     /// Start or update the schedule Live Activity.
     /// If one is already running, just update it.
     func startOrUpdate(
-        event: SharedEvent,
+        event: Event,
         highlightedTeams: [String: Color]
     ) async {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else { return }
@@ -65,7 +65,7 @@ final class ScheduleLiveActivityManager {
     // MARK: - Content state builder
 
     private func buildContentState(
-        event: SharedEvent,
+        event: Event,
         highlightedTeams: [String: Color]
     ) -> ScheduleActivityAttributes.ContentState? {
         guard let latest = latestMatch(in: event) else { return nil }
@@ -89,7 +89,7 @@ final class ScheduleLiveActivityManager {
         )
     }
 
-    private func latestMatch(in event: SharedEvent) -> SharedMatch? {
+    private func latestMatch(in event: Event) -> Match? {
         let currentOnFieldStart = MatchStatusHelper.currentOnFieldStart(
             in: event.matches
         )
@@ -116,7 +116,7 @@ final class ScheduleLiveActivityManager {
         return nil
     }
 
-    private func statusText(for match: SharedMatch) -> String {
+    private func statusText(for match: Match) -> String {
         let currentOnFieldStart = MatchStatusHelper.currentOnFieldStart(
             in: [match])
         if MatchStatusHelper.isCurrentlyPlaying(
@@ -129,7 +129,7 @@ final class ScheduleLiveActivityManager {
     }
 
     private func buildHighlightedSummary(
-        event: SharedEvent,
+        event: Event,
         highlightedTeams: [String: Color]
     ) -> [HighlightedTeamInfo] {
         guard !highlightedTeams.isEmpty else { return [] }
@@ -186,7 +186,7 @@ final class ScheduleLiveActivityManager {
         return result
     }
 
-    private func statusEtaEpoch(for match: SharedMatch, status: String)
+    private func statusEtaEpoch(for match: Match, status: String)
         -> Int64?
     {
         switch status.lowercased() {

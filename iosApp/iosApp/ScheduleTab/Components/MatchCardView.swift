@@ -9,7 +9,7 @@ import ComposeApp
 import SwiftUI
 
 struct MatchCardView: View {
-    let match: SharedMatch
+    let match: Match
     let highlightedTeams: [String: Color]
     let currentOnFieldStart: Int64?
     @ObservedObject private var network = NetworkMonitor.shared

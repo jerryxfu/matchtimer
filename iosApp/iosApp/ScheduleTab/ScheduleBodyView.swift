@@ -2,7 +2,7 @@ import ComposeApp
 import SwiftUI
 
 struct ScheduleBodyView: View {
-    let event: SharedEvent?
+    let event: Event?
     let error: String?
     @Binding var highlightedTeams: [String: Color]
     @State private var showPastMatches = false
@@ -66,7 +66,7 @@ struct ScheduleBodyView: View {
     // MARK: - Past matches dropdown
 
     private func pastMatchesDropdown(
-        doneMatches: [SharedMatch],
+        doneMatches: [Match],
         currentOnFieldStart: Int64?
     ) -> some View {
         // Last = most recent completed, older = everything before it

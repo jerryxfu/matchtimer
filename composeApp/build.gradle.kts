@@ -24,6 +24,7 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
             freeCompilerArgs += listOf("-Xbinary=bundleId=net.jerryxf.technexus")
+            export(projects.shared)
         }
     }
 
@@ -51,6 +52,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.serialization.proto)
             implementation(projects.shared)
+            api(projects.shared)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.ios)

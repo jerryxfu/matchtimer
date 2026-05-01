@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import net.jerryxf.technexus.Destination
 import net.jerryxf.technexus.views.schedule.ScheduleView
+import net.jerryxf.technexus.views.settings.SettingsView
 
 @Composable
 fun AppNavHost(nav: NavHostController, startDestination: Destination, modifier: Modifier = Modifier) {
@@ -16,6 +17,7 @@ fun AppNavHost(nav: NavHostController, startDestination: Destination, modifier: 
             composable(destination.route) {
                 when (destination) {
                     Destination.SCHEDULE -> ScheduleView()
+                    Destination.SETTINGS -> SettingsView()
                     else -> Text("Coming soon")
                 }
             }

@@ -32,7 +32,7 @@ struct ContentView: View {
             //            }
 
             Tab("Settings", systemImage: "gear") {
-                PlaceholderView(title: "Settings", icon: "gear")
+                SettingsView()
             }
         }
         .tabBarMinimizeBehavior(.onScrollDown)
@@ -60,7 +60,7 @@ struct ContentView: View {
             //                    Label("MatchTimer", systemImage: "timer")
             //                }
 
-            PlaceholderView(title: "Settings", icon: "gear")
+            SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }

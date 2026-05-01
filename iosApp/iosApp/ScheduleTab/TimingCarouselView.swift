@@ -2,7 +2,7 @@ import ComposeApp
 import SwiftUI
 
 struct TimingCarouselView: View {
-    let times: SharedMatchTimes
+    let times: MatchTimes
 
     @State private var selection: Int = 0
     @State private var hasInitialized = false

@@ -2,7 +2,7 @@ import ComposeApp
 import SwiftUI
 
 struct ScheduleHeaderView: View {
-    let event: SharedEvent?
+    let event: Event?
     @ObservedObject private var network = NetworkMonitor.shared
     @State private var blinkOn = true
 
@@ -63,7 +63,7 @@ struct ScheduleHeaderView: View {
         .padding(.bottom, 12)
     }
 
-    private func latestMatch(in event: SharedEvent) -> SharedMatch? {
+    private func latestMatch(in event: Event) -> Match? {
         let onFieldMatches = event.matches.filter {
             $0.status.lowercased() == "on field"
         }
