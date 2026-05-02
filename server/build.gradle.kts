@@ -18,6 +18,11 @@ application {
 dependencies {
     implementation(projects.shared)
     implementation(libs.logback)
+    implementation(libs.exposed.core)
+    implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.json)
+    implementation(libs.exposed.datetime)
+    implementation(libs.exposed.postgres)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.cio)
     implementation(libs.ktor.server.contentNegotiation)

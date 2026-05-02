@@ -57,6 +57,9 @@ fun Application.module() {
 
     server.monitor.subscribe(ApplicationStopped) { client.close() }
 
+    database("", "", "")
+    batteries()
+
     routing {
         get("/event/{event}") {
             call.caching = CachingOptions(CacheControl.MaxAge(15))

@@ -2,6 +2,7 @@ package net.jerryxf.technexus.shared
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlin.time.Instant
 
 val jsonConfig = Json {
     ignoreUnknownKeys = true
@@ -37,4 +38,20 @@ data class MatchTimes(
 data class MatchScore(
     val blue: UShort,
     val red: UShort
+)
+
+@Serializable
+data class Battery(
+    val id: UInt,
+    val name: String,
+    val type: String,
+    val year: UByte
+)
+
+@Serializable
+data class BatteryCycle(
+    val id: UInt,
+    val battery: Battery,
+    val startTime: Instant,
+    val endTime: Instant
 )

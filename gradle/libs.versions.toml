@@ -7,6 +7,8 @@ androidx-activity = "1.13.0"
 androidx-preferences = "1.2.1"
 androidx-navigation = "2.9.7"
 composeMultiplatform = "1.10.3"
+exposed = "1.2.0"
+postgres = "42.7.10"
 materialIcons = "1.7.8"
 kotlin = "2.3.20"
 kotlinx-coroutines = "1.10.2"
@@ -29,6 +31,11 @@ compose-materialIcons-extended = { module = "androidx.compose.material:material-
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
 compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
+exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+exposed-json = { module = "org.jetbrains.exposed:exposed-json", version.ref = "exposed" }
+exposed-datetime = { module = "org.jetbrains.exposed:exposed-kotlin-datetime", version.ref = "exposed" }
+exposed-postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-proto = { module = "org.jetbrains.kotlinx:kotlinx-serialization-protobuf", version.ref = "kotlinx-serialization" }
