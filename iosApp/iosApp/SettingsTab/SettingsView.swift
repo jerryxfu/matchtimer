@@ -56,10 +56,12 @@ struct SettingsView: View {
                 .focused($focusedField, equals: .teamNumber)
                 .keyboardType(.numberPad)
             }
-            Text("Event ID determines which schedule is loaded. Team number doesn't do anything yet.")
-                .font(.footnote)
-                .foregroundStyle(.tertiary)
-                .padding(.horizontal, 4)
+            Text(
+                "Event ID determines which schedule is loaded. Team number doesn't do anything yet."
+            )
+            .font(.footnote)
+            .foregroundStyle(.tertiary)
+            .padding(.horizontal, 4)
         }
     }
 
@@ -103,7 +105,15 @@ struct SettingsView: View {
 
     @ViewBuilder
     private var saveIcon: some View {
-        if #available(iOS 17.0, *) {
+        if #available(iOS 18.0, *) {
+            Image(systemName: isSaved ? "checkmark" : "square.and.arrow.down")
+                .contentTransition(
+                    .symbolEffect(
+                        .replace.magic(fallback: .downUp),
+                        options: .nonRepeating
+                    )
+                )
+        } else if #available(iOS 17.0, *) {
             Image(systemName: isSaved ? "checkmark" : "square.and.arrow.down")
                 .contentTransition(.symbolEffect(.replace.downUp))
         } else {
@@ -127,13 +137,13 @@ struct SettingsView: View {
         settings.setEventId(eventId: eventId)
         settings.setTeamNumber(teamNumber: teamNumber)
 
-        withAnimation(.easeInOut(duration: 0.35)) {
+        withAnimation {
             hasChanges = false
             isSaved = true
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            withAnimation(.easeInOut(duration: 0.35)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            withAnimation {
                 isSaved = false
             }
         }
@@ -174,7 +184,6 @@ private struct SettingsRow: View {
         .padding(.vertical, 12)
     }
 }
-
 
 #Preview {
     SettingsView()
