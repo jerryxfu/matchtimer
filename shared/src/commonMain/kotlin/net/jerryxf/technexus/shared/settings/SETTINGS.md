@@ -38,18 +38,16 @@ companion object {
 
 **3. `SettingsView.swift`** (iOS) — add a field and wire it to save.
 
-That's it. The platform factories, `SettingsManager`, and `Constants.kt` don't need changes.
-
 ## File Locations
 
 ```
-shared/src/commonMain/.../settings/AppSettings.kt       ← all settings defined here
-shared/src/commonMain/.../settings/SettingsManager.kt    ← singleton access
+shared/src/commonMain/.../settings/AppSettings.kt       <- all settings defined here
+shared/src/commonMain/.../settings/SettingsManager.kt    <- singleton access
 shared/src/androidMain/.../settings/SettingsFactory.android.kt
 shared/src/iosMain/.../settings/SettingsFactory.ios.kt
 shared/src/jvmMain/.../settings/SettingsFactory.jvm.kt
 composeApp/src/androidMain/.../views/settings/SettingsView.kt
-iosApp/iosApp/SettingsView.swift
+iosApp/iosApp/SettingsTab/SettingsView.swift
 ```
 
 ## Android Init
@@ -58,11 +56,8 @@ iosApp/iosApp/SettingsView.swift
 
 ## Current Settings
 
-| Key | Default | Description |
-|-----|---------|-------------|
-| `event_id` | `"2026daly"` | Which event to fetch data for |
-| `team_number` | `""` | FRC team number for highlighting |
+| Key           | Default      | Description                      |
+|---------------|--------------|----------------------------------|
+| `event_id`    | `"2026daly"` | Which event to fetch data for    |
+| `team_number` | `""`         | FRC team number for highlighting |
 
-## Supported Types
-
-String, Int, Long, Float, Double, Boolean (and nullable variants) — all via `multiplatform-settings`.
