@@ -4,12 +4,18 @@ import SwiftUI
 struct SettingsView: View {
     @State private var eventId = ""
     @State private var teamNumber = ""
+    @State private var savedEventId = ""
+    @State private var savedTeamNumber = ""
     @State private var isSaved = false
-    @State private var hasChanges = false
+    @State private var resetTask: Task<Void, Never>?
     @FocusState private var focusedField: Field?
 
     private enum Field {
         case eventId, teamNumber
+    }
+
+    private var hasChanges: Bool {
+        eventId != savedEventId || teamNumber != savedTeamNumber
     }
 
     var body: some View {
@@ -22,15 +28,14 @@ struct SettingsView: View {
                 .padding(16)
             }
             .background(Color(.systemGroupedBackground))
-            .contentShape(Rectangle())
-            .onTapGesture { focusedField = nil }
+            .scrollDismissesKeyboard(.interactively)
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { toolbarContent }
+            .animation(.default, value: hasChanges)
+            .animation(.default, value: isSaved)
         }
         .onAppear(perform: loadSettings)
-        .onChange(of: eventId) { _ in hasChanges = true }
-        .onChange(of: teamNumber) { _ in hasChanges = true }
     }
 
     // MARK: - Sections
@@ -83,41 +88,39 @@ struct SettingsView: View {
 
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .confirmationAction) {
-            saveButton
-        }
-        ToolbarItem(placement: .keyboard) {
-            HStack {
-                Spacer()
-                Button("Done") { focusedField = nil }
-                    .fontWeight(.semibold)
+        if hasChanges {
+            ToolbarItem(id: "discard", placement: .cancellationAction) {
+                Button(action: discard) {
+                    Image(systemName: "arrow.uturn.backward")
+                }
             }
         }
-    }
-
-    private var saveButton: some View {
-        Button(action: save) {
-            saveIcon
+        if hasChanges || isSaved {
+            ToolbarItem(id: "save", placement: .confirmationAction) {
+                Button(action: save) {
+                    saveIcon
+                }
+                .tint(isSaved ? .green : .accentColor)
+            }
         }
-        .tint(isSaved ? .green : .accentColor)
-        .disabled(!hasChanges && !isSaved)
+        ToolbarItemGroup(placement: .keyboard) {
+            Spacer()
+            Button("Done") { focusedField = nil }
+                .fontWeight(.semibold)
+        }
     }
 
     @ViewBuilder
     private var saveIcon: some View {
+        let name = isSaved ? "checkmark" : "square.and.arrow.down"
         if #available(iOS 18.0, *) {
-            Image(systemName: isSaved ? "checkmark" : "square.and.arrow.down")
-                .contentTransition(
-                    .symbolEffect(
-                        .replace.magic(fallback: .downUp),
-                        options: .nonRepeating
-                    )
-                )
+            Image(systemName: name)
+                .contentTransition(.symbolEffect(.replace.byLayer.downUp))
         } else if #available(iOS 17.0, *) {
-            Image(systemName: isSaved ? "checkmark" : "square.and.arrow.down")
-                .contentTransition(.symbolEffect(.replace.downUp))
+            Image(systemName: name)
+                .contentTransition(.symbolEffect(.replace.byLayer.downUp))
         } else {
-            Image(systemName: isSaved ? "checkmark" : "square.and.arrow.down")
+            Image(systemName: name)
         }
     }
 
@@ -125,8 +128,10 @@ struct SettingsView: View {
 
     private func loadSettings() {
         let settings = SettingsManager.shared.settings
-        eventId = settings.getEventId()
-        teamNumber = settings.getTeamNumber()
+        savedEventId = settings.getEventId()
+        savedTeamNumber = settings.getTeamNumber()
+        eventId = savedEventId
+        teamNumber = savedTeamNumber
     }
 
     private func save() {
@@ -136,17 +141,22 @@ struct SettingsView: View {
         let settings = SettingsManager.shared.settings
         settings.setEventId(eventId: eventId)
         settings.setTeamNumber(teamNumber: teamNumber)
+        savedEventId = eventId
+        savedTeamNumber = teamNumber
+        isSaved = true
 
-        withAnimation {
-            hasChanges = false
-            isSaved = true
+        resetTask?.cancel()
+        resetTask = Task {
+            try? await Task.sleep(for: .seconds(2))
+            guard !Task.isCancelled else { return }
+            isSaved = false
         }
+    }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            withAnimation {
-                isSaved = false
-            }
-        }
+    private func discard() {
+        focusedField = nil
+        eventId = savedEventId
+        teamNumber = savedTeamNumber
     }
 }
 
