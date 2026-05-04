@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
+import net.jerryxf.technexus.shared.settings.SettingsFactory
 
 class MainActivity : ComponentActivity() {
     var notif: NotificationCompat.Builder? = null
@@ -14,6 +15,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        // Initialize the settings factory with the application context
+        SettingsFactory.init(applicationContext)
 
         val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()

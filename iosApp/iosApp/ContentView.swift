@@ -20,23 +20,19 @@ struct ContentView: View {
             }
 
             Tab("Pit", systemImage: "hammer") {
-                PlaceholderView(title: "Pit", icon: "hammer")
+                PitTabView()
             }
 
-            Tab("Scout", systemImage: "info.circle.text.page") {
-                ScoutTabView()
-            }
-
-            Tab("Stats", systemImage: "chart.bar") {
+            Tab("TechBotics", systemImage: "chart.bar") {
                 PlaceholderView(title: "Stats", icon: "chart.bar")
             }
 
-            //            Tab("MatchTimer", systemImage: "timer") {
-            //                MatchView(viewModel: viewModel)
-            //            }
+            Tab("MatchTimer", systemImage: "timer") {
+                MatchView(viewModel: viewModel)
+            }
 
             Tab("Settings", systemImage: "gear") {
-                PlaceholderView(title: "Settings", icon: "gear")
+                SettingsView()
             }
         }
         .tabBarMinimizeBehavior(.onScrollDown)
@@ -49,27 +45,22 @@ struct ContentView: View {
                     Label("Schedule", systemImage: "calendar.badge")
                 }
 
-            PlaceholderView(title: "Pit", icon: "hammer")
+            PitTabView()
                 .tabItem {
                     Label("Pit", systemImage: "hammer")
                 }
 
-            ScoutTabView()
-                .tabItem {
-                    Label("Scout", systemImage: "info.circle.text.page")
-                }
-
-            PlaceholderView(title: "Stats", icon: "chart.bar")
+            PlaceholderView(title: "TechBotics", icon: "chart.bar")
                 .tabItem {
                     Label("Stats", systemImage: "chart.bar")
                 }
 
-            //            MatchView(viewModel: viewModel)
-            //                .tabItem {
-            //                    Label("MatchTimer", systemImage: "timer")
-            //                }
+            MatchView(viewModel: viewModel)
+                .tabItem {
+                    Label("MatchTimer", systemImage: "timer")
+                }
 
-            PlaceholderView(title: "Settings", icon: "gear")
+            SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }

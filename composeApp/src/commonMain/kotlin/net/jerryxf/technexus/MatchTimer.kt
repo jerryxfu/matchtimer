@@ -8,13 +8,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
-class MatchTimer(var lowestAutoAlliance: Alliance? = null) {
+class MatchTimer(var lowestAutoAlliance: MatchAlliance? = null) {
     private fun highestAutoAlliance() =
-        if (lowestAutoAlliance == Alliance.RED) Alliance.BLUE else Alliance.RED
+        if(lowestAutoAlliance == MatchAlliance.RED) MatchAlliance.BLUE else MatchAlliance.RED
 
-    private fun activeAllianceFor(shiftNumber: Int): Alliance? {
+    private fun activeAllianceFor(shiftNumber: Int): MatchAlliance? {
         return lowestAutoAlliance?.let {
-            if (shiftNumber % 2 == 1) it else highestAutoAlliance()
+            if(shiftNumber % 2 == 1) it else highestAutoAlliance()
         }
     }
 
@@ -35,13 +35,13 @@ class MatchTimer(var lowestAutoAlliance: Alliance? = null) {
     private var job: Job? = null
 
     fun start(scope: CoroutineScope, onUpdate: (MatchState) -> Unit = {}) {
-        if (job?.isActive == true) return
+        if(job?.isActive == true) return
         var totalElapsed = 0
         job = scope.launch {
-            for ((phase, duration) in phases) {
+            for((phase, duration) in phases) {
                 var remainingDuration = duration
-                while (remainingDuration > 0) {
-                    val currentPhase = when (phase) {
+                while(remainingDuration > 0) {
+                    val currentPhase = when(phase) {
                         is MatchPhase.AllianceShift -> phase.copy(
                             activeAlliance = activeAllianceFor(phase.number)
                         )
@@ -52,7 +52,7 @@ class MatchTimer(var lowestAutoAlliance: Alliance? = null) {
                     onUpdate(_matchState.value)
                     delay(1000.milliseconds)
                     remainingDuration--
-                    if (phase !is MatchPhase.AutoEndPause) totalElapsed++
+                    if(phase !is MatchPhase.AutoEndPause) totalElapsed++
                 }
             }
             _matchState.value = MatchState.ended()

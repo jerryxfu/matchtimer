@@ -140,7 +140,7 @@ struct PhaseCardView: View {
 }
 
 struct HubBadgesView: View {
-    let activeAlliance: Alliance?
+    let activeAlliance: MatchAlliance?
 
     var body: some View {
         HStack(spacing: 6) {
@@ -149,7 +149,7 @@ struct HubBadgesView: View {
         }
     }
 
-    private func badge(alliance: Alliance) -> some View {
+    private func badge(alliance: MatchAlliance) -> some View {
         let isActive = activeAlliance == alliance
         let color: Color = alliance == .red ? .red : .blue
 

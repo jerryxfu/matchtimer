@@ -2,8 +2,8 @@ import ComposeApp
 import SwiftUI
 
 struct AlliancePickerView: View {
-    let selectedAlliance: Alliance?
-    let onAllianceSelected: (Alliance) -> Void
+    let selectedAlliance: MatchAlliance?
+    let onAllianceSelected: (MatchAlliance) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -25,7 +25,7 @@ struct AlliancePickerView: View {
         )
     }
 
-    private func allianceButton(_ alliance: Alliance, label: String)
+    private func allianceButton(_ alliance: MatchAlliance, label: String)
         -> some View
     {
         let isSelected = selectedAlliance == alliance

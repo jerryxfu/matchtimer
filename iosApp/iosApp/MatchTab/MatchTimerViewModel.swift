@@ -76,9 +76,9 @@ class MatchTimerViewModel: ObservableObject {
         endLiveActivity()
     }
 
-    @Published var lowestAutoAlliance: Alliance? = nil
+    @Published var lowestAutoAlliance: MatchAlliance? = nil
 
-    func setLowestAlliance(_ alliance: Alliance) {
+    func setLowestAlliance(_ alliance: MatchAlliance) {
         timer.lowestAutoAlliance = alliance
         lowestAutoAlliance = alliance
     }

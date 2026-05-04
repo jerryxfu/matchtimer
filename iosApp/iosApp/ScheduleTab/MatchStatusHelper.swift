@@ -7,7 +7,7 @@ enum MatchStatusHelper {
     ///   - Another "On field" match has a later start time, OR
     ///   - Its estimated start time + buffer is in the past
     static func isDone(
-        _ match: SharedMatch,
+        _ match: Match,
         currentOnFieldStart: Int64?
     ) -> Bool {
         guard match.status.lowercased() == "on field" else { return false }
@@ -29,7 +29,7 @@ enum MatchStatusHelper {
 
     /// The "current" on-field start time — the latest start time among
     /// "On field" matches.
-    static func currentOnFieldStart(in matches: [SharedMatch]) -> Int64? {
+    static func currentOnFieldStart(in matches: [Match]) -> Int64? {
         matches
             .filter { $0.status.lowercased() == "on field" }
             .map { $0.times.estimatedStartTime }
@@ -38,7 +38,7 @@ enum MatchStatusHelper {
 
     /// The match currently being played (if any).
     static func isCurrentlyPlaying(
-        _ match: SharedMatch,
+        _ match: Match,
         currentOnFieldStart: Int64?
     ) -> Bool {
         match.status.lowercased() == "on field"

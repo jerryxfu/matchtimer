@@ -24,6 +24,7 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
             freeCompilerArgs += listOf("-Xbinary=bundleId=net.jerryxf.technexus")
+            export(projects.shared)
         }
     }
 
@@ -51,6 +52,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.serialization.proto)
             implementation(projects.shared)
+            api(projects.shared)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.ios)
@@ -67,7 +69,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "v0.0.1"
     }
     packaging {
         resources {
