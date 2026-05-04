@@ -1,67 +1,33 @@
-package net.jerryxf.technexus.statbotics
+package net.jerryxf.technexus
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import org.json.JSONArray
-import org.json.JSONObject
-import java.net.HttpURLConnection
-import java.net.URL
+import io.ktor.client.call.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 
 class StatboticsClient(
     private val baseUrl: String = BASE_URL,
 ) {
     companion object {
         const val BASE_URL = "https://api.statbotics.io/v3"
-        private const val TIMEOUT_MS = 10_000
     }
-    private suspend fun get(path: String): JSONObject = withContext(Dispatchers.IO) {
-        val url = URL("$baseUrl$path")
-        val conn = url.openConnection() as HttpURLConnection
-        conn.connectTimeout = TIMEOUT_MS
-        conn.readTimeout = TIMEOUT_MS
-        conn.setRequestProperty("Accept", "application/json")
-        try {
-            when (val code = conn.responseCode) {
-                200  -> JSONObject(conn.inputStream.bufferedReader().readText())
-                404  -> throw StatboticsError.NotFound(path)
-                429  -> throw StatboticsError.RateLimited
-                else -> throw StatboticsError.NetworkError("HTTP $code for $path")
-            }
-        } catch (e: StatboticsError) {
-            throw e
-        } catch (e: Exception) {
-            throw StatboticsError.NetworkError(e.message ?: "Unknown network error")
-        } finally {
-            conn.disconnect()
+
+    private suspend inline fun <reified T> get(
+        path: String,
+        params: Map<String, String> = emptyMap(),
+    ): T {
+        val response = client.get("$baseUrl$path") {
+            params.forEach { (k, v) -> parameter(k, v) }
+        }
+        return when (response.status) {
+            HttpStatusCode.OK               -> response.body<T>()
+            HttpStatusCode.NotFound         -> throw StatboticsError.NotFound(path)
+            HttpStatusCode.TooManyRequests  -> throw StatboticsError.RateLimited
+            else -> throw StatboticsError.NetworkError("HTTP ${response.status.value} for $path")
         }
     }
 
-    private suspend fun getArray(path: String): JSONArray = withContext(Dispatchers.IO) {
-        val url = URL("$baseUrl$path")
-        val conn = url.openConnection() as HttpURLConnection
-        conn.connectTimeout = TIMEOUT_MS
-        conn.readTimeout = TIMEOUT_MS
-        conn.setRequestProperty("Accept", "application/json")
-        try {
-            when (val code = conn.responseCode) {
-                200  -> JSONArray(conn.inputStream.bufferedReader().readText())
-                404  -> throw StatboticsError.NotFound(path)
-                429  -> throw StatboticsError.RateLimited
-                else -> throw StatboticsError.NetworkError("HTTP $code for $path")
-            }
-        } catch (e: StatboticsError) {
-            throw e
-        } catch (e: Exception) {
-            throw StatboticsError.NetworkError(e.message ?: "Unknown network error")
-        } finally {
-            conn.disconnect()
-        }
-    }
-
-    suspend fun getTeam(teamNumber: Int): StatboticsTeam {
-        val j = get("/team/$teamNumber")
-        return j.parseTeam()
-    }
+    suspend fun getTeam(teamNumber: Int): StatboticsTeam =
+        get("/team/$teamNumber")
 
     suspend fun getTeams(
         country: String? = null,
@@ -71,24 +37,21 @@ class StatboticsClient(
         metric: String = "norm_epa",
         limit: Int = 100,
         offset: Int = 0,
-    ): List<StatboticsTeam> {
-        val params = buildParams(
+    ): List<StatboticsTeam> = get(
+        "/teams",
+        buildParams(
             "country" to country,
             "state" to state,
             "district" to district,
             "active" to if (activeOnly) "true" else null,
             "metric" to metric,
-            "limit" to limit.toString(),
-            "offset" to offset.toString(),
+            "limit" to "$limit",
+            "offset" to "$offset",
         )
-        return getArray("/teams$params").parseList { it.parseTeam() }
-    }
+    )
 
-
-    suspend fun getTeamYear(teamNumber: Int, year: Int): StatboticsTeamYear {
-        val j = get("/team_year/$teamNumber/$year")
-        return j.parseTeamYear()
-    }
+    suspend fun getTeamYear(teamNumber: Int, year: Int): StatboticsTeamYear =
+        get("/team_year/$teamNumber/$year")
 
     suspend fun getTeamYears(
         teamNumber: Int? = null,
@@ -96,21 +59,19 @@ class StatboticsClient(
         metric: String = "norm_epa",
         limit: Int = 100,
         offset: Int = 0,
-    ): List<StatboticsTeamYear> {
-        val params = buildParams(
+    ): List<StatboticsTeamYear> = get(
+        "/team_years",
+        buildParams(
             "team" to teamNumber?.toString(),
             "year" to year?.toString(),
             "metric" to metric,
-            "limit" to limit.toString(),
-            "offset" to offset.toString(),
+            "limit" to "$limit",
+            "offset" to "$offset",
         )
-        return getArray("/team_years$params").parseList { it.parseTeamYear() }
-    }
+    )
 
-    suspend fun getEvent(eventKey: String): StatboticsEvent {
-        val j = get("/event/$eventKey")
-        return j.parseEvent()
-    }
+    suspend fun getEvent(eventKey: String): StatboticsEvent =
+        get("/event/$eventKey")
 
     suspend fun getEvents(
         year: Int? = null,
@@ -121,24 +82,22 @@ class StatboticsClient(
         week: Int? = null,
         limit: Int = 100,
         offset: Int = 0,
-    ): List<StatboticsEvent> {
-        val params = buildParams(
+    ): List<StatboticsEvent> = get(
+        "/events",
+        buildParams(
             "year" to year?.toString(),
             "country" to country,
             "state" to state,
             "district" to district,
             "type" to type,
             "week" to week?.toString(),
-            "limit" to limit.toString(),
-            "offset" to offset.toString(),
+            "limit" to "$limit",
+            "offset" to "$offset",
         )
-        return getArray("/events$params").parseList { it.parseEvent() }
-    }
+    )
 
-    suspend fun getTeamEvent(teamNumber: Int, eventKey: String): StatboticsTeamEvent {
-        val j = get("/team_event/$teamNumber/$eventKey")
-        return j.parseTeamEvent()
-    }
+    suspend fun getTeamEvent(teamNumber: Int, eventKey: String): StatboticsTeamEvent =
+        get("/team_event/$teamNumber/$eventKey")
 
     suspend fun getTeamEvents(
         teamNumber: Int? = null,
@@ -147,22 +106,20 @@ class StatboticsClient(
         metric: String = "norm_epa",
         limit: Int = 100,
         offset: Int = 0,
-    ): List<StatboticsTeamEvent> {
-        val params = buildParams(
+    ): List<StatboticsTeamEvent> = get(
+        "/team_events",
+        buildParams(
             "team" to teamNumber?.toString(),
             "event" to eventKey,
             "year" to year?.toString(),
             "metric" to metric,
-            "limit" to limit.toString(),
-            "offset" to offset.toString(),
+            "limit" to "$limit",
+            "offset" to "$offset",
         )
-        return getArray("/team_events$params").parseList { it.parseTeamEvent() }
-    }
+    )
 
-    suspend fun getMatch(matchKey: String): StatboticsMatch {
-        val j = get("/match/$matchKey")
-        return j.parseMatch()
-    }
+    suspend fun getMatch(matchKey: String): StatboticsMatch =
+        get("/match/$matchKey")
 
     suspend fun getMatches(
         teamNumber: Int? = null,
@@ -171,33 +128,24 @@ class StatboticsClient(
         compLevel: String? = null,
         limit: Int = 100,
         offset: Int = 0,
-    ): List<StatboticsMatch> {
-        val params = buildParams(
+    ): List<StatboticsMatch> = get(
+        "/matches",
+        buildParams(
             "team" to teamNumber?.toString(),
             "event" to eventKey,
             "year" to year?.toString(),
             "comp_level" to compLevel,
-            "limit" to limit.toString(),
-            "offset" to offset.toString(),
+            "limit" to "$limit",
+            "offset" to "$offset",
         )
-        return getArray("/matches$params").parseList { it.parseMatch() }
-    }
+    )
 
-    suspend fun getYear(year: Int): StatboticsYear {
-        val j = get("/year/$year")
-        return j.parseYear()
-    }
+    suspend fun getYear(year: Int): StatboticsYear =
+        get("/year/$year")
 
     suspend fun getYears(): List<StatboticsYear> =
-        getArray("/years").parseList { it.parseYear() }
+        get("/years")
 
-    private fun buildParams(vararg pairs: Pair<String, String?>): String {
-        val query = pairs
-            .filter { it.second != null }
-            .joinToString("&") { "${it.first}=${it.second}" }
-        return if (query.isEmpty()) "" else "?$query"
-    }
-
-    private fun <T> JSONArray.parseList(transform: (JSONObject) -> T): List<T> =
-        (0 until length()).map { transform(getJSONObject(it)) }
+    private fun buildParams(vararg pairs: Pair<String, String?>): Map<String, String> =
+        pairs.filter { it.second != null }.associate { it.first to it.second!! }
 }
