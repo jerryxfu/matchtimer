@@ -8,16 +8,6 @@ import org.jetbrains.exposed.v1.datetime.timestamp
 import org.jetbrains.exposed.v1.jdbc.*
 import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
 
-
-fun database(url: String, user: String, password: String) {
-    Database.connect(
-        url = "jdbc:postgresql://$url",
-        driver = "org.postgresql.Driver",
-        user = user,
-        password = password
-    )
-}
-
 private object Batteries : UIntIdTable() {
     val name = varchar("name", 30)
     val type = varchar("type", 20)
