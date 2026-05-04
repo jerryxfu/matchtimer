@@ -34,8 +34,8 @@ private struct DotPositionKey: PreferenceKey {
 
 struct PhaseListView: View {
     let matchState: MatchState
-    let selectedAlliance: Alliance?
-    let onAllianceSelected: (Alliance) -> Void
+    let selectedAlliance: MatchAlliance?
+    let onAllianceSelected: (MatchAlliance) -> Void
     @Namespace private var activeCard
     @State private var dotPositions: [Int: CGFloat] = [:]
 
@@ -160,7 +160,7 @@ struct PhaseListView: View {
             return phase
         }
         guard let lowest = selectedAlliance else { return shift }
-        let highest: Alliance = lowest == .red ? .blue : .red
+        let highest: MatchAlliance = lowest == .red ? .blue : .red
         let active = shift.number % 2 == 1 ? lowest : highest
         return MatchPhase.AllianceShift(
             number: shift.number,

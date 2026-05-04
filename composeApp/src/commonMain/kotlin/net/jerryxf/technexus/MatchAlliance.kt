@@ -1,5 +1,5 @@
 package net.jerryxf.technexus
 
-enum class Alliance {
+enum class MatchAlliance {
     BLUE, RED;
 }

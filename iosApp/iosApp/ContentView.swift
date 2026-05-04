@@ -27,9 +27,9 @@ struct ContentView: View {
                 PlaceholderView(title: "Stats", icon: "chart.bar")
             }
 
-            //            Tab("MatchTimer", systemImage: "timer") {
-            //                MatchView(viewModel: viewModel)
-            //            }
+            Tab("MatchTimer", systemImage: "timer") {
+                MatchView(viewModel: viewModel)
+            }
 
             Tab("Settings", systemImage: "gear") {
                 SettingsView()
@@ -55,10 +55,10 @@ struct ContentView: View {
                     Label("Stats", systemImage: "chart.bar")
                 }
 
-            //            MatchView(viewModel: viewModel)
-            //                .tabItem {
-            //                    Label("MatchTimer", systemImage: "timer")
-            //                }
+            MatchView(viewModel: viewModel)
+                .tabItem {
+                    Label("MatchTimer", systemImage: "timer")
+                }
 
             SettingsView()
                 .tabItem {

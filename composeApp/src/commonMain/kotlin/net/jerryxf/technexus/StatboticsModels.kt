@@ -3,7 +3,7 @@ package net.jerryxf.technexus
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class Alliance { red, blue }
+enum class Alliance { RED, BLUE }
 
 @Serializable
 data class EpaStats(
