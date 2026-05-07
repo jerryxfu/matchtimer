@@ -42,6 +42,17 @@ suspend fun getBattery(id: UInt): Battery? = suspendTransaction {
         .singleOrNull()
 }
 
+suspend fun getBatteries(): List<Battery> = suspendTransaction {
+    Batteries.selectAll().map {
+        Battery(
+            it[Batteries.id].value,
+            it[Batteries.name],
+            it[Batteries.type],
+            it[Batteries.year]
+        )
+    }
+}
+
 suspend fun updateBattery(item: Battery) = suspendTransaction {
     Batteries.update({ Batteries.id eq item.id }) {
         it[Batteries.name] = item.name
