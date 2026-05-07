@@ -6,6 +6,7 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.*
 import net.jerryxf.technexus.shared.Battery
+import net.jerryxf.technexus.shared.BatteryCycle
 
 fun Application.batteries() {
     routing {
@@ -16,7 +17,7 @@ fun Application.batteries() {
             get("/{id}") {
                 val id = try {
                     call.parameters["id"]?.toUIntOrNull()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
                 if (id == null) {
@@ -34,22 +35,114 @@ fun Application.batteries() {
             put("/{id}") {
                 val body = try {
                     call.receive<Battery>()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     call.respond(HttpStatusCode.BadRequest)
                     return@put
                 }
                 val id = try {
                     call.parameters["id"]?.toUIntOrNull()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     null
                 }
                 if (id == null) {
                     call.respond(HttpStatusCode.BadRequest)
                     return@put
                 }
+                val updated = updateBattery(body)
+                if (updated) {
+                    call.respond(HttpStatusCode.OK)
+                    return@put
+                }
+                call.respond(HttpStatusCode.NotFound)
             }
-            delete("/{id}") {}
-            post("/new") {}
+            delete("/{id}") {
+                val id = try {
+                    call.parameters["id"]?.toUIntOrNull()
+                } catch (_: Exception) {
+                    null
+                }
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@delete
+                }
+                deleteBattery(id)
+            }
+            post("/new") {
+                val body = try {
+                    call.receive<Battery>()
+                } catch (_: Exception) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@post
+                }
+                call.respond(createBattery(body))
+            }
+        }
+        route("/cycles") {
+            get("/all") {
+                call.respond(getCycles())
+            }
+            get("/{id}") {
+                val id = try {
+                    call.parameters["id"]?.toUIntOrNull()
+                } catch (_: Exception) {
+                    null
+                }
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@get
+                }
+                val cycle = getCycle(id)
+                if (cycle == null) {
+                    call.respond(HttpStatusCode.NotFound)
+                    return@get
+                }
+
+                call.respond(cycle)
+            }
+            put("/{id}") {
+                val body = try {
+                    call.receive<BatteryCycle>()
+                } catch (_: Exception) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@put
+                }
+                val id = try {
+                    call.parameters["id"]?.toUIntOrNull()
+                } catch (_: Exception) {
+                    null
+                }
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@put
+                }
+                val updated = updateCycle(body)
+                if (updated) {
+                    call.respond(HttpStatusCode.OK)
+                    return@put
+                }
+                call.respond(HttpStatusCode.NotFound)
+            }
+            delete("/{id}") {
+                val id = try {
+                    call.parameters["id"]?.toUIntOrNull()
+                } catch (_: Exception) {
+                    null
+                }
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@delete
+                }
+                deleteCycle(id)
+            }
+            post("/new") {
+                val body = try {
+                    call.receive<BatteryCycle>()
+                } catch (_: Exception) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@post
+                }
+                call.respond(createCycle(body))
+            }
         }
     }
 }

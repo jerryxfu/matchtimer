@@ -5,8 +5,11 @@ import net.jerryxf.technexus.shared.BatteryCycle
 import org.jetbrains.exposed.v1.core.dao.id.UIntIdTable
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.datetime.timestamp
-import org.jetbrains.exposed.v1.jdbc.*
+import org.jetbrains.exposed.v1.jdbc.deleteWhere
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.selectAll
 import org.jetbrains.exposed.v1.jdbc.transactions.suspendTransaction
+import org.jetbrains.exposed.v1.jdbc.update
 
 private object Batteries : UIntIdTable() {
     val name = varchar("name", 30)
@@ -20,12 +23,12 @@ private object BatteryCycles : UIntIdTable() {
     val endTime = timestamp("end_time")
 }
 
-suspend fun createBattery(item: Battery) = suspendTransaction {
-    Batteries.insert {
+suspend fun createBattery(item: Battery): UInt = suspendTransaction {
+    return@suspendTransaction Batteries.insert {
         it[Batteries.name] = item.name
         it[Batteries.type] = item.type
         it[Batteries.year] = item.year
-    }
+    }[Batteries.id].value
 }
 
 suspend fun getBattery(id: UInt): Battery? = suspendTransaction {
@@ -53,28 +56,31 @@ suspend fun getBatteries(): List<Battery> = suspendTransaction {
     }
 }
 
-suspend fun updateBattery(item: Battery) = suspendTransaction {
+suspend fun updateBattery(item: Battery): Boolean = suspendTransaction {
+    var updated = false
     Batteries.update({ Batteries.id eq item.id }) {
         it[Batteries.name] = item.name
         it[Batteries.type] = item.type
         it[Batteries.year] = item.year
+        updated = true
     }
+    updated
 }
 
 suspend fun deleteBattery(id: UInt) = suspendTransaction {
     Batteries.deleteWhere { Batteries.id eq id }
 }
 
-suspend fun createCycle(item: BatteryCycle) = suspendTransaction {
+suspend fun createCycle(item: BatteryCycle): UInt = suspendTransaction {
     BatteryCycles.insert {
         it[BatteryCycles.batteryId] = item.id
         it[BatteryCycles.startTime] = item.startTime
         it[BatteryCycles.endTime] = item.endTime
-    }
+    }[BatteryCycles.id].value
 }
 
 suspend fun getCycle(id: UInt): BatteryCycle? = suspendTransaction {
-    Batteries.selectAll()
+    BatteryCycles.selectAll()
         .where { BatteryCycles.id eq id }
         .map {
             BatteryCycle(
@@ -87,17 +93,31 @@ suspend fun getCycle(id: UInt): BatteryCycle? = suspendTransaction {
         .singleOrNull()
 }
 
+suspend fun getCycles(): List<BatteryCycle> = suspendTransaction {
+    Batteries.selectAll().map {
+        BatteryCycle(
+            it[BatteryCycles.id].value,
+            getBattery(it[BatteryCycles.batteryId].value) ?: return@map null,
+            it[BatteryCycles.startTime],
+            it[BatteryCycles.endTime]
+        )
+    }.filterNotNull()
+}
+
 /**
  * Only updates times (not battery)
  * use updateBattery for that
  */
-suspend fun updateCycle(item: BatteryCycle) = suspendTransaction {
-    Batteries.update({ BatteryCycles.id eq item.id }) {
+suspend fun updateCycle(item: BatteryCycle): Boolean = suspendTransaction {
+    var updated = false
+    BatteryCycles.update({ BatteryCycles.id eq item.id }) {
         it[BatteryCycles.startTime] = item.startTime
         it[BatteryCycles.endTime] = item.endTime
+        updated = true
     }
+    updated
 }
 
 suspend fun deleteCycle(id: UInt) = suspendTransaction {
-    Batteries.deleteWhere { BatteryCycles.id eq id }
+    BatteryCycles.deleteWhere { BatteryCycles.id eq id }
 }
