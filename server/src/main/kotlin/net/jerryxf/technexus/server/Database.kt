@@ -57,14 +57,12 @@ suspend fun getBatteries(): List<Battery> = suspendTransaction {
 }
 
 suspend fun updateBattery(item: Battery): Boolean = suspendTransaction {
-    var updated = false
-    Batteries.update({ Batteries.id eq item.id }) {
+    val updatedRows = Batteries.update({ Batteries.id eq item.id }) {
         it[Batteries.name] = item.name
         it[Batteries.type] = item.type
         it[Batteries.year] = item.year
-        updated = true
     }
-    updated
+    updatedRows > 0
 }
 
 suspend fun deleteBattery(id: UInt) = suspendTransaction {
