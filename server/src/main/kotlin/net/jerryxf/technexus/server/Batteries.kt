@@ -66,6 +66,7 @@ fun Application.batteries() {
                     return@delete
                 }
                 deleteBattery(id)
+                call.respond(HttpStatusCode.NoContent)
             }
             post("/new") {
                 val body = try {
