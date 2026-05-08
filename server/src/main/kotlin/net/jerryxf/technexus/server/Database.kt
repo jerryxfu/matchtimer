@@ -107,13 +107,10 @@ suspend fun getCycles(): List<BatteryCycle> = suspendTransaction {
  * use updateBattery for that
  */
 suspend fun updateCycle(item: BatteryCycle): Boolean = suspendTransaction {
-    var updated = false
     BatteryCycles.update({ BatteryCycles.id eq item.id }) {
         it[BatteryCycles.startTime] = item.startTime
         it[BatteryCycles.endTime] = item.endTime
-        updated = true
-    }
-    updated
+    } > 0
 }
 
 suspend fun deleteCycle(id: UInt) = suspendTransaction {
