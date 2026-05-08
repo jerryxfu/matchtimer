@@ -73,7 +73,7 @@ suspend fun deleteBattery(id: UInt) = suspendTransaction {
 
 suspend fun createCycle(item: BatteryCycle): UInt = suspendTransaction {
     BatteryCycles.insert {
-        it[BatteryCycles.batteryId] = item.id
+        it[BatteryCycles.batteryId] = item.battery.id
         it[BatteryCycles.startTime] = item.startTime
         it[BatteryCycles.endTime] = item.endTime
     }[BatteryCycles.id].value
