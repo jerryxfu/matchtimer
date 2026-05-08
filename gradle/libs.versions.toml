@@ -12,6 +12,7 @@ postgres = "42.7.10"
 materialIcons = "1.7.8"
 kotlin = "2.3.20"
 kotlinx-coroutines = "1.10.2"
+kotlinx-datetime = "0.6.1"
 kotlinx-serialization = "1.11.0"
 ktor = "3.4.3"
 logback = "1.5.32"
@@ -38,6 +39,7 @@ exposed-json = { module = "org.jetbrains.exposed:exposed-json", version.ref = "e
 exposed-datetime = { module = "org.jetbrains.exposed:exposed-kotlin-datetime", version.ref = "exposed" }
 exposed-postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-proto = { module = "org.jetbrains.kotlinx:kotlinx-serialization-protobuf", version.ref = "kotlinx-serialization" }
 ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
