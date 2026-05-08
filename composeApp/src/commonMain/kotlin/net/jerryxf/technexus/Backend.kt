@@ -69,14 +69,14 @@ suspend fun getBattery(id: UInt): Battery? {
     }
 }
 
-suspend fun updateBattery(bat: Battery): Battery? {
+suspend fun updateBattery(bat: Battery): Boolean {
     return try {
         client.put("$apiUrl/batteries/${bat.id}") {
             setBody(bat)
-        }.body()
+        }.status == HttpStatusCode.OK
     } catch (e: Exception) {
         e.printStackTrace()
-        null
+        false
     }
 }
 
