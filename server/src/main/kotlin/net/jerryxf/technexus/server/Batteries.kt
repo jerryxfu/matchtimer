@@ -134,6 +134,7 @@ fun Application.batteries() {
                     return@delete
                 }
                 deleteCycle(id)
+                call.respond(HttpStatusCode.NoContent)
             }
             post("/new") {
                 val body = try {
