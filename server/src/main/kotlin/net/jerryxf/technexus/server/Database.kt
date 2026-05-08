@@ -92,7 +92,7 @@ suspend fun getCycle(id: UInt): BatteryCycle? = suspendTransaction {
 }
 
 suspend fun getCycles(): List<BatteryCycle> = suspendTransaction {
-    Batteries.selectAll().map {
+    BatteryCycles.selectAll().map {
         BatteryCycle(
             it[BatteryCycles.id].value,
             getBattery(it[BatteryCycles.batteryId].value) ?: return@map null,
