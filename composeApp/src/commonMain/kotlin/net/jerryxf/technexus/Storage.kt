@@ -11,44 +11,36 @@ import kotlinx.serialization.encodeToByteArray
  *   2. Add get/set methods
  *   3. Update UI in SettingsView.kt (Android) and SettingsView.swift (iOS)
  */
-class AppSettings(private val settings: Settings) {
-
-    // ── Event ────────────────────────────────────────────────
+class AppSettings(private val _settings: () -> Settings) {
+    private val settings = lazy { _settings() }
     fun getEventId(): String =
-        settings.getStringOrNull(KEY_EVENT_ID) ?: DEFAULT_EVENT_ID
+        settings.value.getStringOrNull(KEY_EVENT_ID) ?: DEFAULT_EVENT_ID
 
     fun setEventId(eventId: String) {
-        settings.putString(KEY_EVENT_ID, eventId)
+        settings.value.putString(KEY_EVENT_ID, eventId)
     }
 
-    // ── Team Number ──────────────────────────────────────────
     fun getTeamNumber(): String =
-        settings.getStringOrNull(KEY_TEAM_NUMBER) ?: DEFAULT_TEAM_NUMBER
+        settings.value.getStringOrNull(KEY_TEAM_NUMBER) ?: DEFAULT_TEAM_NUMBER
 
     fun setTeamNumber(teamNumber: String) {
-        settings.putString(KEY_TEAM_NUMBER, teamNumber)
+        settings.value.putString(KEY_TEAM_NUMBER, teamNumber)
     }
-
-    // ── Add new settings above this line ─────────────────────
 
     companion object {
         private const val KEY_EVENT_ID = "event_id"
         private const val DEFAULT_EVENT_ID = "2026daly"
 
         private const val KEY_TEAM_NUMBER = "team_number"
-        private const val DEFAULT_TEAM_NUMBER = ""
+        private const val DEFAULT_TEAM_NUMBER = "3990"
     }
 }
 
-expect fun createSettings(): Settings
-
 object SettingsManager {
-    private val _settings = lazy { AppSettings(createSettings()) }
-
-    val settings: AppSettings
-        get() = _settings.value
+    val settings = AppSettings { createSettings() }
 }
 
+expect fun createSettings(): Settings
 
 expect fun save(name: String, data: ByteArray)
 expect fun save(name: String, data: String)

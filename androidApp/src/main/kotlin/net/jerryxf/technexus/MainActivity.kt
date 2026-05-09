@@ -7,12 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
-import java.io.File
 
 class MainActivity : ComponentActivity() {
-    companion object {
-        lateinit var filesDir: File
-    }
     var notif: NotificationCompat.Builder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,9 +24,8 @@ class MainActivity : ComponentActivity() {
 
         requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
 
-        initNotificationChannel(applicationContext)
         initSettings(applicationContext)
-        Companion.filesDir = filesDir
+        initNotificationChannel(applicationContext)
 
         setContent {
             App()
@@ -38,13 +33,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        client.close()
+        dispose()
         super.onDestroy()
     }
-}
-
-fun MatchState.timeString(): String {
-    val m = this.totalSecondsRemaining / 60
-    val s = this.totalSecondsRemaining % 60
-    return String.format("%d:%02d", m, s)
 }
