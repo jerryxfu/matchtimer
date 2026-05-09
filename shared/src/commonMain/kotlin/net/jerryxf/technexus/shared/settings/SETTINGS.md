@@ -1,6 +1,7 @@
 # Settings System
 
-Cross-platform settings using `multiplatform-settings` (russhwolf). Settings are stored in SharedPreferences (Android) and NSUserDefaults (iOS).
+Cross-platform settings using `multiplatform-settings` (russhwolf). Settings are stored in SharedPreferences (Android)
+and NSUserDefaults (iOS).
 
 ## Usage
 

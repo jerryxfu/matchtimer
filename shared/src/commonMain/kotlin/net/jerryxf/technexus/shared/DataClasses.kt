@@ -1,8 +1,8 @@
 package net.jerryxf.technexus.shared
 
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.datetime.Instant
 
 val jsonConfig = Json {
     ignoreUnknownKeys = true

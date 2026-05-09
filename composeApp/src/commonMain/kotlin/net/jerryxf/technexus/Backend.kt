@@ -1,17 +1,9 @@
 package net.jerryxf.technexus
 
-import io.ktor.client.call.body
-import io.ktor.client.request.delete
-import io.ktor.client.request.get
-import io.ktor.client.request.post
-import io.ktor.client.request.put
-import io.ktor.client.request.setBody
-import io.ktor.http.HttpStatusCode
-import net.jerryxf.technexus.shared.Battery
-import net.jerryxf.technexus.shared.BatteryCycle
-import net.jerryxf.technexus.shared.Event
-import net.jerryxf.technexus.shared.MatchId
-import net.jerryxf.technexus.shared.MatchScore
+import io.ktor.client.call.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import net.jerryxf.technexus.shared.*
 
 private const val apiUrl = "https://nexus.raphdf201.net"
 
