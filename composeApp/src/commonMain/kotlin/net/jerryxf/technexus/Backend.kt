@@ -94,7 +94,7 @@ suspend fun deleteBattery(bat: Battery): Boolean {
  *
  * It doesn't care of the id you input initially
  */
-suspend fun createCycle(cycle: BatteryCycle): BatteryCycle? {
+suspend fun createCycle(cycle: BatteryCycle): UInt? {
     return try {
         client.post("$apiUrl/cycles/new") {
             setBody(cycle)
