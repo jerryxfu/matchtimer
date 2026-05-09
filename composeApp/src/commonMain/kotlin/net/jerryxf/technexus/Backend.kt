@@ -123,14 +123,14 @@ suspend fun getCycle(id: UInt): BatteryCycle? {
     }
 }
 
-suspend fun updateCycle(cycle: BatteryCycle): BatteryCycle? {
+suspend fun updateCycle(cycle: BatteryCycle): Boolean {
     return try {
         client.put("$apiUrl/cycles/edit") {
             setBody(cycle)
-        }.body()
+        }.status == HttpStatusCode.OK
     } catch (e: Exception) {
         e.printStackTrace()
-        null
+        false
     }
 }
 

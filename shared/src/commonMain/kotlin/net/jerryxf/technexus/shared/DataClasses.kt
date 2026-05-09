@@ -51,7 +51,7 @@ data class Battery(
 @Serializable
 data class BatteryCycle(
     val id: UInt,
-    val battery: Battery,
+    val batteryId: UInt,
     val startTime: Instant,
     val endTime: Instant
 )

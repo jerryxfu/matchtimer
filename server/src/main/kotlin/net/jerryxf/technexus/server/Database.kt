@@ -1,5 +1,7 @@
 package net.jerryxf.technexus.server
 
+import kotlinx.datetime.toDeprecatedInstant
+import kotlinx.datetime.toStdlibInstant
 import net.jerryxf.technexus.shared.Battery
 import net.jerryxf.technexus.shared.BatteryCycle
 import org.jetbrains.exposed.v1.core.dao.id.UIntIdTable
@@ -71,9 +73,9 @@ suspend fun deleteBattery(id: UInt) = suspendTransaction {
 
 suspend fun createCycle(item: BatteryCycle): UInt = suspendTransaction {
     BatteryCycles.insert {
-        it[BatteryCycles.batteryId] = item.battery.id
-        it[BatteryCycles.startTime] = item.startTime
-        it[BatteryCycles.endTime] = item.endTime
+        it[BatteryCycles.batteryId] = item.batteryId
+        it[BatteryCycles.startTime] = item.startTime.toStdlibInstant()
+        it[BatteryCycles.endTime] = item.endTime.toStdlibInstant()
     }[BatteryCycles.id].value
 }
 
@@ -83,9 +85,9 @@ suspend fun getCycle(id: UInt): BatteryCycle? = suspendTransaction {
         .map {
             BatteryCycle(
                 it[BatteryCycles.id].value,
-                getBattery(it[BatteryCycles.batteryId].value) ?: return@map null,
-                it[BatteryCycles.startTime],
-                it[BatteryCycles.endTime]
+                it[BatteryCycles.batteryId].value,
+                it[BatteryCycles.startTime].toDeprecatedInstant(),
+                it[BatteryCycles.endTime].toDeprecatedInstant()
             )
         }
         .singleOrNull()
@@ -95,9 +97,9 @@ suspend fun getCycles(): List<BatteryCycle> = suspendTransaction {
     BatteryCycles.selectAll().map {
         BatteryCycle(
             it[BatteryCycles.id].value,
-            getBattery(it[BatteryCycles.batteryId].value) ?: return@map null,
-            it[BatteryCycles.startTime],
-            it[BatteryCycles.endTime]
+            it[BatteryCycles.batteryId].value,
+            it[BatteryCycles.startTime].toDeprecatedInstant(),
+            it[BatteryCycles.endTime].toDeprecatedInstant()
         )
     }.filterNotNull()
 }
@@ -108,8 +110,8 @@ suspend fun getCycles(): List<BatteryCycle> = suspendTransaction {
  */
 suspend fun updateCycle(item: BatteryCycle): Boolean = suspendTransaction {
     BatteryCycles.update({ BatteryCycles.id eq item.id }) {
-        it[BatteryCycles.startTime] = item.startTime
-        it[BatteryCycles.endTime] = item.endTime
+        it[BatteryCycles.startTime] = item.startTime.toStdlibInstant()
+        it[BatteryCycles.endTime] = item.endTime.toStdlibInstant()
     } > 0
 }
 
