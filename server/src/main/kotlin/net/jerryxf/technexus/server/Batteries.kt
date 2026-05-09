@@ -32,19 +32,10 @@ fun Application.batteries() {
 
                 call.respond(bat)
             }
-            put("/{id}") {
+            put("/edit") {
                 val body = try {
                     call.receive<Battery>()
                 } catch (_: Exception) {
-                    call.respond(HttpStatusCode.BadRequest)
-                    return@put
-                }
-                val id = try {
-                    call.parameters["id"]?.toUIntOrNull()
-                } catch (_: Exception) {
-                    null
-                }
-                if (id == null) {
                     call.respond(HttpStatusCode.BadRequest)
                     return@put
                 }
@@ -100,19 +91,10 @@ fun Application.batteries() {
 
                 call.respond(cycle)
             }
-            put("/{id}") {
+            put("/edit") {
                 val body = try {
                     call.receive<BatteryCycle>()
                 } catch (_: Exception) {
-                    call.respond(HttpStatusCode.BadRequest)
-                    return@put
-                }
-                val id = try {
-                    call.parameters["id"]?.toUIntOrNull()
-                } catch (_: Exception) {
-                    null
-                }
-                if (id == null) {
                     call.respond(HttpStatusCode.BadRequest)
                     return@put
                 }

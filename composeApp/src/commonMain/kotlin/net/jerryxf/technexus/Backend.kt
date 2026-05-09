@@ -71,7 +71,7 @@ suspend fun getBattery(id: UInt): Battery? {
 
 suspend fun updateBattery(bat: Battery): Boolean {
     return try {
-        client.put("$apiUrl/batteries/${bat.id}") {
+        client.put("$apiUrl/batteries/edit") {
             setBody(bat)
         }.status == HttpStatusCode.OK
     } catch (e: Exception) {
@@ -125,7 +125,7 @@ suspend fun getCycle(id: UInt): BatteryCycle? {
 
 suspend fun updateCycle(cycle: BatteryCycle): BatteryCycle? {
     return try {
-        client.put("$apiUrl/cycles/${cycle.id}") {
+        client.put("$apiUrl/cycles/edit") {
             setBody(cycle)
         }.body()
     } catch (e: Exception) {
