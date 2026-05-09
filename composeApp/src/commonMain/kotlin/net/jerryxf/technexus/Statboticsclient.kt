@@ -18,7 +18,7 @@ class StatboticsClient(
         val response = client.get("$baseUrl$path") {
             params.forEach { (k, v) -> parameter(k, v) }
         }
-        return when(response.status) {
+        return when (response.status) {
             HttpStatusCode.OK -> response.body<T>()
             HttpStatusCode.NotFound -> throw StatboticsError.NotFound(path)
             HttpStatusCode.TooManyRequests -> throw StatboticsError.RateLimited
@@ -43,7 +43,7 @@ class StatboticsClient(
             "country" to country,
             "state" to state,
             "district" to district,
-            "active" to if(activeOnly) "true" else null,
+            "active" to if (activeOnly) "true" else null,
             "metric" to metric,
             "limit" to "$limit",
             "offset" to "$offset",
