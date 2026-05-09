@@ -7,8 +7,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
+import java.io.File
 
 class MainActivity : ComponentActivity() {
+    companion object {
+        lateinit var filesDir: File
+    }
     var notif: NotificationCompat.Builder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +30,7 @@ class MainActivity : ComponentActivity() {
 
         initNotificationChannel(applicationContext)
         initSettings(applicationContext)
+        Companion.filesDir = filesDir
 
         setContent {
             App()

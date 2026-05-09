@@ -6,6 +6,8 @@ import io.ktor.client.plugins.cache.*
 import io.ktor.client.plugins.compression.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.protobuf.ProtoBuf
 import net.jerryxf.technexus.shared.jsonConfig
 import kotlin.time.Duration.Companion.seconds
 
@@ -20,6 +22,11 @@ val client = HttpClient {
         mode = ContentEncodingConfig.Mode.All
     }
     install(HttpCache)
+}
+
+@OptIn(ExperimentalSerializationApi::class)
+val protoConfig = ProtoBuf {
+    encodeDefaults = false
 }
 
 data class StatusConfig(val statusKey: String, val label: String, val color: Color)

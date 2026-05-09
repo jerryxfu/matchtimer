@@ -74,8 +74,8 @@ suspend fun deleteBattery(id: UInt) = suspendTransaction {
 suspend fun createCycle(item: BatteryCycle): UInt = suspendTransaction {
     BatteryCycles.insert {
         it[BatteryCycles.batteryId] = item.batteryId
-        it[BatteryCycles.startTime] = item.startTime.toStdlibInstant()
-        it[BatteryCycles.endTime] = item.endTime.toStdlibInstant()
+        it[BatteryCycles.startTime] = item.startTime
+        it[BatteryCycles.endTime] = item.endTime
     }[BatteryCycles.id].value
 }
 
@@ -86,8 +86,8 @@ suspend fun getCycle(id: UInt): BatteryCycle? = suspendTransaction {
             BatteryCycle(
                 it[BatteryCycles.id].value,
                 it[BatteryCycles.batteryId].value,
-                it[BatteryCycles.startTime].toDeprecatedInstant(),
-                it[BatteryCycles.endTime].toDeprecatedInstant()
+                it[BatteryCycles.startTime],
+                it[BatteryCycles.endTime]
             )
         }
         .singleOrNull()
@@ -98,8 +98,8 @@ suspend fun getCycles(): List<BatteryCycle> = suspendTransaction {
         BatteryCycle(
             it[BatteryCycles.id].value,
             it[BatteryCycles.batteryId].value,
-            it[BatteryCycles.startTime].toDeprecatedInstant(),
-            it[BatteryCycles.endTime].toDeprecatedInstant()
+            it[BatteryCycles.startTime],
+            it[BatteryCycles.endTime]
         )
     }
 }
@@ -110,8 +110,8 @@ suspend fun getCycles(): List<BatteryCycle> = suspendTransaction {
  */
 suspend fun updateCycle(item: BatteryCycle): Boolean = suspendTransaction {
     BatteryCycles.update({ BatteryCycles.id eq item.id }) {
-        it[BatteryCycles.startTime] = item.startTime.toStdlibInstant()
-        it[BatteryCycles.endTime] = item.endTime.toStdlibInstant()
+        it[BatteryCycles.startTime] = item.startTime
+        it[BatteryCycles.endTime] = item.endTime
     } > 0
 }
 
