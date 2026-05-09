@@ -90,9 +90,9 @@ suspend fun deleteBattery(bat: Battery): Boolean {
 }
 
 /**
- * Create a battery. Returns the battery's id.
+ * Create a cycle. Returns the created cycle.
  *
- * It doesn't care of the id you input initially
+ * It ignores the ID you provide initially.
  */
 suspend fun createCycle(cycle: BatteryCycle): UInt? {
     return try {
