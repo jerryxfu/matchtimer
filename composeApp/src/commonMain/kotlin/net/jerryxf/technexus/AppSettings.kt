@@ -1,4 +1,4 @@
-package net.jerryxf.technexus.shared.settings
+package net.jerryxf.technexus
 
 import com.russhwolf.settings.Settings
 
@@ -35,4 +35,13 @@ class AppSettings(private val settings: Settings) {
         private const val KEY_TEAM_NUMBER = "team_number"
         private const val DEFAULT_TEAM_NUMBER = ""
     }
+}
+
+expect fun createSettings(): Settings
+
+object SettingsManager {
+    private val _settings = lazy { AppSettings(createSettings()) }
+
+    val settings: AppSettings
+        get() = _settings.value
 }

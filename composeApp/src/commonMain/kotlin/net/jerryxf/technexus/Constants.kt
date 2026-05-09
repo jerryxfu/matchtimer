@@ -7,7 +7,6 @@ import io.ktor.client.plugins.compression.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import net.jerryxf.technexus.shared.jsonConfig
-import net.jerryxf.technexus.shared.settings.SettingsManager
 import kotlin.time.Duration.Companion.seconds
 
 val client = HttpClient {
