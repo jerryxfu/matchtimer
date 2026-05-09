@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import net.jerryxf.technexus.shared.settings.SettingsManager
+import net.jerryxf.technexus.SettingsManager
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable

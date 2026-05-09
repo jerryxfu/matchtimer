@@ -1,6 +1,9 @@
-package net.jerryxf.technexus.shared.settings
+package net.jerryxf.technexus
 
 import com.russhwolf.settings.Settings
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.decodeFromByteArray
+import kotlinx.serialization.encodeToByteArray
 
 /**
  * Centralized app settings. Add new settings by following the pattern:
@@ -36,3 +39,29 @@ class AppSettings(private val settings: Settings) {
         private const val DEFAULT_TEAM_NUMBER = ""
     }
 }
+
+expect fun createSettings(): Settings
+
+object SettingsManager {
+    private val _settings = lazy { AppSettings(createSettings()) }
+
+    val settings: AppSettings
+        get() = _settings.value
+}
+
+
+expect fun save(name: String, data: ByteArray)
+expect fun save(name: String, data: String)
+
+@OptIn(ExperimentalSerializationApi::class)
+inline fun <reified T> save(name: String, data: T) = save(name, protoConfig.encodeToByteArray(data))
+
+expect fun loadBytes(name: String): ByteArray?
+expect fun loadString(name: String): String?
+
+@OptIn(ExperimentalSerializationApi::class)
+inline fun <reified T> load(name: String) = loadBytes(name)?.let { protoConfig.decodeFromByteArray<T>(it) }
+
+expect fun exists(name: String): Boolean
+
+expect fun delete(name: String): Boolean
