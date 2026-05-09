@@ -101,7 +101,7 @@ suspend fun getCycles(): List<BatteryCycle> = suspendTransaction {
             it[BatteryCycles.startTime].toDeprecatedInstant(),
             it[BatteryCycles.endTime].toDeprecatedInstant()
         )
-    }.filterNotNull()
+    }
 }
 
 /**
