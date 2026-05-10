@@ -41,9 +41,8 @@ jobs:
           xcodebuild \
             -project iosApp/TechNexus.xcodeproj \
             -scheme TechNexus \
-            -destination 'generic/platform=iOS Simulator' \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
             -configuration Debug \
-            PLATFORM_NAME=iphonesimulator \
-            ARCHS=arm64 \
             CODE_SIGNING_ALLOWED=NO \
             build
