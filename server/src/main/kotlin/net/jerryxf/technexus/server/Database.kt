@@ -1,7 +1,5 @@
 package net.jerryxf.technexus.server
 
-import kotlinx.datetime.toDeprecatedInstant
-import kotlinx.datetime.toStdlibInstant
 import net.jerryxf.technexus.shared.Battery
 import net.jerryxf.technexus.shared.BatteryCycle
 import org.jetbrains.exposed.v1.core.dao.id.UIntIdTable
