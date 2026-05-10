@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -54,6 +55,8 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.serialization.proto)
             implementation(libs.multiplatform.settings)
+            implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
             implementation(projects.shared)
             api(projects.shared)
         }
