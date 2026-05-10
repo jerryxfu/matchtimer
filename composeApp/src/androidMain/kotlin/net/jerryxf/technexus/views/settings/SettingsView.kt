@@ -12,6 +12,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import net.jerryxf.technexus.SettingsManager
+import net.jerryxf.technexus.load
+import net.jerryxf.technexus.save
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
@@ -20,6 +22,7 @@ fun SettingsView(modifier: Modifier = Modifier) {
 
     var eventId by remember { mutableStateOf(settings.getEventId()) }
     var teamNumber by remember { mutableStateOf(settings.getTeamNumber()) }
+    var testString by remember { mutableStateOf(load<String>("testString2")) }
     var saved by remember { mutableStateOf(false) }
 
     LaunchedEffect(saved) {
@@ -75,11 +78,22 @@ fun SettingsView(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(top = 4.dp, bottom = 24.dp)
         )
 
+        OutlinedTextField(
+            value = testString ?: "",
+            onValueChange = { testString = it },
+            label = { Text("Test string") },
+            placeholder = { Text("anything") },
+            singleLine = true,
+            textStyle = MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Monospace),
+            modifier = Modifier.fillMaxWidth()
+        )
+
         // Save
         Button(
             onClick = {
                 settings.setEventId(eventId)
                 settings.setTeamNumber(teamNumber)
+                save("testString2", testString)
                 saved = true
             },
             modifier = Modifier.fillMaxWidth()

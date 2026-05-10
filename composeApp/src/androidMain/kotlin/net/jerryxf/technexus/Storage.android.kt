@@ -16,17 +16,9 @@ actual fun createSettings(): Settings {
     return SharedPreferencesSettings(sharedPreferences)
 }
 
-actual fun save(name: String, data: ByteArray) = File(context.filesDir, name).writeBytes(data)
-actual fun save(name: String, data: String) = File(context.filesDir, name).writeText(data)
+actual fun saveInternal(name: String, data: String) = File(context.filesDir, name).writeText(data)
 
-actual fun loadBytes(name: String): ByteArray? = try {
-    File(context.filesDir, name).readBytes()
-} catch (e: Exception) {
-    e.printStackTrace()
-    null
-}
-
-actual fun loadString(name: String): String? = try {
+actual fun loadInternal(name: String): String? = try {
     File(context.filesDir, name).readText()
 } catch (e: Exception) {
     e.printStackTrace()

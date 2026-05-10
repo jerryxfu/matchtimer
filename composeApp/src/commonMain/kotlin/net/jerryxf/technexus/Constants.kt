@@ -6,8 +6,6 @@ import io.ktor.client.plugins.cache.*
 import io.ktor.client.plugins.compression.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.protobuf.ProtoBuf
 import net.jerryxf.technexus.shared.jsonConfig
 import kotlin.time.Duration.Companion.seconds
 
@@ -24,11 +22,6 @@ val client = HttpClient {
     install(HttpCache)
 }
 
-@OptIn(ExperimentalSerializationApi::class)
-val protoConfig = ProtoBuf {
-    encodeDefaults = false
-}
-
 data class StatusConfig(val statusKey: String, val label: String, val color: Color)
 
 val onField = StatusConfig("on field", "Done", Color.Gray)
@@ -36,7 +29,3 @@ val onDeck = StatusConfig("on deck", "On deck", Color.Blue)
 val nowQueue = StatusConfig("now queuing", "Now queuing", Color.Yellow)
 val queueSoon = StatusConfig("queuing soon", "Queuing soon", Color.Magenta)
 val refreshInterval = 15.seconds
-
-// Use settings for EVENT_ID instead of hardcoding it
-val EVENT_ID: String
-    get() = SettingsManager.settings.getEventId()

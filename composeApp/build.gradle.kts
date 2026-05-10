@@ -52,7 +52,6 @@ kotlin {
             implementation(libs.ktor.client.encoding)
             implementation(libs.ktor.serialization.json)
             implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.serialization.proto)
             implementation(libs.multiplatform.settings)
             api(projects.shared)
         }

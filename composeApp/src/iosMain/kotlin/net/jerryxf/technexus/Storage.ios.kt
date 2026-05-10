@@ -4,34 +4,26 @@ import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.Settings
 import kotlinx.cinterop.*
 import platform.Foundation.*
-import platform.posix.memcpy
+
+fun saveString(name: String, data: String) = save(name, data)
+fun loadString(name: String) = load<String>(name)
 
 actual fun createSettings(): Settings {
     val userDefaults = NSUserDefaults.standardUserDefaults
     return NSUserDefaultsSettings(userDefaults)
 }
 
-actual fun save(name: String, data: ByteArray) {
-    val url = fileURL(name) ?: return
-    val nsData = data.toNSData()
-    nsData.writeToURL(url, atomically = true)
-}
-
 @OptIn(BetaInteropApi::class)
-actual fun save(name: String, data: String) {
+actual fun saveInternal(name: String, data: String) {
     val url = fileURL(name) ?: return
     val nsData = NSString.create(string = data)
         .dataUsingEncoding(NSUTF8StringEncoding) ?: return
-    nsData.writeToURL(url, atomically = true)
-}
-
-actual fun loadBytes(name: String): ByteArray? {
-    val url = fileURL(name) ?: return null
-    return NSData.dataWithContentsOfURL(url)?.toByteArray()
+    val success = nsData.writeToURL(url, atomically = true)
+    if (!success) println("Failed to write $name")
 }
 
 @OptIn(ExperimentalForeignApi::class)
-actual fun loadString(name: String): String? {
+actual fun loadInternal(name: String): String? {
     val url = fileURL(name) ?: return null
     return NSString.stringWithContentsOfURL(url, NSUTF8StringEncoding, null)
 }
@@ -41,12 +33,14 @@ actual fun exists(name: String): Boolean {
     return NSFileManager.defaultManager.fileExistsAtPath(path)
 }
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(BetaInteropApi::class, ExperimentalForeignApi::class)
 actual fun delete(name: String): Boolean {
     val url = fileURL(name) ?: return false
     return memScoped {
         val error = alloc<ObjCObjectVar<NSError?>>()
-        NSFileManager.defaultManager.removeItemAtURL(url, error.ptr)
+        val success = NSFileManager.defaultManager.removeItemAtURL(url, error.ptr)
+        if (!success) println("Delete failed: ${error.value?.localizedDescription}")
+        success
     }
 }
 
@@ -71,10 +65,9 @@ private fun getAppSupportDir(): NSURL? {
         ) {
             dir
         } else {
-            val nsError = error.value
             println(
                 "Failed to create Application Support directory at path $path: " +
-                        (nsError?.localizedDescription ?: "No error details available")
+                        (error.value?.localizedDescription ?: "No error details available")
             )
             null
         }
@@ -83,17 +76,3 @@ private fun getAppSupportDir(): NSURL? {
 
 private fun fileURL(name: String): NSURL? =
     getAppSupportDir()?.URLByAppendingPathComponent(name)
-
-@OptIn(BetaInteropApi::class, ExperimentalForeignApi::class)
-private fun ByteArray.toNSData(): NSData =
-    this.usePinned { pinned ->
-        NSData.create(bytes = pinned.addressOf(0), length = this.size.toULong())
-    }
-
-@OptIn(ExperimentalForeignApi::class)
-private fun NSData.toByteArray(): ByteArray =
-    ByteArray(this.length.toInt()).also { array ->
-        array.usePinned { pinned ->
-            memcpy(pinned.addressOf(0), this.bytes, this.length)
-        }
-    }
