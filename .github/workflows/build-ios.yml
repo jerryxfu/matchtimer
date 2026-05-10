@@ -30,8 +30,8 @@ jobs:
         with:
           cache-disabled: false
 
-      - name: Build shared framework
-        run: chmod +x ./gradlew && ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
+      - name: Prep gradle
+        run: chmod +x ./gradlew
 
       - name: Build iosApp
         run: |
@@ -40,4 +40,9 @@ jobs:
             -scheme TechNexus \
             -destination 'generic/platform=iOS Simulator' \
             -configuration Debug \
+            PLATFORM_NAME=iphonesimulator \
+            ARCHS=arm64 \
+            EXPANDED_CODE_SIGN_IDENTITY="-" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="-" \
             build
