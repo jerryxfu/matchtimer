@@ -10,6 +10,7 @@ on:
       - 'gradlew.bat'
       - '*.gradle.kts'
       - 'gradle.properties'
+      - '.github/workflows/build-server.yml'
 
 jobs:
   build:

@@ -4,13 +4,13 @@ on:
     paths:
       - 'iosApp/**'
       - 'shared/**'
+      - 'composeApp/**'
       - 'gradle/**'
       - 'gradlew'
       - 'gradlew.bat'
       - '*.gradle.kts'
-      - '*.gradle'
-      - '*.properties'
-      - 'libs.versions.toml'
+      - 'gradle.properties'
+      - '.github/workflows/build-ios.yml'
 
 jobs:
   build:
