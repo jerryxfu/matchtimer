@@ -52,11 +52,9 @@ kotlin {
             implementation(libs.ktor.client.encoding)
             implementation(libs.ktor.serialization.json)
             implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.serialization.proto)
             implementation(libs.multiplatform.settings)
-            implementation(projects.shared)
+            api(projects.shared)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.ios)
