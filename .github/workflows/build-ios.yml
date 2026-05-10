@@ -33,6 +33,9 @@ jobs:
       - name: Prep gradle
         run: chmod +x ./gradlew
 
+      - name: List Xcode versions
+        run: ls /Applications/ | grep Xcode
+
       - name: Build iosApp
         run: |
           xcodebuild \
@@ -42,7 +45,5 @@ jobs:
             -configuration Debug \
             PLATFORM_NAME=iphonesimulator \
             ARCHS=arm64 \
-            EXPANDED_CODE_SIGN_IDENTITY="-" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGNING_ALLOWED=NO \
             build
