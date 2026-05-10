@@ -4,10 +4,7 @@ import SwiftUI
 struct ScheduleView: View {
     @State private var event: Event?
     @State private var error: String?
-    @State private var highlightedTeams: [String: Color] = [
-        "3990": .yellow,
-        "9406": .purple,
-    ]
+    @State private var highlightedTeams: [String: Color] = [:]
 
     var body: some View {
         if #available(iOS 17.0, *) {

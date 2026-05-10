@@ -46,7 +46,7 @@ struct SettingsView: View {
             SettingsCard {
                 SettingsRow(
                     label: "Event ID",
-                    placeholder: "2026daly",
+                    placeholder: "e.g. 2026daly",
                     text: $eventId
                 )
                 .focused($focusedField, equals: .eventId)
@@ -55,7 +55,7 @@ struct SettingsView: View {
 
                 SettingsRow(
                     label: "Team Number",
-                    placeholder: "3990",
+                    placeholder: "e.g. 3990",
                     text: $teamNumber
                 )
                 .focused($focusedField, equals: .teamNumber)
