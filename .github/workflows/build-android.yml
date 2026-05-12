@@ -28,5 +28,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-disabled: false
+      - name: Write google-services.json
+        run: echo '${{ secrets.GOOGLESERVICESJSON }}' > androidApp/google-services.json
       - name: Build
         run: chmod +x ./gradlew && ./gradlew :androidApp:build
